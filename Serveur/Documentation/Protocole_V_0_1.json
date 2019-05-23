@@ -1,0 +1,96 @@
+
+==== Type de message 1 : Demande d'ID ==== 
+{
+    "numero_message" : Number, // numéro du message et de sa réponse
+    "type_message" : Number, // 1 dans le cas d'une demandeID par exemple
+
+    "message" : {
+        "adresse_capteur" : Number, // entre 0 et 2^16 (codée sur 3 octets)
+        "version_protocole" : Number // 0.1 pour l'instant
+    }
+}
+
+-- Réponse OK -- 
+{
+    "numero_message" : Number,
+    "type_message" : Number,
+    "type_reponse" : Number, // par exemple 1 pour une réponse OK et 0 pour une réponse erreur
+    
+    "message" : {
+        "id" : Number // id unique du capteur dans la BDD
+    }, 
+
+    "nouveaux_params" : { // ensemble des paramètres du capteur (succeptible de changer avec les versions, ici on n'a qu'un param)
+        "delai_veille" : Number
+    }
+}
+
+-- Réponse erreur --
+{
+    "numero_message" : Number,
+    "type_message" : Number,
+    "type_reponse" : Number, // par exemple 1 pour une réponse OK et 0 pour une réponse erreur
+
+    "message" : {
+        "id" : Number (0) // quand l'ID est à zéro cela veut dire que l'on ne l'enregistre pas dans la BDD
+    }
+}
+
+==== Type de message 2 : Envoi Info ====
+{
+    "numero_message" : Number,
+    "type_message" : Number,
+    "id" : Number,
+
+    "message" : {
+        "donnée" : Number, // les données que le capteur envoi, peut importe le type de capteur
+        "niveau_bat" : Number // à définir 
+    }
+}
+
+-- Réponse OK --
+{
+    "numero_message" : Number,
+    "type_message" : Number,
+    "type_reponse" : Number, // par exemple 1 pour une réponse OK et 0 pour une réponse erreur
+
+    "nouveaux_params" : { // ensemble des paramètres du capteur (succeptible de changer avec les versions, ici on n'a qu'un param)
+        "delai_veille" : Number
+    }
+}
+
+-- Réponse Erreur --
+{
+    "numero_message" : Number,
+    "type_message" : Number,
+    "type_reponse" : Number // par exemple 1 pour une réponse OK et 0 pour une réponse erreur
+}
+
+==== Type de message 3 : DemandeAction ====
+{
+    "numero_message" : Number,
+    "type_message" : Number,
+    "id" : Number
+}
+
+-- Réponse OK --
+{
+    "numero_message" : Number,
+    "type_message" : Number,
+    "type_reponse" : Number, // par exemple 1 pour une réponse OK et 0 pour une réponse erreur
+
+    "message" : {
+        "action" : Number
+    }, 
+
+    "nouveaux_params" : {
+        "delai" : Number
+    }
+}
+
+-- Réponse Erreur --
+{
+    "numero_message" : Number,
+    "type_message" : Number,
+    "type_reponse" : Number // par exemple 1 pour une réponse OK et 0 pour une réponse erreur
+}
