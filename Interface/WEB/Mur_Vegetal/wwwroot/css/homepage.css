@@ -1,0 +1,38 @@
+/* --------------------------------------------------------------------------------------
+HOME PAGE  
+--------------------------------------------------------------------------------------*/
+.frontpage-body{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: stretch;
+    align-content: space-around;
+  }
+  
+  .first-third{
+  
+  }
+  
+  .second-third{
+  
+  }
+  
+  .third-third{
+  
+  }
+  
+  .wall-box{
+  
+  }
+  
+  .countdown-box{
+  
+  }
+  
+  .news-box{
+    
+  }
+  
+  .socialnetworks-box{
+  
+  }

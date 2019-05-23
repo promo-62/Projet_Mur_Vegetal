@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Mur_Vegetal</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+    @RenderSection("heads", required: false)
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <ul>
+                <li><a asp-page="/Index">Accueil</a></li>
+                <li><a asp-page="/Wall">Mur Vegetal</a></li>
+                <li><a asp-page="/News">Informations</a></li>
+                <li><a asp-page="/Medias">Photos/Vidéos</a></li>
+                <li><a asp-page="/Countdown">Compte à rebours</a></li>
+                <li><a asp-page="/Socialnetworks">Réseaux Sociaux</a></li>
+                <li style="float:right"><a asp-page="/Admin">Admin</a></li>
+            </ul>
+        </div>
+    </header>
+    <div class="main-body">
+        <main role="main">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer>
+    </footer>
+</body>
+</html>
