@@ -59,7 +59,9 @@ namespace Projet
                     stream.Read(buffer, 0, buffer.Length);
                 }catch(Exception e){
                     Console.WriteLine(e.StackTrace);
-                    System.Environment.Exit(2);
+                    client = server.AcceptTcpClient();
+                    stream = client.GetStream();
+                    stream.Read(buffer, 0, buffer.Length);
                 }
                 //Convertion du message recu en BYTE[] (Raw Data)
                 test = BitConverter.ToString(buffer);
@@ -92,7 +94,9 @@ namespace Projet
                         stream.Write(Errors, 0, Errors.Length);
                     }catch(Exception e){
                         Console.WriteLine(e.StackTrace);
-                        System.Environment.Exit(2);
+                        client = server.AcceptTcpClient();
+                        stream = client.GetStream();
+                        stream.Write(Errors, 0, Errors.Length);
                     }
                     test = BitConverter.ToString(Errors);
                     if(test.Equals("00")){
@@ -107,7 +111,6 @@ namespace Projet
                     }
                 }
             }
-            Console.ReadKey();
 
         }
 
