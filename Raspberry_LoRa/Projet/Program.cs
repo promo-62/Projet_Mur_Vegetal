@@ -115,11 +115,19 @@ namespace Projet
         private static void UpdateConfig(){
             while(true){
                 //A remplacer par un wget
-                using(StreamReader reader = new StreamReader(filepath_1)){
-                    Config = reader.ReadToEnd();
-                }
-                using(StreamReader reader = new StreamReader(filepath_2)){
-                    PayloadSizes = reader.ReadToEnd();
+                try{
+                    //var client = new WebClient();
+                    //Config = client.DownloadString(filepath_1);
+                    //PayloadSizes = client.DownloadString(filepath_2);
+                    using(StreamReader reader = new StreamReader(filepath_1)){
+                        Config = reader.ReadToEnd();
+                    }
+                    using(StreamReader reader = new StreamReader(filepath_2)){
+                        PayloadSizes = reader.ReadToEnd();
+                    }
+                }catch(Exception e){
+                    Console.WriteLine(e.StackTrace);
+                    System.Environment.Exit(1);
                 }
                 Thread.Sleep(600);
             }
