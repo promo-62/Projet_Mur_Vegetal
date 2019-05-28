@@ -21,7 +21,9 @@ namespace Projet{
         private static string Header_VerProtocol_2_PropertyName = "VERSION_PROTOCOL_2";
         //Nom de la propriete contenant le payload 
         private static string Header_Payload_PropertyName = "PAYLOAD";
+        //Nom de la propriete contenant l'ID 1
         private static string Header_ID1_PropertyName = "ID_1";
+        //Nom de la propriete contenant l'ID 2
         private static string Header_ID2_PropertyName = "ID_2";
 
         private static byte Errors;
