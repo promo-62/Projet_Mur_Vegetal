@@ -1,0 +1,52 @@
+{
+    "Header": [
+        {
+            "ID_1": "26",
+            "ID_2": "42",
+            "VERSION_PROTOCOL_1": "00",
+            "VERSION_PROTOCOL_2": "01",
+            "TYPE_MESSAGE":       "01",
+            "NUMBER_MESSAGE":     ""
+        },
+        {
+            "ID_1": "42",
+            "ID_2": "26",
+            "VERSION_PROTOCOL_1": "00",
+            "VERSION_PROTOCOL_2": "01",
+            "TYPE_MESSAGE":       "01",
+            "NUMBER_MESSAGE":     ""
+        },
+        {
+            "ID_1": "26",
+            "ID_2": "42",
+            "VERSION_PROTOCOL_1": "00",
+            "VERSION_PROTOCOL_2": "01",
+            "TYPE_MESSAGE":       "02",
+            "NUMBER_MESSAGE":     ""
+        },
+        {
+            "ID_1": "42",
+            "ID_2": "26",
+            "VERSION_PROTOCOL_1": "00",
+            "VERSION_PROTOCOL_2": "01",
+            "TYPE_MESSAGE":       "02",
+            "NUMBER_MESSAGE":     ""
+        },
+        {
+            "ID_1": "26",
+            "ID_2": "42",
+            "VERSION_PROTOCOL_1": "00",
+            "VERSION_PROTOCOL_2": "01",
+            "TYPE_MESSAGE":       "03",
+            "NUMBER_MESSAGE":     ""
+        },
+        {
+            "ID_1": "42",
+            "ID_2": "26",
+            "VERSION_PROTOCOL_1": "00",
+            "VERSION_PROTOCOL_2": "01",
+            "TYPE_MESSAGE":       "03",
+            "NUMBER_MESSAGE":     ""
+        }
+    ]
+}
