@@ -4,7 +4,7 @@ using RabbitMQ.Client.Events;
 using System.Text;
 using Newtonsoft.Json;
 
-namespace RaspberryToServer
+namespace Projet
 {
     class MQTT_Raspberry
     {
@@ -29,7 +29,7 @@ namespace RaspberryToServer
             dynamic deserialized = JsonConvert.DeserializeObject(mes);
             var typeMessage = deserialized.type;
 
-            var factory = new ConnectionFactory() { HostName = "192.168.43.227", UserName = "test", Password = "test"};
+            var factory = new ConnectionFactory() { HostName = "localhost"};
             using (var connection = factory.CreateConnection())
             using (var channel = connection.CreateModel())
             {

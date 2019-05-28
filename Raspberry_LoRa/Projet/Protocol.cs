@@ -104,7 +104,7 @@ namespace Projet{
                     Console.WriteLine("");
 
                     //Renvoie du JSON en string
-                    return obj.ToString();  //A CHANGER AVEC LA RECEPTION DE LA REPONSE
+                    return MQTT_Raspberry.RaspberryToServer(obj.ToString());
                 }
             }
 
