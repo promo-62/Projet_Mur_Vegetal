@@ -94,8 +94,10 @@ namespace Projet
 
         }
 
+        //Mise a jour des fichier json de config
         private static void UpdateConfig(){
             while(true){
+                //A remplacer par un wget
                 using(StreamReader reader = new StreamReader(filepath_1)){
                     Config = reader.ReadToEnd();
                 }

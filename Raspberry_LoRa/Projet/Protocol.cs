@@ -21,7 +21,9 @@ namespace Projet{
         private static string Header_VerProtocol_2_PropertyName = "VERSION_PROTOCOL_2";
         //Nom de la propriete contenant le payload 
         private static string Header_Payload_PropertyName = "PAYLOAD";
+        //Nom de la propriete contenant l'ID 1
         private static string Header_ID1_PropertyName = "ID_1";
+        //Nom de la propriete contenant l'ID 2
         private static string Header_ID2_PropertyName = "ID_2";
 
         private static byte Errors;
@@ -104,7 +106,7 @@ namespace Projet{
                     Console.WriteLine("");
 
                     //Renvoie du JSON en string
-                    return obj.ToString();  //A CHANGER AVEC LA RECEPTION DE LA REPONSE
+                    return MQTT_Raspberry.RaspberryToServer(obj.ToString());
                 }
             }
 
@@ -121,10 +123,12 @@ namespace Projet{
 
             //Insertion des valeur du JSON dans une STRING[] json_values
             string payload = (string)obj.Property(Header_Payload_PropertyName).Value;
-            string[] json_values = new string[obj.Count];
+            string[] json_values = new string[obj.Count+2];
+            json_values[0] = "26";
+            json_values[1] = "42";
             int k = 0;
             foreach(JProperty property in obj.Properties()){
-                json_values[k] = (string)property.Value;
+                json_values[k+2] = (string)property.Value;
                 k++;
             }
             
