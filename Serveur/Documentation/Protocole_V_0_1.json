@@ -5,8 +5,10 @@
     "type_message" : Number, // 1 dans le cas d'une demandeID par exemple
 
     "message" : {
-        "adresse_capteur" : Number, // entre 0 et 2^16 (codée sur 3 octets)
-        "version_protocole" : Number // 0.1 pour l'instant
+        "version_protocole" : Number, // 0.1 pour l'instant,
+        "id_nature_composant" : Number, // type de capteur
+        "version_composant" : Number,
+        "id_projet" : Number
     }
 }
 
