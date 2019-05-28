@@ -104,7 +104,7 @@ namespace Projet{
                     Console.WriteLine("");
 
                     //Renvoie du JSON en string
-                    return MQTT_Raspberry.RaspberryToServer(obj.ToString());
+                    return obj.ToString();
                 }
             }
 
@@ -121,10 +121,12 @@ namespace Projet{
 
             //Insertion des valeur du JSON dans une STRING[] json_values
             string payload = (string)obj.Property(Header_Payload_PropertyName).Value;
-            string[] json_values = new string[obj.Count];
+            string[] json_values = new string[obj.Count+2];
+            json_values[0] = "26";
+            json_values[1] = "42";
             int k = 0;
             foreach(JProperty property in obj.Properties()){
-                json_values[k] = (string)property.Value;
+                json_values[k+2] = (string)property.Value;
                 k++;
             }
             
