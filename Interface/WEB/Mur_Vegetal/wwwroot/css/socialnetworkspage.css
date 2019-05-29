@@ -1,3 +1,25 @@
 /* --------------------------------------------------------------------------------------
 SOCIALNETWORKS PAGE  
 --------------------------------------------------------------------------------------*/
+
+.socialnetworks-body{
+    width: 100%;
+    height: auto;
+    overflow: inherit;
+    color:white;
+    margin: 10px;
+    
+}
+
+.widget-container{
+    padding: 0;
+}
+
+iframe {
+    pointer-events: none;
+}
+
+
+span {
+    color: white;
+}

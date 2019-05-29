@@ -1,0 +1,37 @@
+/* --------------------------------------------------------------------------------------
+Static screen  
+--------------------------------------------------------------------------------------*/
+@font-face{
+    font-family: 'Raleway-Bold'; 
+    src: url('/fonts/Raleway/Raleway-Bold.ttf'); 
+  }
+  @font-face{
+    font-family: 'Raleway-Black'; 
+    src: url('/fonts/Raleway/Raleway-Black.ttf'); 
+  }
+  @font-face{
+    font-family: 'Raleway-Light'; 
+    src: url('/fonts/Raleway/Raleway-Light.ttf'); 
+  }
+  @font-face{
+    font-family: 'Raleway-Regular'; 
+    src: url('/fonts/Raleway/Raleway-Regular.ttf'); 
+  }
+  @font-face{
+    font-family: 'Raleway-SemiBold'; 
+    src: url('/fonts/Raleway/Raleway-SemiBold.ttf'); 
+
+  }
+.navbar{
+    display: none;
+}
+body {
+    background: #333;
+  }
+  
+  .staticscreen-body {
+    max-width: 500px;
+    margin: auto;
+    background: white;
+    padding: 10px;
+  }

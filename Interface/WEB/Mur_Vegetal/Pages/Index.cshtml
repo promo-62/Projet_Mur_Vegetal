@@ -5,30 +5,76 @@
 }
 @section heads{
   <link href="@Url.Content("~/css/homepage.css")" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="@Url.Content("~/js/countdown.js")"></script>
 }
 
-
-<div class="frontpage-body">
-    <div class="first-third">
-        <div class="wall-box">
-            WALL
+<div class="home-body">
+    <div class="wall-box">
+        <div class="wall-info">
+            <div class="wall-icon"><a href="/Wall"> <img class="i1" src="images/icones/thermo.png"/> </a></div>
+            <div class="wall-text"><a href="/Wall"> info1 </a></div> 
         </div>
-        <div class="countdown-box">
-            COUNTDOWN  
+        <div class="wall-info">
+            <div class="wall-icon"><a href="/Wall"> <img class="i2" src="images/icones/hydro.png"/> </a></div>
+            <div class="wall-text"><a href="/Wall"> info2 </a></div> 
+        </div>
+        <div class="wall-info">
+            <div class="wall-icon"><a href="/Wall"> <img class="i3" src="images/icones/mouvement.png"/> </a></div>
+            <div class="wall-text"><a href="/Wall"> info3 </a></div> 
+        </div>
+        <div class="wall-info">
+            <div class="wall-icon"><a href="/Wall"> <img class="i4" src="images/icones/lumiere.png"/> </a></div>
+            <div class="wall-text"><a href="/Wall"> info4 </a></div> 
+        </div>
+        <div class="wall-info">
+            <div class="wall-icon"><a href="/Wall"> <img class="i5" src="images/icones/pression.png"/> </a></div>
+            <div class="wall-text"><a href="/Wall"> info5 </a></div> 
+        </div>
+        <div class="wall-info">
+            <div class="wall-icon"><a href="/Wall"> <img class="i6" src="images/icones/batterie.png"/> </a></div>
+            <div class="wall-text"><a href="/Wall"> info6 </a></div>  
         </div>
     </div>
 
-    <div class="second-third">
-        <div class="news-box">
-            NEWS   
-        </div>
+    <div class="news-box"> 
+        <div class="news-image">
+            <a href="/News">
+            <img class="mur" src="images/news1.jpg"/>
+            </a>
+        </div>   
+        <div class="news-text">
+            <a href="/News">
+            ‪#Parcoursup : tu hésites encore ? 🎊💻 Viens nous (re)voir lundi soir ! ‬👉 <a href="https://bit.ly/2Hyzlr7">Inscriptions</a>
+            </a>
+        </div>   
     </div>
 
-    <div class="third-third">
-        <div class="socialnetworks-box">
-            SOCIAL   
-        </div>
+    <div class="socialnetworks-box">
+        <a href="/Socialnetworks">
+        <!-- SnapWidget -->
+            <script src="https://snapwidget.com/js/snapwidget.js"></script>
+            <iframe src="https://snapwidget.com/embed/698369" class="snapwidget-widget">
+            </iframe>
+        </a>
     </div>
+
+
+
+    <div class="countdown-box">
+        <a href="/Countdown">
+        <div class="countdown-text">
+            Journée Porte Ouverte
+            <div id="countdown-display">
+            </div>
+            <script>
+                countDown("May 30 11:00:00 2019","countdown-display");
+            </script>
+        </div>
+        </a>
+    </div>
+
+    
+
 </div>
 
 
