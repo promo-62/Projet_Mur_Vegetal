@@ -142,10 +142,10 @@ namespace Tests
         //Precise description of the actual componant (what, where, uses, etc..)
         public string description { get; set; }
         //Version of this componant. Hold a version ID.
-        public string Version { get; set; }
+        public string idVersionComp { get; set; }
         //List of ID of summaries from that specific sensor.
-        public List<String> Releves { get; set; }
+        public List<String> Releves { get; set; }/*
         //List of command that can be send to the componant.
-        public List<Action> Actions { get; set; } 
+        public List<Action> Actions { get; set; } */
     }
 }
