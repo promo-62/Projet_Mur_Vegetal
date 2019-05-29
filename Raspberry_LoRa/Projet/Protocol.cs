@@ -30,23 +30,18 @@ namespace Projet{
         
         //Verifie le format des trames arrivant du LoRA et les convertit en fichier JSON
         public static string DataToJson(byte[] chain,string file1, string file2){
-
             //Ouverture des fichiers: config.json et payload_sizes.json
             JObject obj_config = JObject.Parse(file1);
             JObject obj_payload = JObject.Parse(file2);
-
             //Conversion de la chaine d'octet en chaine de string
             string hex = BitConverter.ToString(chain);
             String[] header = hex.Split('-');
-
             //Selection du tableau des formats Header
             JArray arr = (JArray)obj_config[Array_Formats_PropertyName]; //CHANGING
             bool isValidated = true;
             int k = 0;
-
             //Initialisation de la variable d'erreurs de format
             Errors = 0x00;
-
 
             //Verifie si le header de la trame correspond a un format repertorie dans le tableau 
             foreach(JObject obj in arr.Children<JObject>()){
@@ -107,6 +102,9 @@ namespace Projet{
 
                     //Renvoie du JSON en string
                     return MQTT_Raspberry.RaspberryToServer(obj.ToString());
+                    //return obj.ToString();
+                }else{
+                    isValidated = true;
                 }
             }
 
