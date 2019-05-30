@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,27 +27,8 @@ namespace test
 
             // Use TCP connection.
             var options = new MqttClientOptionsBuilder()
-            .WithTcpServer("192.168.43.11", 5672) // Port is optional
+            .WithTcpServer("localhost", 1883) // Port is optional
             .Build();
-
-            // gerer les deconnexions
-            client.UseDisconnectedHandler(async e =>
-            {
-                Console.WriteLine("### DISCONNECTED FROM SERVER ###");
-                await Task.Delay(TimeSpan.FromSeconds(5));
-                try
-                {
-                    await client.ConnectAsync(options);
-                }
-                catch
-                {
-                    Console.WriteLine("### RECONNECTING FAILED ###");
-                }
-            });
-
-
-            // on se connecte vraiment au server
-            await client.ConnectAsync(options);
 
             // quoi faire des msg qui arrivent
             client.UseApplicationMessageReceivedHandler(e =>
@@ -71,7 +52,25 @@ namespace test
                 Console.WriteLine("### SUBSCRIBED ###");
             });
 
-            // on créer un msg 
+            // gerer les deconnexions
+            client.UseDisconnectedHandler(async e =>
+            {
+                Console.WriteLine("### DISCONNECTED FROM SERVER ###");
+                await Task.Delay(TimeSpan.FromSeconds(5));
+                try
+                {
+                    await client.ConnectAsync(options);
+                }
+                catch
+                {
+                    Console.WriteLine("### RECONNECTING FAILED ###");
+                }
+            });
+
+            // on se connecte vraiment au server
+            await client.ConnectAsync(options);
+
+            // on créer un msg
             var message = new MqttApplicationMessageBuilder()
             .WithTopic("test01")
             .WithPayload("Hello World")
@@ -81,6 +80,7 @@ namespace test
             // on envoie un msg
             await client.PublishAsync(message);
 
+            Console.ReadLine();
         }
     }
 }
