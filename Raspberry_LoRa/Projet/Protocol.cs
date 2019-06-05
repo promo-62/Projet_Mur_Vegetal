@@ -29,10 +29,9 @@ namespace Projet{
         private static byte Errors;
         
         //Verifie le format des trames arrivant du LoRA et les convertit en fichier JSON
-        public static string DataToJson(byte[] chain,string file1, string file2){
+        public static string DataToJson(byte[] chain,string file1){
             //Ouverture des fichiers: config.json et payload_sizes.json
             JObject obj_config = JObject.Parse(file1);
-            JObject obj_payload = JObject.Parse(file2);
             //Conversion de la chaine d'octet en chaine de string
             string hex = BitConverter.ToString(chain);
             String[] header = hex.Split('-');
@@ -60,7 +59,7 @@ namespace Projet{
                 if(isValidated == true){
 
                     //Cherche la valeur de la taille de la payload en fonction de la version du protocole de la trame
-                    JArray sizes = (JArray)obj_payload[Array_PayloadSizes_PropertyName];
+                    JArray sizes = (JArray)obj_config[Array_PayloadSizes_PropertyName];
                     int size = 0;
                     foreach(JObject obj_size in sizes.Children<JObject>()){
                         if( ((string)obj.Property(Header_VerProtocol_1_PropertyName).Value).Equals((string)obj_size.Property(Header_VerProtocol_1_PropertyName).Value) && ((string)obj.Property(Header_VerProtocol_2_PropertyName).Value).Equals((string)obj_size.Property(Header_VerProtocol_2_PropertyName).Value) ){
