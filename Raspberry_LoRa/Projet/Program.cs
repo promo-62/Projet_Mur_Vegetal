@@ -12,12 +12,9 @@ namespace Projet
     class Program
     {
         //Chemin vers le fichier config.json (Formats des trames)
-        private static string filepath_1 ="../aethonn/Documents/Projet_Mur_Vegetal/Raspberry_LoRa/Projet/config.json";
-        //Chemin vers le  fichier payload_sizes.json (Association des versions de protocoles à des tailles de payload)
-        private static string filepath_2 ="../aethonn/Documents/Projet_Mur_Vegetal/Raspberry_LoRa/Projet/payload_sizes.json";
+        private static string filepath_1 ="Config.json";
 
         private static string Config;
-        private static string PayloadSizes;
         public static void Main(string[] args){
             //Mise en place de la comunication entre C++ et C#
             IPAddress ip = Dns.GetHostEntry("localhost").AddressList[0];
@@ -27,17 +24,16 @@ namespace Projet
             //Lancement de la comunication entre les 2 programmes (LoRA et Protocol)
             try{
                 server.Start();
-                Console.WriteLine("SERVER: STARTED");
-                Console.WriteLine("");
+                //var client = new WebClient();
+                    //Config = client.DownloadString(filepath_1);
                 using(StreamReader reader = new StreamReader(filepath_1)){
                     Config = reader.ReadToEnd();
                 }
-                using(StreamReader reader = new StreamReader(filepath_2)){
-                    PayloadSizes = reader.ReadToEnd();
-                }
+                Console.WriteLine("SERVER: STARTED");
+                Console.WriteLine("");
             }catch(Exception e){
                 Console.WriteLine(e.ToString());
-                Console.Read();
+                System.Environment.Exit(1);
             }
 
             Thread Update = new Thread(UpdateConfig);
@@ -70,7 +66,7 @@ namespace Projet
 
                 //Envoi du message dans la section traitement du Protocol.cs et attente d'une reponse du serveur
                 //Cette section va verifier puis convertir le message en JSON
-                string response = Protocol.DataToJson(buffer, Config, PayloadSizes);
+                string response = Protocol.DataToJson(buffer, Config);
 
                 //Verification si le message etait bien formate
                 if( !(response.Equals("")) ){
@@ -121,12 +117,8 @@ namespace Projet
                 try{
                     //var client = new WebClient();
                     //Config = client.DownloadString(filepath_1);
-                    //PayloadSizes = client.DownloadString(filepath_2);
                     using(StreamReader reader = new StreamReader(filepath_1)){
                         Config = reader.ReadToEnd();
-                    }
-                    using(StreamReader reader = new StreamReader(filepath_2)){
-                        PayloadSizes = reader.ReadToEnd();
                     }
                 }catch(Exception e){
                     Console.WriteLine(e.StackTrace);
