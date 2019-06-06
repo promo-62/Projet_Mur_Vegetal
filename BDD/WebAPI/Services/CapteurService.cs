@@ -22,9 +22,10 @@ namespace CapteursApi.Services
             return _database.GetCollection<T>(Collection).Find(template => true).ToList();
         }
 
-        public ICollectionModel Get(string Collection, string id)
+        public T Get<T>(string Collection, string id)
         {
-            return _database.GetCollection<ICollectionModel>(Collection).Find<ICollectionModel>(template => template.Id == id).FirstOrDefault();
+            var filter = Builders<T>.Filter.Eq("Id", id);
+            return _database.GetCollection<T>(Collection).Find<T>(filter).FirstOrDefault();
         }
 
         public ICollectionModel Create(string Collection, ICollectionModel template)
