@@ -16,19 +16,24 @@ a {
   text-decoration:none;
   color:inherit;
 }
+
+.box{
+  background-color: #F4F3F2;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  min-width: 450px;
+  width: auto-fit;
+  margin: 5px;
+  font-size: 1.25em;
+}
+
 /* -------------------------------------------
 Wall box  
 -------------------------------------------*/
 .wall-box{
-  min-width: 300px;
-  border-radius: 10px;
-  margin: 5px;
   justify-self: center;
   align-self: flex-start;
   text-align: center;
-  border-width: 4px;
-  border-style: solid;
-  border-color : rgb(100, 185, 79);
+  min-width: 300px;
 }
 
 .wall-icon img{
@@ -44,11 +49,11 @@ Wall box
 
 .wall-box a {
   text-decoration:none;
-  color:white;
+  color:#393E41;
 }
 .wall-box a:hover {
   text-decoration:none;
-  color:rgb(100, 185, 79);
+  color:#629460;
 }
 
 
@@ -56,9 +61,6 @@ Wall box
 News box  
 -------------------------------------------*/
 .news-box{
-  min-width: 300px;
-  border-radius: 10px;
-  margin: 5px;
   display: flex;
   flex-direction: column ;
   align-items: center;
@@ -66,19 +68,8 @@ News box
 }
 
 .news-image img{
-  background-color: rgb(100, 185, 79);
-  padding:5px;
-  width: 70%;
-  height: auto;
-  border-radius : 10px;
-}
-
-.news-text{
-  width: 50%;
-  background-color: rgb(100, 185, 79);
-  overflow-wrap: normal;
-  padding: 5px;
-  border-radius : 10px;
+  display: block;
+  width: 100%;
 }
 
 
@@ -87,40 +78,28 @@ Countdown box
 -------------------------------------------*/
 .countdown-box{
   padding: 2%;
-  min-width: 300px;
-  border-radius: 10px;
-  margin: 5px;
   justify-self: center;
+  text-align: center;
   align-self: flex-start;
   border-width: 4px;
-  border-style: solid;
-  border-color : rgb(100, 185, 79);
-  color :  aliceblue;
 }
 
 .countdown-text{
-  background-color: rgb(100, 185, 79);
   overflow-wrap: normal;
   align-content: center;
   padding: 5px;
   border-radius : 10px;
+  font-size: 2em;
+  text-transform: uppercase;
 }
 
 /* -------------------------------------------
 Social Networks box  
 -------------------------------------------*/
 .socialnetworks-box{
-  width: 33%;
-  min-width: 300px;
-  border-radius: 10px;
-  margin : 5px;
   justify-self: center;
   align-self: flex-start;
   text-align: center;
-  border-width: 4px;
-  border-style: solid;
-  border-color : rgb(100, 185, 79);
-  color :  aliceblue;
 }
 
 .snapwidget-widget{
@@ -129,3 +108,7 @@ Social Networks box
   border:none;
 }
 
+
+img{
+  max-width: 450px;
+}

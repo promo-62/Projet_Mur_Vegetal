@@ -1,0 +1,669 @@
+@page
+@model AdminModel
+@{
+    ViewData["Title"] = "Espace Administrateur";
+}
+@section heads{
+  <link href="@Url.Content("~/css/usersite/adminpage.css")" rel="stylesheet" type="text/css" />
+}
+
+
+<div class="admin-body">
+
+<!----------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------->
+<!--FIELDSET PRINCIPALE CONTENANT LES DIFFERRENTS AFFICHAGES FIELDSET ENFANTS-->
+  <fieldset class="frame-box">
+    <legend>Frame</legend>
+
+<!-------------------------------------------FIELDSET MUR---------------------------------------------->
+    <fieldset class="frame-param">
+      <legend class="frame-name">Mur</legend>
+
+        <div class="param-disp">
+          <label class="param-disp">Affichage </label>
+          <input type="checkbox" class="param-disp">
+        </div>
+
+        <div class="param-disptime">
+          <label class="param-disptime">Temps d'affichage : </label>
+          <input list="Sec" type="text" class="param-disptime" placeholder="En secondes">
+             <datalist id="Sec">
+              <option value="5"></option>
+              <option value="10"></option>
+              <option value="15"></option>
+              <option value="20"></option>
+            </datalist>
+        </div>
+
+        <div class="param-carroussel">
+          <label class="param-carroussel">Temps d'affichage du carroussel : </label>
+          <input list="Sec" type="text" class="param-carroussel" placeholder="En secondes">
+             <datalist id="Sec">
+              <option value="5"></option>
+              <option value="10"></option>
+              <option value="15"></option>
+              <option value="20"></option>
+            </datalist>
+        </div>   
+
+        <button class="button"> Valider </button>
+    </fieldset>
+<!-----------------------------------------FIN FIELDSET MUR-------------------------------------------->    
+
+<!-------------------------------------------FIELDSET INFORMATIONS---------------------------------------------->
+    <fieldset class="frame-param">
+      <legend class="frame-name">Informations</legend>
+
+        <div class="param-disp">
+          <label class="param-disp">Affichage </label>
+          <input type="checkbox" class="param-disp">
+        </div>
+
+        <div class="param-disptime">
+          <label class="param-disptime">Temps d'affichage : </label>
+          <input list="Sec" type="text" class="param-disptime" placeholder="En secondes">
+             <datalist id="Sec">
+              <option value="5"></option>
+              <option value="10"></option>
+              <option value="15"></option>
+              <option value="20"></option>
+            </datalist>
+        </div>
+
+        <div class="param-carroussel">
+          <label class="param-carroussel">Temps d'affichage du carroussel : </label>
+          <input list="Sec" type="text" class="param-carroussel" placeholder="En secondes">
+             <datalist id="Sec">
+              <option value="5"></option>
+              <option value="10"></option>
+              <option value="15"></option>
+              <option value="20"></option>
+            </datalist>
+        </div>   
+
+        <button class="button"> Valider </button>
+    </fieldset>
+<!-----------------------------------------FIN FIELDSET INFORMATIONS-------------------------------------------->   
+
+<!-------------------------------------------FIELDSET PHOTOS/VIDEOS---------------------------------------------->
+    <fieldset class="frame-param">
+      <legend class="frame-name">Photos/Vidéos</legend>
+
+        <div class="param-disp">
+          <label class="param-disp">Affichage </label>
+          <input type="checkbox" class="param-disp">
+        </div>
+
+        <div class="param-disptime">
+          <label class="param-disptime">Temps d'affichage : </label>
+          <input list="Sec" type="text" class="param-disptime" placeholder="En secondes">
+             <datalist id="Sec">
+              <option value="5"></option>
+              <option value="10"></option>
+              <option value="15"></option>
+              <option value="20"></option>
+            </datalist>
+        </div>
+
+        <div class="param-carroussel">
+          <label class="param-carroussel">Temps d'affichage du carroussel : </label>
+          <input list="Sec" type="text" class="param-carroussel" placeholder="En secondes">
+             <datalist id="Sec">
+              <option value="5"></option>
+              <option value="10"></option>
+              <option value="15"></option>
+              <option value="20"></option>
+            </datalist>
+        </div>   
+
+        <button class="button"> Valider </button>
+    </fieldset>
+<!-----------------------------------------FIN FIELDSET PHOTOS/VIDEOS-------------------------------------------->  
+
+<!-------------------------------------------FIELDSET COMPTES A REBOURS---------------------------------------------->
+    <fieldset class="frame-param">
+      <legend class="frame-name">Comptes à rebours</legend>
+
+        <div class="param-disp">
+          <label class="param-disp">Affichage </label>
+          <input type="checkbox" class="param-disp">
+        </div>
+
+        <div class="param-disptime">
+          <label class="param-disptime">Temps d'affichage : </label>
+          <input list="Sec" type="text" class="param-disptime" placeholder="En secondes">
+             <datalist id="Sec">
+              <option value="5"></option>
+              <option value="10"></option>
+              <option value="15"></option>
+              <option value="20"></option>
+            </datalist>
+        </div>
+
+        <div class="param-carroussel">
+          <label class="param-carroussel">Temps d'affichage du carroussel : </label>
+          <input list="Sec" type="text" class="param-carroussel" placeholder="En secondes">
+             <datalist id="Sec">
+              <option value="5"></option>
+              <option value="10"></option>
+              <option value="15"></option>
+              <option value="20"></option>
+            </datalist>
+        </div>   
+
+        <button class="button"> Valider </button>
+    </fieldset>
+<!-----------------------------------------FIN FIELDSET COMPTES A REBOURS-------------------------------------------->  
+
+<!-------------------------------------------FIELDSET RESEAUX SOCIAUX---------------------------------------------->
+    <fieldset class="frame-param">
+      <legend class="frame-name">Réseaux sociaux</legend>
+
+        <div class="param-disp">
+          <label class="param-disp">Affichage </label>
+          <input type="checkbox" class="param-disp">
+        </div>
+
+        <div class="param-disptime">
+          <label class="param-disptime">Temps d'affichage : </label>
+          <input list="Sec" type="text" class="param-disptime" placeholder="En secondes">
+             <datalist id="Sec">
+              <option value="5"></option>
+              <option value="10"></option>
+              <option value="15"></option>
+              <option value="20"></option>
+            </datalist>
+        </div>
+
+        <div class="param-carroussel">
+          <label class="param-carroussel">Temps d'affichage du carroussel : </label>
+          <input list="Sec" type="text" class="param-carroussel" placeholder="En secondes">
+             <datalist id="Sec">
+              <option value="5"></option>
+              <option value="10"></option>
+              <option value="15"></option>
+              <option value="20"></option>
+            </datalist>
+        </div>   
+
+        <button class="button"> Valider </button>
+    </fieldset>
+<!-----------------------------------------FIN FIELDSET RESEAUX SOCIAUX-------------------------------------------->   
+
+  </fieldset>
+<!----------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------->
+
+
+<!----------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------->
+<!--FIELDSET PRINCIPALE CONTENANT LES DIFFERRENTES NEWS FIELDSET ENFANTS-->
+  <fieldset class="news-box">
+    <legend>News</legend>
+<!-----------------------------------------AJOUT D'EVENT--------------------------------------------> 
+    <fieldset class="news-addnew">
+      <legend class="news-name">Ajouter événement</legend>
+
+        <div class="addnew-name">
+          <label class="addnew-name">Nom de l'événement : </label>
+          <input type="text" class="addnew-name" placeholder="Ex: JPO">
+        </div>
+
+        <div class="addnew-text">
+        <label class="addnew-text">Texte : </label>
+        <textarea class="addnew-text" rows="5" cols="60" placeholder="Entrez votre texte"></textarea>
+        </div>
+
+        <div class="addnew-img">
+          <label class="addnew-img">Image : </label>
+          <input class="addnew-img" type="file" accept="image/png, image/jpeg">
+        </div>
+
+        <div class="addnew-start-date">
+          <label class="addnew-start-date">Date de début : </label>
+          <input class="addnew-start-date" type="date">
+        </div>
+
+        <div class="addnew-end-date">
+          <label class="addnew-end-date">Date de fin : </label>
+          <input class="addnew-end-date" type="date">
+        </div>
+
+        <button class="button"> Valider </button>
+    </fieldset>
+<!-----------------------------------------FIN AJOUT D'EVENT--------------------------------------------> 
+<!-----------------------------------------EVENT 1--------------------------------------------> 
+    <fieldset class="news-param">
+      <legend class="news-name">JPO</legend>
+
+        <div class="param-name">
+          <label class="param-name">Nom de l'événement : </label>
+          <input type="text" class="param-name" placeholder="Ex: JPO">
+        </div>
+
+        <div class="param-text">
+        <label class="param-text">Texte : </label>
+        <textarea class="param-text" rows="5" cols="60" placeholder="Entrez votre texte"></textarea>
+        </div>
+
+        <div class="param-img">
+          <label class="param-img">Image : </label>
+          <a href="~/images/news1.jpg" target="_blank"><img class="param-img" src="~/images/news1.jpg"> </a>
+        </div>
+
+        <div class="param-start-date">
+          <label class="param-start-date">Date de début : </label>
+          <input class="param-start-date" type="date">
+        </div>
+
+        <div class="param-end-date">
+          <label class="param-end-date">Date de fin : </label>
+          <input class="param-end-date" type="date">
+        </div>
+
+        <button class="button"> Valider </button>
+    </fieldset>
+<!-----------------------------------------FIN EVENT 1--------------------------------------------> 
+<!-----------------------------------------EVENT 2--------------------------------------------> 
+    <fieldset class="news-param">
+      <legend class="news-name">FOrum Studyrama</legend>
+
+        <div class="param-name">
+          <label class="param-name">Nom de l'événement : </label>
+          <input type="text" class="param-name" placeholder="Ex: JPO">
+        </div>
+
+        <div class="param-text">
+        <label class="param-text">Texte : </label>
+        <textarea class="param-text" rows="5" cols="60" placeholder="Entrez votre texte"></textarea>
+        </div>
+
+        <div class="param-img">
+          <label class="param-img">Image : </label>
+          <a href="~/images/news2.jpg" target="_blank"><img class="param-img" src="~/images/news2.jpg"> </a>
+        </div>
+
+        <div class="param-start-date">
+          <label class="param-start-date">Date de début : </label>
+          <input class="param-start-date" type="date">
+        </div>
+
+        <div class="param-end-date">
+          <label class="param-end-date">Date de fin : </label>
+          <input class="param-end-date" type="date">
+        </div>
+
+        <button class="button"> Valider </button>
+    </fieldset>
+<!-----------------------------------------FIN EVENT 2--------------------------------------------> 
+<!-----------------------------------------EVENT 3--------------------------------------------> 
+    <fieldset class="news-param">
+      <legend class="news-name">Salon de l'Etudiant</legend>
+
+        <div class="param-name">
+          <label class="param-name">Nom de l'événement : </label>
+          <input type="text" class="param-name" placeholder="Ex: JPO">
+        </div>
+
+        <div class="param-text">
+        <label class="param-text">Texte : </label>
+        <textarea class="param-text" rows="5" cols="60" placeholder="Entrez votre texte"></textarea>
+        </div>
+
+        <div class="param-img">
+          <label class="param-img">Image : </label>
+          <a href="~/images/news3.jpg" target="_blank"><img class="param-img" src="~/images/news3.jpg"> </a>
+        </div>
+
+        <div class="param-start-date">
+          <label class="param-start-date">Date de début : </label>
+          <input class="param-start-date" type="date">
+        </div>
+
+        <div class="param-end-date">
+          <label class="param-end-date">Date de fin : </label>
+          <input class="param-end-date" type="date">
+        </div>
+
+        <button class="button"> Valider </button>
+    </fieldset>
+<!-----------------------------------------FIN EVENT 3--------------------------------------------> 
+<!-----------------------------------------EVENT 4--------------------------------------------> 
+    <fieldset class="news-param">
+      <legend class="news-name">SPO</legend>
+
+        <div class="param-name">
+          <label class="param-name">Nom de l'événement : </label>
+          <input type="text" class="param-name" placeholder="Ex: JPO">
+        </div>
+
+        <div class="param-text">
+        <label class="param-text">Texte : </label>
+        <textarea class="param-text" rows="5" cols="60" placeholder="Entrez votre texte"></textarea>
+        </div>
+
+        <div class="param-img">
+          <label class="param-img">Image : </label>
+          <a href="~/images/news4.jpg" target="_blank"><img class="param-img" src="~/images/news4.jpg"> </a>
+        </div>
+
+        <div class="param-start-date">
+          <label class="param-start-date">Date de début : </label>
+          <input class="param-start-date" type="date">
+        </div>
+
+        <div class="param-end-date">
+          <label class="param-end-date">Date de fin : </label>
+          <input class="param-end-date" type="date">
+        </div>
+
+        <button class="button"> Valider </button>
+    </fieldset>
+<!-----------------------------------------FIN EVENT 4--------------------------------------------> 
+  </fieldset>
+<!----------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------->
+
+
+<!----------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------->
+<!--FIELDSET PRINCIPALE CONTENANT LES DIFFERRENTES MEDIAS FIELDSET ENFANTS-->
+  <fieldset class="media-box">
+    <legend>Medias</legend>
+<!-----------------------------------------AJOUT DE MEDIA--------------------------------------------> 
+    <fieldset class="medias-addnew">
+      <legend class="medias-name">Ajouter média</legend>
+
+        <div class="addnew-name">
+          <label class="addnew-name">Nom de la photo : </label>
+          <input type="text" class="addnew-name" placeholder="Ex: JPO">
+        </div>
+
+        <div class="addnew-img">
+          <label class="addnew-img">Image : </label>
+          <input class="addnew-img" type="file" accept="image/png, image/jpeg">
+        </div>
+
+        <div class="addnew-video">
+          <label class="addnew-video">Video : </label>
+          <input type="text" class="addnew-video" placeholder="Ex: https://www.youtube.com/watch?v=WIIAbl7pBnI">
+        </div>
+
+        <div class="addnew-start-date">
+          <label class="addnew-start-date">Date de début : </label>
+          <input class="addnew-start-date" type="date">
+        </div>
+
+        <div class="addnew-end-date">
+          <label class="addnew-end-date">Date de fin : </label>
+          <input class="addnew-end-date" type="date">
+        </div>
+
+        <button class="button"> Valider </button>
+    </fieldset>
+<!-----------------------------------------FIN AJOUT DE MEDIA--------------------------------------------> 
+<!-----------------------------------------MEDIA 1--------------------------------------------> 
+    <fieldset class="medias-param">
+      <legend class="medias-name">photo1</legend>
+
+        <div class="param-name">
+          <label class="param-name">Nom de la photo : </label>
+          <input type="text" class="param-name" placeholder="Ex: JPO">
+        </div>
+
+        <div class="param-img">
+          <label class="param-img">Image : </label>
+          <a href="~/images/news4.jpg" target="_blank"><img class="param-img" src="~/images/news1.jpg"> </a>
+        </div>
+
+        <div class="param-video">
+          <label class="param-video">Video : </label>
+          <input type="text" class="param-video" placeholder="Ex: https://www.youtube.com/watch?v=WIIAbl7pBnI">
+        </div>
+
+        <div class="param-start-date">
+          <label class="param-start-date">Date de début : </label>
+          <input class="param-start-date" type="date">
+        </div>
+
+        <div class="param-end-date">
+          <label class="param-end-date">Date de fin : </label>
+          <input class="param-end-date" type="date">
+        </div>
+
+        <button class="button"> Valider </button>
+    </fieldset>
+<!-----------------------------------------FIN MEDIA 1--------------------------------------------> 
+<!-----------------------------------------MEDIA 2--------------------------------------------> 
+    <fieldset class="medias-param">
+      <legend class="medias-name">photo2</legend>
+
+        <div class="param-name">
+          <label class="param-name">Nom de la photo : </label>
+          <input type="text" class="param-name" placeholder="Ex: JPO">
+        </div>
+
+        <div class="param-img">
+          <label class="param-img">Image : </label>
+          <a href="~/images/news4.jpg" target="_blank"><img class="param-img" src="~/images/news2.jpg"> </a>
+        </div>
+
+        <div class="param-video">
+          <label class="param-video">Video : </label>
+          <input type="text" class="param-video" placeholder="Ex: https://www.youtube.com/watch?v=WIIAbl7pBnI">
+        </div>
+
+        <div class="param-start-date">
+          <label class="param-start-date">Date de début : </label>
+          <input class="param-start-date" type="date">
+        </div>
+
+        <div class="param-end-date">
+          <label class="param-end-date">Date de fin : </label>
+          <input class="param-end-date" type="date">
+        </div>
+
+        <button class="button"> Valider </button>
+    </fieldset>
+<!-----------------------------------------FIN MEDIA 2--------------------------------------------> 
+<!-----------------------------------------MEDIA 3--------------------------------------------> 
+    <fieldset class="medias-param">
+      <legend class="medias-name">photo3</legend>
+
+        <div class="param-name">
+          <label class="param-name">Nom de la photo : </label>
+          <input type="text" class="param-name" placeholder="Ex: JPO">
+        </div>
+
+        <div class="param-img">
+          <label class="param-img">Image : </label>
+          <a href="~/images/news3.jpg" target="_blank"><img class="param-img" src="~/images/news3.jpg"> </a>
+        </div>
+
+        <div class="param-video">
+          <label class="param-video">Video : </label>
+          <input type="text" class="param-video" placeholder="Ex: https://www.youtube.com/watch?v=WIIAbl7pBnI">
+        </div>
+
+        <div class="param-start-date">
+          <label class="param-start-date">Date de début : </label>
+          <input class="param-start-date" type="date">
+        </div>
+
+        <div class="param-end-date">
+          <label class="param-end-date">Date de fin : </label>
+          <input class="param-end-date" type="date">
+        </div>
+
+        <button class="button"> Valider </button>
+    </fieldset>
+<!-----------------------------------------FIN MEDIA 3--------------------------------------------> 
+<!-----------------------------------------MEDIA 4--------------------------------------------> 
+    <fieldset class="medias-param">
+      <legend class="medias-name">photo4</legend>
+
+        <div class="param-name">
+          <label class="param-name">Nom de la photo : </label>
+          <input type="text" class="param-name" placeholder="Ex: JPO">
+        </div>
+
+        <div class="param-img">
+          <label class="param-img">Image : </label>
+          <a href="~/images/news3.jpg" target="_blank"><img class="param-img" src="~/images/news3.jpg"> </a>
+        </div>
+
+        <div class="param-video">
+          <label class="param-video">Video : </label>
+          <input type="text" class="param-video" placeholder="Ex: https://www.youtube.com/watch?v=WIIAbl7pBnI">
+        </div>
+
+        <div class="param-start-date">
+          <label class="param-start-date">Date de début : </label>
+          <input class="param-start-date" type="date">
+        </div>
+
+        <div class="param-end-date">
+          <label class="param-end-date">Date de fin : </label>
+          <input class="param-end-date" type="date">
+        </div>
+
+        <button class="button"> Valider </button>
+    </fieldset>
+<!-----------------------------------------FIN MEDIA 4--------------------------------------------> 
+  </fieldset>
+<!----------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------->
+
+
+<!----------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------->
+  <fieldset class="countdown-box">
+    <legend>Compte à rebours</legend>
+<!-----------------------------------------AJOUT DE COUNTDOWN--------------------------------------------> 
+    <fieldset class="countdown-addnew">
+      <legend class="coutndown-name">Ajouter compte à rebours</legend>
+
+        <div class="addnew-name">
+          <label class="addnew-name">Nom du compte à rebours : </label>
+          <input type="text" class="addnew-name" placeholder="Ex: JPO">
+        </div>
+
+        <div class="addnew-text">
+          <label class="addnew-text">Texte : </label>
+          <textarea class="addnew-text" rows="5" cols="60" placeholder="Entrez votre texte"></textarea>
+        </div>
+
+        <div class="addnew-start-date">
+          <label class="addnew-start-date">Date de début : </label>
+          <input class="addnew-start-date" type="date">
+        </div>
+
+        <div class="addnew-end-date">
+          <label class="addnew-end-date">Date de fin : </label>
+          <input class="addnew-end-date" type="date">
+        </div>
+
+        <div class="addnew-countdown-date">
+          <label class="addnew-end-date">Date compteur : </label>
+          <input class="addnew-end-date" type="date">
+        </div>
+
+        <button class="button"> Valider </button>
+    </fieldset>
+<!-----------------------------------------FIN AJOUT DE COUNTDOWN--------------------------------------------> 
+<!-----------------------------------------COUNTDOWN 1--------------------------------------------> 
+    <fieldset class="countdown-param">
+      <legend class="coutndown-name">CAR1</legend>
+
+        <div class="param-name">
+          <label class="param-name">Nom du compte à rebours : </label>
+          <input type="text" class="param-name" placeholder="Ex: JPO">
+        </div>
+
+        <div class="param-text">
+          <label class="param-text">Texte : </label>
+          <textarea class="param-text" rows="5" cols="60" placeholder="Entrez votre texte"></textarea>
+        </div>
+
+        <div class="param-start-date">
+          <label class="param-start-date">Date de début : </label>
+          <input class="param-start-date" type="date">
+        </div>
+
+        <div class="param-end-date">
+          <label class="param-end-date">Date de fin : </label>
+          <input class="param-end-date" type="date">
+        </div>
+
+        <div class="param-countdown-date">
+          <label class="param-end-date">Date compteur : </label>
+          <input class="param-end-date" type="date">
+        </div>
+
+        <button class="button"> Valider </button>
+    </fieldset>
+<!-----------------------------------------FIN COUNTDOWN 1--------------------------------------------> 
+<!-----------------------------------------COUNTDOWN 2--------------------------------------------> 
+    <fieldset class="countdown-param">
+      <legend class="coutndown-name">CAR2</legend>
+
+        <div class="param-name">
+          <label class="param-name">Nom du compte à rebours : </label>
+          <input type="text" class="param-name" placeholder="Ex: JPO">
+        </div>
+
+        <div class="param-text">
+          <label class="param-text">Texte : </label>
+          <textarea class="param-text" rows="5" cols="60" placeholder="Entrez votre texte"></textarea>
+        </div>
+
+        <div class="param-start-date">
+          <label class="param-start-date">Date de début : </label>
+          <input class="param-start-date" type="date">
+        </div>
+
+        <div class="param-end-date">
+          <label class="param-end-date">Date de fin : </label>
+          <input class="param-end-date" type="date">
+        </div>
+
+        <div class="param-countdown-date">
+          <label class="param-end-date">Date compteur : </label>
+          <input class="param-end-date" type="date">
+        </div>
+
+        <button class="button"> Valider </button>
+    </fieldset>
+<!-----------------------------------------FIN COUNTDOWN 2--------------------------------------------> 
+
+  </fieldset>
+<!----------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------->
+  <fieldset class="socialnetworks-box">
+    <legend>Réseaux sociaux</legend>
+
+    <div class="username-param"> 
+      <label class="username-param">Nom du compte : </label>
+      <input list="Compte" type="text" class="username-param" placeholder="ex:ISEN.Lille">
+       <datalist id="Compte">
+        <option value="ISEN.Lille"></option>
+       </datalist>
+    </div>
+
+    <fieldset class="home">
+      <legend class="home-name">Page d'accueil</legend>
+
+      <div class="page-param">
+        <label class="page-param">Page : </label>
+      </div>
+      
+      <div class="widget-param">
+        <label class="widget-param">Widget : </label>
+      </div>
+
+    </fieldset>
+<!----------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------->
+
+</div> 

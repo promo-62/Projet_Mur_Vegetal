@@ -4,19 +4,10 @@
     ViewData["Title"] = "Compte à rebours";
 }
 @section heads{
-  <link href="@Url.Content("~/css/countdownpage.css")" rel="stylesheet" type="text/css" />
+  <link href="@Url.Content("~/css/usersite/countdownpage.css")" rel="stylesheet" type="text/css" />
   <script type="text/javascript" src="@Url.Content("~/js/countdown.js")"></script>
 }
 
 <div class="countdown-body">
-    <div class="countdown-block">
-        <div class="countdown-text">
-            Journée Porte Ouverte
-            <div id="countdown-display">
-            </div>
-            <script>
-                countDown("May 30 11:00:00 2019","countdown-display");
-            </script>
-        </div>
-    </div>
+    @{ Html.RenderPartial("_Countdown"); }
 </div>

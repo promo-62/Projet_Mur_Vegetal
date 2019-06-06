@@ -4,52 +4,52 @@
     ViewData["Title"] = "Accueil";
 }
 @section heads{
-  <link href="@Url.Content("~/css/homepage.css")" rel="stylesheet" type="text/css" />
+  <link href="@Url.Content("~/css/usersite/homepage.css")" rel="stylesheet" type="text/css" />
   <script type="text/javascript" src="@Url.Content("~/js/countdown.js")"></script>
 }
 
 <div class="home-body">
-    <div class="wall-box">
+    <div class="wall-box box">
         <div class="wall-info">
-            <div class="wall-icon"><a href="/Wall"> <img class="i1" src="images/icones/thermo.png"/> </a></div>
+            <div class="wall-icon"><a href="/Wall"> <img class="i1" src="~/images/icones/thermo.png"/> </a></div>
             <div class="wall-text"><a href="/Wall"> info1 </a></div> 
         </div>
         <div class="wall-info">
-            <div class="wall-icon"><a href="/Wall"> <img class="i2" src="images/icones/hydro.png"/> </a></div>
+            <div class="wall-icon"><a href="/Wall"> <img class="i2" src="~/images/icones/hydro.png"/> </a></div>
             <div class="wall-text"><a href="/Wall"> info2 </a></div> 
         </div>
         <div class="wall-info">
-            <div class="wall-icon"><a href="/Wall"> <img class="i3" src="images/icones/mouvement.png"/> </a></div>
+            <div class="wall-icon"><a href="/Wall"> <img class="i3" src="~/images/icones/mouvement.png"/> </a></div>
             <div class="wall-text"><a href="/Wall"> info3 </a></div> 
         </div>
         <div class="wall-info">
-            <div class="wall-icon"><a href="/Wall"> <img class="i4" src="images/icones/lumiere.png"/> </a></div>
+            <div class="wall-icon"><a href="/Wall"> <img class="i4" src="~/images/icones/lumiere.png"/> </a></div>
             <div class="wall-text"><a href="/Wall"> info4 </a></div> 
         </div>
         <div class="wall-info">
-            <div class="wall-icon"><a href="/Wall"> <img class="i5" src="images/icones/pression.png"/> </a></div>
+            <div class="wall-icon"><a href="/Wall"> <img class="i5" src="~/images/icones/pression.png"/> </a></div>
             <div class="wall-text"><a href="/Wall"> info5 </a></div> 
         </div>
         <div class="wall-info">
-            <div class="wall-icon"><a href="/Wall"> <img class="i6" src="images/icones/batterie.png"/> </a></div>
+            <div class="wall-icon"><a href="/Wall"> <img class="i6" src="~/images/icones/batterie.png"/> </a></div>
             <div class="wall-text"><a href="/Wall"> info6 </a></div>  
         </div>
     </div>
 
     <div class="news-box"> 
-        <div class="news-image">
+        <div class="news-image box">
             <a href="/News">
-            <img class="mur" src="images/news1.jpg"/>
+            <img class="mur" src="~/images/news1.jpg"/>
             </a>
         </div>   
-        <div class="news-text">
+        <div class="news-text box">
             <a href="/News">
             ‪#Parcoursup : tu hésites encore ? 🎊💻 Viens nous (re)voir lundi soir ! ‬👉 <a href="https://bit.ly/2Hyzlr7">Inscriptions</a>
             </a>
         </div>   
     </div>
 
-    <div class="socialnetworks-box">
+    <div class="socialnetworks-box box">
         <a href="/Socialnetworks">
         <!-- SnapWidget -->
             <script src="https://snapwidget.com/js/snapwidget.js"></script>
@@ -60,7 +60,7 @@
 
 
 
-    <div class="countdown-box">
+    <div class="countdown-box box">
         <a href="/Countdown">
         <div class="countdown-text">
             Journée Porte Ouverte
@@ -78,5 +78,12 @@
 </div>
 
 
+<script type="text/javascript" src="@Url.Content("~/lib/tilt/tilt.jquery.js")"></script>
+<script>
+    $('.box').tilt({
+    perspective: 2000,
+    easing:         "cubic-bezier(.03,.98,.52,.99)"
+    })
+</script>
     
 

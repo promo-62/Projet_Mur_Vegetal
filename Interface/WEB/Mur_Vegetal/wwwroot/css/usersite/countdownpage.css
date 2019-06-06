@@ -13,19 +13,15 @@ COUNTDOWN PAGE
 }
 
 .countdown-block{
-  margin: 40px;  
-  padding: 10px;
-  border-radius: 10px;
-  width: 80%;
-  height: auto;
+  background-color: #F4F3F2;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin: 20px;
+  padding: 30px;
 }
 
 .countdown-text{
-  background-color:rgb(100, 185, 79);
-  margin:10px;
-  padding:50px;
-  border-radius : 10px;
   text-align: center;
-  font-family: Raleway-Bold, sans-serif;
+  font-family: Mukta-Bold, sans-serif;
   font-size: 9vw;
+  color: #629460;
 }

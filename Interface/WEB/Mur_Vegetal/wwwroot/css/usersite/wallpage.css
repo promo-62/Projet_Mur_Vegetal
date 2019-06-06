@@ -11,29 +11,28 @@ WALL PAGE
   padding: 10px;
   overflow: inherit;
 }
+
+.box{
+  background-color: #F4F3F2;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  min-width: 450px;
+  width: auto-fit;
+  margin: 5px;
+  font-size: 1.25em;
+}
   
 .wall-block{
-  min-width: 300px;
-  border-radius: 10px;
-  margin: 5px;
   display: flex;
   flex-direction: column ;
   text-align: center;
+  justify-self: center;
+  align-self: flex-start;
+  font-size: 1.25em;
 }
   
-.wall-text{
-  color : aliceblue;
-}
 
 .wall-body:first-of-type>div:nth-child(1){
   min-width: 300px;
-  border-radius: 10px;
-  margin: 5px;
-  justify-self: center;
-  align-self: flex-start;
-  border-width: 4px;
-  border-style: solid;
-  border-color : rgb(100, 185, 79);
 }
   
 /***************************************************************************************
@@ -44,19 +43,19 @@ WALL IMAGE
   margin-top: 5px;
   width: 50%;
 }
-  
 .wall-info{
   display: flex;
+  flex-direction: row;
   align-items: center;
   flex-flow: row wrap;
 }
   
 .wall-graph img{
-  width: 40%;
-  min-width: 300px;
-  border-radius: 10px;
-  border-width: 4px;
-  border-style: solid;
-  border-color : rgb(100, 185, 79);
+  display: block;
+  width: 100%;
+}
+
+img{
+  max-width: 450px;
 }
   

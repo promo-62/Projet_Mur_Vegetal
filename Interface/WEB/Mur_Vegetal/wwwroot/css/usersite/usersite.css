@@ -2,48 +2,56 @@
 LAYOUT  
 --------------------------------------------------------------------------------------*/
 @font-face{
-  font-family: 'Raleway-Bold'; 
-  src: url('/fonts/Raleway/Raleway-Bold.ttf'); 
+  font-family: 'Mukta-Bold'; 
+  src: url('/fonts/Mukta/Mukta-Bold.ttf'); 
 }
 @font-face{
-  font-family: 'Raleway-Black'; 
-  src: url('/fonts/Raleway/Raleway-Black.ttf'); 
+  font-family: 'Mukta-ExtraBold'; 
+  src: url('/fonts/Mukta/Mukta-ExtraBold.ttf'); 
 }
 @font-face{
-  font-family: 'Raleway-Light'; 
-  src: url('/fonts/Raleway/Raleway-Light.ttf'); 
+  font-family: 'Mukta-ExtraLight'; 
+  src: url('/fonts/Mukta/Mukta-ExtraLight.ttf'); 
 }
 @font-face{
-  font-family: 'Raleway-Regular'; 
-  src: url('/fonts/Raleway/Raleway-Regular.ttf'); 
+  font-family: 'Mukta-Light'; 
+  src: url('/fonts/Mukta/Mukta-Light.ttf'); 
 }
 @font-face{
-  font-family: 'Raleway-SemiBold'; 
-  src: url('/fonts/Raleway/Raleway-SemiBold.ttf'); 
+  font-family: 'Mukta-Medium'; 
+  src: url('/fonts/Mukta/Mukta-Medium.ttf'); 
+}
+@font-face{
+  font-family: 'Mukta-Regular'; 
+  src: url('/fonts/Mukta/Mukta-Regular.ttf'); 
+}
+@font-face{
+  font-family: 'Mukta-SemiBold'; 
+  src: url('/fonts/Mukta/Mukta-SemiBold.ttf'); 
 }
 
-html {
-}
+
 body {
   height: 100vh;
   margin: 0;
   padding:0;
-  background-color: rgb(53, 50, 50);
-  font-family: Raleway-Regular, sans-serif;
+  background-color: #EFEDEC;
+  font-family: Mukta-Regular, sans-serif;
 }
 
 
 .main-body{
   display: flex;
   overflow: auto;
-  height: calc(100% - 30px);
+  height: calc(100% - 40px);
 }
 
 /* navbar */
 .navbar {
-  background-color: rgb(85, 85, 85);
+  background-color: #393E41;
   overflow: hidden;
-  font-family: Raleway-Bold, sans-serif;
+  font-family: Mukta-Bold, sans-serif;
+  font-weight: 500;
   text-transform: uppercase;
   font-size: 90%;
 }
@@ -56,8 +64,8 @@ body {
   text-decoration: none;
 }
 .navbar a:hover {
-  background-color: #ddd;
-  color: black;
+  background-color: #EFEDEC;
+  color: #629460;
 }
 .navbar a.active {
   background-color: rgb(100, 185, 79);
