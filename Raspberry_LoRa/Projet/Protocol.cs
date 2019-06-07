@@ -26,6 +26,14 @@ namespace Projet{
         //Nom de la propriete contenant l'ID 2
         private static string Header_ID2_PropertyName = "ID_2";
 
+        private static string Payload_Format = "Format";
+        private static string ID_PropertyName = "ID";
+
+        private static string Id = "";
+        private static int Header_Size = 6;
+        private static string Array_Payload_Format = "Payload";
+        private static string Header_Type_PropertyName = "TYPE_MESSAGE";
+
         private static byte Errors;
         
         //Verifie le format des trames arrivant du LoRA et les convertit en fichier JSON
@@ -100,8 +108,30 @@ namespace Projet{
                     Console.WriteLine("");
 
                     //Renvoie du JSON en string
-                    return MQTT_Raspberry.RaspberryToServer(obj.ToString());
-                    //return obj.ToString();
+                    string response = MQTT_Raspberry.RaspberryToServer(obj.ToString());
+                    //string response = "";
+
+                    //Verifie si le serveur repond et si il ne repond pas parse la payload et stocke l'ID 
+                    if(response.Equals("")){
+                        JArray tableau = (JArray)obj_config[Array_Payload_Format];
+                        foreach(JObject obj_id in tableau.Children<JObject>()){
+                            if ( (string)(obj.Property(Header_VerProtocol_1_PropertyName).Value) == (string)(obj_id.Property(Header_VerProtocol_1_PropertyName).Value) && (string)(obj.Property(Header_VerProtocol_2_PropertyName).Value) == (string)(obj_id.Property(Header_VerProtocol_2_PropertyName).Value) && (string)(obj.Property(Header_Type_PropertyName).Value) == (string)(obj_id.Property(Header_Type_PropertyName).Value) ){
+                                if( !((string)(obj.Property(Header_Type_PropertyName))).Equals("01") ){
+                                    JObject format = (JObject)(obj_id.GetValue(Payload_Format));
+                                    int w = 0;
+                                    byte[] rev = new byte[1];
+                                    foreach(JProperty property in format.Properties()){
+                                        if(property.Name == ID_PropertyName){
+                                            rev[0] = chain[w+Header_Size];
+                                            Id = BitConverter.ToString(rev);
+                                        }
+                                        w++;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return response;
                 }else{
                     isValidated = true;
                 }
@@ -153,7 +183,11 @@ namespace Projet{
 
         //Code byte[] a renvoyer en cas d'erreur
         public static byte[] ErrorsFound(){
-            byte[] sendError = new Byte[1];
+            byte[] sendError = new Byte[2];
+            if(Id != ""){
+                sendError[1] = Convert.ToByte(Id, 16);
+                Id = "";
+            }
             //Pas reponse serveur
             if(Errors.Equals(0x00)){
                 sendError[0] = 0x00;
