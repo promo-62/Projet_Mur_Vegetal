@@ -12,7 +12,7 @@ namespace Projet
     class Program
     {
         //Chemin vers le fichier config.json (Formats des trames)
-        private static string filepath_1 ="Config.json";
+        private static string filepath_1 = "Config.json";
 
         private static string Config;
         public static void Main(string[] args){
@@ -24,11 +24,9 @@ namespace Projet
             //Lancement de la comunication entre les 2 programmes (LoRA et Protocol)
             try{
                 server.Start();
-                //var client = new WebClient();
-                    //Config = client.DownloadString(filepath_1);
-                using(StreamReader reader = new StreamReader(filepath_1)){
-                    Config = reader.ReadToEnd();
-                }
+                var client2 = new WebClient();
+                Config = client2.DownloadString(filepath_1);
+                //Console.WriteLine(Config);
                 Console.WriteLine("SERVER: STARTED");
                 Console.WriteLine("");
             }catch(Exception e){
@@ -95,16 +93,18 @@ namespace Projet
                         stream.Write(Errors, 0, Errors.Length);
                     }
                     test = BitConverter.ToString(Errors);
-                    if(test.Equals("00")){
+                    if(Errors[0].Equals(0x00)){
                         Console.WriteLine("MESSAGE SEND: NO RESPONSE FROM DATABASE");
                         Console.WriteLine("");
-                    }else if(test.Equals("01")){
+                    }else if(Errors[0].Equals(0x01)){
                         Console.WriteLine("MESSAGE SEND: INVALID FORMAT");
                         Console.WriteLine("");
                     }else{
                         Console.WriteLine("MESSAGE SEND: INVALID PAYLOAD SIZE");
                         Console.WriteLine("");
                     }
+                    Console.WriteLine("ERROR SEND: "+test);
+                    Console.WriteLine("");
                 }
             }
 
@@ -115,11 +115,8 @@ namespace Projet
             while(true){
                 //A remplacer par un wget
                 try{
-                    //var client = new WebClient();
-                    //Config = client.DownloadString(filepath_1);
-                    using(StreamReader reader = new StreamReader(filepath_1)){
-                        Config = reader.ReadToEnd();
-                    }
+                    var client = new WebClient();
+                    Config = client.DownloadString(filepath_1);
                 }catch(Exception e){
                     Console.WriteLine(e.StackTrace);
                     System.Environment.Exit(1);
