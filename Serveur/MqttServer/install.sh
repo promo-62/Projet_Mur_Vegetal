@@ -9,6 +9,8 @@ echo "--> Building docker..."
 sudo docker build -t server_mqtt ./
 
 echo
-echo "--> Run the server's container with: sudo docker run -p 8883:8883 -v $(pwd)/log:/mosquitto/log mqtt"
+echo "--> Run the server's container with:" 
+echo "sudo docker run -p 8883:8883 -v $(pwd)/log:/mosquitto/log server_mqtt"
+echo
 echo "--> You can get the logs of the mosquitto server at log/mosquitto.log"
 echo
