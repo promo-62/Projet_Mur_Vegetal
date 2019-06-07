@@ -11,17 +11,15 @@ RUN export DEBIAN_FRONTEND=noninteractive \
 RUN service mosquitto stop
 
 ADD mosquitto.conf /mosquitto/config/
-ADD mosquitto.log /mosquitto/log/
+ADD log/mosquitto.log /mosquitto/log/
 ADD credentials /mosquitto/credentials/
-ADD ca.crt /mosquitto/ca_certificates/
-ADD server.crt /mosquitto/certs/
-ADD server.key /mosquitto/certs/
+ADD /certificates/ca.crt /mosquitto/ca_certificates/
+ADD /certificates/server.crt /mosquitto/certs/
+ADD /certificates/server.key /mosquitto/certs/
 
 RUN mosquitto_passwd -U /mosquitto/credentials/credentials \
-&& chmod 777 /mosquitto/log/mosquitto.log \
-&& chmod 777 /mosquitto/config/mosquitto.conf \
-&& chmod 777 /mosquitto/ca_certificates/ca.crt \
-&& chmod 777 /mosquitto/certs/server.crt \
-&& chmod 777 /mosquitto/certs/server.key
+&& chmod u+r /mosquitto/ca_certificates/ca.crt \
+&& chmod u+r /mosquitto/certs/server.crt \
+&& chmod u+r /mosquitto/certs/server.key
 
-CMD [ "mosquitto", "-v"]
+CMD [ "mosquitto", "-v", "-c", "/mosquitto/config/mosquitto.conf"]
