@@ -13,12 +13,15 @@ RUN service mosquitto stop
 ADD mosquitto.conf /mosquitto/config/
 ADD mosquitto.log /mosquitto/log/
 ADD credentials /mosquitto/credentials/
-ADD CA.crt /mosquitto/ca_certificates/
+ADD ca.crt /mosquitto/ca_certificates/
 ADD server.crt /mosquitto/certs/
 ADD server.key /mosquitto/certs/
 
-RUN mosquitto_passwd -U /mosquitto/credentials/credentials
-RUN chmod 777 /mosquitto/log/mosquitto.log
-RUN chmod 777 /mosquitto/config/mosquitto.conf 
+RUN mosquitto_passwd -U /mosquitto/credentials/credentials \
+&& chmod 777 /mosquitto/log/mosquitto.log \
+&& chmod 777 /mosquitto/config/mosquitto.conf \
+&& chmod 777 /mosquitto/ca_certificates/ca.crt \
+&& chmod 777 /mosquitto/certs/server.crt \
+&& chmod 777 /mosquitto/certs/server.key
 
-CMD [ "mosquitto", "-c", "/mosquitto/config/mosquitto.conf", "-v"]
+CMD [ "mosquitto", "-v"]
