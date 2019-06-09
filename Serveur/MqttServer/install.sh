@@ -3,6 +3,8 @@ cd certificates
 ./generate_certificates.sh
 cd ..
 
+mkdir log
+touch log/mosquitto.log
 chmod u-w,g-r,o+w,o-r log/mosquitto.log
 echo
 echo "--> Building docker..."
