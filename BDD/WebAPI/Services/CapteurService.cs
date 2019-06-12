@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using CapteursApi.Models;
 using Microsoft.Extensions.Configuration;
@@ -18,27 +17,12 @@ namespace CapteursApi.Services
             _database = client.GetDatabase("MurVegetalDb");
         }
 
-        // récupère tous les éléments de {collection} avec les filtres {filter} et la {projection}
-        public List<T> Get<T>(string Collection, string filter = "{}", string projection = "{}") 
-        {            
-            return _database.GetCollection<T>(Collection)
-                .Find(filter)
-                .Project<T>(projection)
-                .ToList();
-        }
-        
-        // récupère le dernier relevé pour chaque capteur
-        public List<T> GetDerniersReleves<T>(string Collection, string group, string projection = "{}", string sort = "{}") // récupère la liste de tous les éléments de la collection 
+        public List<T> Get<T>(string Collection)
         {
-            return _database.GetCollection<T>(Collection)
-                .Aggregate<T>()
-                .Sort(sort)
-                .Group<T>(group)
-                .Project<T>(projection)
-                .ToList();
+            return _database.GetCollection<T>(Collection).Find(template => true).ToList();
         }
 
-        public T GetById<T>(string Collection, string id) // récupère l'élément d'{id} dans la {collection}
+        public T Get<T>(string Collection, string id)
         {
             var filter = Builders<T>.Filter.Eq("Id", id);
             return _database.GetCollection<T>(Collection).Find<T>(filter).FirstOrDefault();

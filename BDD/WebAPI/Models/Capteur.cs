@@ -53,21 +53,6 @@ namespace CapteursApi.Models
         public bool Fonctionne { get; set; }
     }
 
-    public class CapteurWeb : ICollectionModel
-    {
-        [BsonElement("IdCapteur")]
-        public int IdCapteur { get; set; }
-
-        [BsonElement("TypeCapteur")]
-        public List<string> TypeCapteur { get; set; }
-
-        [BsonElement("Projet")]
-        public List<string> Projet { get; set; }
-
-        [BsonElement("Nom")]
-        public string Nom { get; set; }
-    }
-
     public class ActionModel
     {
         [BsonElement("Data")]
@@ -99,15 +84,6 @@ namespace CapteursApi.Models
 
         [BsonElement("Fiabilite")]
         public string Fiabilite { get; set; }
-    }
-
-    public class ReleveWeb : ICollectionModel
-    {
-        [BsonElement("IdCapteur")]
-        public int IdCapteur { get; set; }
-
-        [BsonElement("Valeur")]
-        public string Valeur { get; set; }
     }
 
     public class VersionProtocole : ICollectionModel
