@@ -1,0 +1,232 @@
+@page
+@model FrameAdminModel
+@{
+    ViewData["Title"] = "Admin - Frame";
+    Layout = "~/Pages/Shared/_AdminLayout.cshtml";
+}
+@section heads{
+  <link href="@Url.Content("~/css/usersite/admin/frameadmin.css")" rel="stylesheet" type="text/css" />
+}
+
+<!--div PRINCIPALE CONTENANT LES DIFFERRENTS AFFICHAGES div ENFANTS-->
+  <div class="frame-box">
+<!-------------------------------------------div MUR---------------------------------------------->
+    <div class="frame-param">
+      <legend class="frame-name">Mur</legend>
+
+        <div class="param-disp">
+          <label class="param-disp">Affichage </label>
+          <input type="checkbox" class="param-disp">
+        </div>
+
+        <div class="param-disptime">
+          <label class="param-disptime">Temps d'affichage : </label>
+          <input list="Sec" type="text" class="param-disptime" placeholder="En secondes">
+             <datalist id="Sec">
+              <option value="10"></option>
+              <option value="20"></option>
+              <option value="30"></option>
+              <option value="40"></option>
+              <option value="50"></option>
+              <option value="60"></option>
+              <option value="120"></option>
+            </datalist>
+        </div>
+
+        <div class="param-carroussel">
+          <label class="param-carroussel">Temps d'affichage du carroussel : </label>
+          <input list="Sec" type="text" class="param-carroussel" placeholder="En secondes">
+             <datalist id="Sec">
+              <option value="10"></option>
+              <option value="20"></option>
+              <option value="30"></option>
+              <option value="40"></option>
+              <option value="50"></option>
+              <option value="60"></option>
+              <option value="120"></option>
+            </datalist>
+        </div>   
+
+        <div class=button>
+         <button class="button-delete"> Supprimer </button>
+         <button class="button-apply"> Valider </button>
+        </div>
+      
+    </div>
+<!-----------------------------------------FIN div MUR-------------------------------------------->    
+
+<!-------------------------------------------div INFORMATIONS---------------------------------------------->
+    <div class="frame-param">
+      <legend class="frame-name">Informations</legend>
+
+        <div class="param-disp">
+          <label class="param-disp">Affichage </label>
+          <input type="checkbox" class="param-disp">
+        </div>
+
+        <div class="param-disptime">
+          <label class="param-disptime">Temps d'affichage : </label>
+          <input list="Sec" type="text" class="param-disptime" placeholder="En secondes">
+             <datalist id="Sec">
+              <option value="10"></option>
+              <option value="20"></option>
+              <option value="30"></option>
+              <option value="40"></option>
+              <option value="50"></option>
+              <option value="60"></option>
+              <option value="120"></option>
+            </datalist>
+        </div>
+
+        <div class="param-carroussel">
+          <label class="param-carroussel">Temps d'affichage du carroussel : </label>
+          <input list="Sec" type="text" class="param-carroussel" placeholder="En secondes">
+             <datalist id="Sec">
+              <option value="10"></option>
+              <option value="20"></option>
+              <option value="30"></option>
+              <option value="40"></option>
+              <option value="50"></option>
+              <option value="60"></option>
+              <option value="120"></option>
+            </datalist>
+        </div>   
+
+        <div class=button>
+         <button class="button-delete"> Supprimer </button>
+         <button class="button-apply"> Valider </button>
+        </div>
+      
+    </div>
+<!-----------------------------------------FIN div INFORMATIONS-------------------------------------------->   
+
+<!-------------------------------------------div PHOTOS/VIDEOS---------------------------------------------->
+    <div class="frame-param">
+      <legend class="frame-name">Photos/Vidéos</legend>
+
+        <div class="param-disp">
+          <label class="param-disp">Affichage </label>
+          <input type="checkbox" class="param-disp">
+        </div>
+
+        <div class="param-disptime">
+          <label class="param-disptime">Temps d'affichage : </label>
+          <input list="Sec" type="text" class="param-disptime" placeholder="En secondes">
+             <datalist id="Sec">
+              <option value="10"></option>
+              <option value="20"></option>
+              <option value="30"></option>
+              <option value="40"></option>
+              <option value="50"></option>
+              <option value="60"></option>
+              <option value="120"></option>
+            </datalist>
+        </div>
+
+        <div class="param-carroussel">
+          <label class="param-carroussel">Temps d'affichage du carroussel : </label>
+          <input list="Sec" type="text" class="param-carroussel" placeholder="En secondes">
+             <datalist id="Sec">
+              <option value="10"></option>
+              <option value="20"></option>
+              <option value="30"></option>
+              <option value="40"></option>
+              <option value="50"></option>
+              <option value="60"></option>
+              <option value="120"></option>
+            </datalist>
+        </div>   
+
+        <div class=button>
+         <button class="button-delete"> Supprimer </button>
+         <button class="button-apply"> Valider </button>
+        </div>
+      
+    </div>
+<!-----------------------------------------FIN div PHOTOS/VIDEOS-------------------------------------------->  
+
+<!-------------------------------------------div COMPTES A REBOURS---------------------------------------------->
+    <div class="frame-param">
+      <legend class="frame-name">Comptes à rebours</legend>
+
+        <div class="param-disp">
+          <label class="param-disp">Affichage </label>
+          <input type="checkbox" class="param-disp">
+        </div>
+
+        <div class="param-disptime">
+          <label class="param-disptime">Temps d'affichage : </label>
+          <input list="Sec" type="text" class="param-disptime" placeholder="En secondes">
+             <datalist id="Sec">
+              <option value="10"></option>
+              <option value="20"></option>
+              <option value="30"></option>
+              <option value="40"></option>
+              <option value="50"></option>
+              <option value="60"></option>
+              <option value="120"></option>
+            </datalist>
+        </div>
+
+        <div class="param-carroussel">
+          <label class="param-carroussel">Temps d'affichage du carroussel : </label>
+          <input list="Sec" type="text" class="param-carroussel" placeholder="En secondes">
+             <datalist id="Sec">
+              <option value="10"></option>
+              <option value="20"></option>
+              <option value="30"></option>
+              <option value="40"></option>
+              <option value="50"></option>
+              <option value="60"></option>
+              <option value="120"></option>
+            </datalist>
+        </div>   
+
+        <div class=button>
+         <button class="button-delete"> Supprimer </button>
+         <button class="button-apply"> Valider </button>
+        </div>
+      
+    </div>
+<!-----------------------------------------FIN div COMPTES A REBOURS-------------------------------------------->  
+
+<!-------------------------------------------div RESEAUX SOCIAUX---------------------------------------------->
+    <div class="frame-param">
+      <legend class="frame-name">Réseaux sociaux</legend>
+
+        <div class="param-disp">
+          <label class="param-disp">Affichage </label>
+          <input type="checkbox" class="param-disp">
+        </div>
+
+        <div class="param-disptime">
+          <label class="param-disptime">Temps d'affichage : </label>
+          <input list="Sec" type="text" class="param-disptime" placeholder="En secondes">
+             <datalist id="Sec">
+              <option value="5"></option>
+              <option value="10"></option>
+              <option value="15"></option>
+              <option value="20"></option>
+            </datalist>
+        </div>
+
+        <div class="param-carroussel">
+          <label class="param-carroussel">Temps d'affichage du carroussel : </label>
+          <input list="Sec" type="text" class="param-carroussel" placeholder="En secondes">
+             <datalist id="Sec">
+              <option value="5"></option>
+              <option value="10"></option>
+              <option value="15"></option>
+              <option value="20"></option>
+            </datalist>
+        </div>   
+
+        <div class=button>
+         <button class="button-delete"> Supprimer </button>
+         <button class="button-apply"> Valider </button>
+        </div>
+      
+    </div>
+<!-----------------------------------------FIN div RESEAUX SOCIAUX-------------------------------------------->   
+
+  </div>

@@ -3,64 +3,37 @@ LOGIN PAGE
 --------------------------------------------------------------------------------------*/
 
 .login-body{
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    
+  width: 100%;
+  height: 100%;
+  overflow: inherit; 
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-content: center;
+  align-items: center; 
 }
 
-.passblock{
-    background-color: rgb(85, 85, 85);
-    margin: 40px;   
-    padding: 10px;
-    border-radius: 10px;
-    max-width: 30%;
-    min-width: 300px;
+.box{
+  background-color: #F4F3F2;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  min-width: 400px;
+  max-width: 50%;
+  margin: 20px;
+  padding: 20px;
+  font-size: 1.1em;
+  color: #629460;
 }
 
-.pass{
-    background-color:rgb(100, 185, 79);
-    margin:10px;
-    padding:50px;
-    border-radius : 10px;
-    text-align: center;
-    font-family: Raleway-Bold, sans-serif;
-    font-size: 100%;
-  }
-  
-  .connexion{
-    margin:10px;
-    border-radius : 10px;
-    text-align: right;
-    font-family: Raleway-Bold, sans-serif;
-  }
-  input[type="password"] {
-    background: white;
-    border: 2px solid rgb(85, 85, 85);
-    border-radius : 5px;
-    outline: none;
+.login-body button{
+  border: 0.2px solid #333;
+  border-radius : 5px;
+  font-family: Mukta-Bold;
+  font-size: 1em;
+  margin-top: 30px;
+  color: #629460;
 }
 
-  .password{
-    text-align: center;
-  }
-   
-  .mdp{
-    margin:20px;
-  }
-
-  .bouton{
-    background-color: rgb(100, 185, 79);
-    border: 2px solid #333;
-    border-radius : 5px;
-    
-    font-family: Raleway-Bold, sans-serif;
-  }
-  .bouton:hover {
-    background-color: #333; /* Green */
-    border: 2px solid rgb(100, 185, 79);
-    color: white;
-  }
+.login-body button:hover{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Mur_Vegetal</title>
+    <link rel="stylesheet" href="~/css/usersite/admin/admin.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="@Url.Content("~/lib/jquery/dist/jquery.js")"></script>
+    @RenderSection("heads", required: false)
+</head>
+<body>
+    <div class="navbar">
+            <div class="dropdown">
+                <button class="dropbtn">Communication 
+                    <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content">
+                <a asp-page="/Admin/Frame">Frame</a>
+                <a asp-page="/Admin/News">Informations</a>
+                <a asp-page="/Admin/Medias">Photos/Vidéos</a>
+                <a asp-page="/Admin/Countdown">Compte à rebours</a>
+                <a asp-page="/Admin/Socialnetworks">Réseaux Sociaux</a>
+                </div>
+            </div>
+            <a asp-page="/Admin/Admin">Mur Végetal</a>
+            <a class="putitright" asp-page="/Index">Deconnexion</a>
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()"><i class="fa fa-bars"></i></a>
+    </div>
+    <div class="main-body">
+        @RenderBody()
+    </div>
+
+    <script>
+        /* Toggle between adding and removing the "responsive" class to topnav when the user clicks on the icon */
+        function myFunction() {
+        var x = document.getElementsByClassName("navbar")[0];
+        if (x.className === "navbar") {
+            x.className += " responsive";
+        } else {
+            x.className = "navbar";
+        }
+        }
+    </script>
+</body>
+</html>

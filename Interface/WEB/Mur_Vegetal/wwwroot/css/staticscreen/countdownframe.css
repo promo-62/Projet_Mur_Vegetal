@@ -3,29 +3,32 @@ COUNTDOWN FRAME
 --------------------------------------------------------------------------------------*/
 
 .countdown-body{
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
   width: 100%;
   height: 100%;
-  overflow: auto;
+  padding: 10px;
+  overflow: inherit;
+}
+  
+.countdown-block{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-content: center;
+  align-items: center;
 }
 
-.countdown-block{
-  margin: 40px;  
-  padding: 10px;
-  border-radius: 10px;
-  width: 80%;
-  height: auto;
+.countdown-image img{
+  display: block;
+  height: 100%;
+  max-width: 500px;
 }
 
 .countdown-text{
-  background-color:rgb(100, 185, 79);
-  margin:10px;
-  padding:50px;
-  border-radius : 10px;
   text-align: center;
   font-family: Raleway-Bold, sans-serif;
   font-size: 3vw;
+  color: #314230;
+  margin: 10px;
+  padding: 50px;
 }
