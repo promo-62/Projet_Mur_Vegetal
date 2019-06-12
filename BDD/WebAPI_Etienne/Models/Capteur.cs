@@ -8,7 +8,7 @@ namespace CapteursApi.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public ObjectId Id { get; set; }
     }
 
     public class Capteur : ICollectionModel
@@ -92,7 +92,7 @@ namespace CapteursApi.Models
         public long DateReleve { get; set; }
 
         [BsonElement("Valeur")]
-        public string Valeur { get; set; }
+        public int Valeur { get; set; }
 
         [BsonElement("TypeCapteur")]
         public string TypeCapteur { get; set; }
@@ -251,7 +251,7 @@ namespace CapteursApi.Models
         public string Nom { get; set; }
 
         [BsonElement("DateButoir")]
-        public long DateButtoir { get; set; }
+        public long DateButoir { get; set; }
 
         [BsonElement("DateDebut")]
         public long DateDebut { get; set; }
