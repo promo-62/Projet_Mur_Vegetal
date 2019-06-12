@@ -1,4 +1,4 @@
-﻿using MongoDB.Driver;
+using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -40,7 +40,7 @@ namespace Tests
         {
             m_Rand = new Random();
             m_Client = new MongoClient("mongodb://127.0.0.1:27017/"); //"mongodb://10.127.0.81/ISENption"
-            m_Database = m_Client.GetDatabase("ISENption");
+            m_Database = m_Client.GetDatabase("MurVegetalDb");
             m_CRUD = new MongoCRUD(m_Database);
 
             ExampleFunction();
