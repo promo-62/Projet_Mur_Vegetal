@@ -21,4 +21,4 @@ On utilise le script d'initialisation du serveur et on build le container Docker
 + `./install.sh`
 
 On lance le container :  
-+ `sudo docker run -p 8883:8883 -v $(pwd)/log:/mosquitto/log server_mqtt`
++ `sudo docker run -d -p 8883:8883 -v $(pwd)/log:/mosquitto/log server_mqtt`
