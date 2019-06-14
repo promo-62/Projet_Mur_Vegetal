@@ -1,2 +1,0 @@
-{"_id":{"$oid":"5cecf23198b19a147a952c0b"},"position":{"$numberInt":"1"},"length":{"$numberInt":"2"},"name":"Identifiant","description":"L'identifiant unique blabla.","defaultValue":{"$numberInt":"0"}}
-{"_id":{"$oid":"5cecf23198b19a147a952c0c"},"position":{"$numberInt":"1"},"length":{"$numberInt":"2"},"name":"Veille","description":"L'identifiant unique blabla.","defaultValue":{"$numberInt":"0"}}
