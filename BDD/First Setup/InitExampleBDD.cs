@@ -1,11 +1,11 @@
-Ôªøusing MongoDB.Driver;
+using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using MongoDB.Bson; ///Utilise pour le ObjectId
 using CapteursApi.Models;
 
-namespace Tests
+namespace Setup
 {   
     public class CapteurComparer : Comparer<Capteur> 
     {
@@ -40,7 +40,7 @@ namespace Tests
         {
             m_Rand = new Random();
             m_Client = new MongoClient("mongodb://127.0.0.1:27017/"); //"mongodb://10.127.0.81/ISENption"
-            m_Database = m_Client.GetDatabase("ISENption");
+            m_Database = m_Client.GetDatabase("MurVegetalDb");
             m_CRUD = new MongoCRUD(m_Database);
 
             ExampleFunction();
@@ -303,7 +303,7 @@ namespace Tests
             CompteARebours CompteARebours1 = new CompteARebours
             {
                 Nom = "je suis le car numero 1",
-                Texte = "ATTENTION: Il ne reste plus beaucoup de temps pour vous acheter votre abonnement T√©l√©Z",
+                Texte = "ATTENTION: Il ne reste plus beaucoup de temps pour vous acheter votre abonnement TÈlÈZ",
                 DateButoir = 1559689946,
                 DateDebut = 1559689243,
                 DateFin = 1559689946,

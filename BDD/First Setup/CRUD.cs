@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using MongoDB.Bson; ///Utilise pour le ObjectId
 
 
-namespace Tests
+namespace Setup
 {
     public class MongoCRUD /*modification functions for Mongo*/
     {
