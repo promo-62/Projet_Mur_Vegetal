@@ -70,7 +70,7 @@ namespace Projet
                 if( !(response.Equals("")) ){
 
                     //Convertion du JSON en BYTE[]
-                    byte[] Raw_Data = Protocol.JsonToData(response);
+                    byte[] Raw_Data = Protocol.JsonToData(response, Config);
                     
                     //Envoi de la reponse au LoRA
                     try{
