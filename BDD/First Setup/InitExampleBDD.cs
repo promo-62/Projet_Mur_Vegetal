@@ -39,7 +39,7 @@ namespace Setup
         static void StartNewExamples(string[] args)
         {
             m_Rand = new Random();
-            m_Client = new MongoClient("mongodb://127.0.0.1:27017/"); //"mongodb://10.127.0.81/ISENption"
+            m_Client = new MongoClient("mongodb://127.0.0.1:27017/"); 
             m_Database = m_Client.GetDatabase("MurVegetalDb");
             m_CRUD = new MongoCRUD(m_Database);
 
@@ -223,8 +223,8 @@ namespace Setup
         private static IEnumerable<Plantes> CreateNewPlantes(){
             Plantes Plante1 = new Plantes
             {
-                Nom = "polystichum setiferum proliferum",
-                Description = "Bonjour je suis une polystichum setiferum proliferum",
+                Nom = "Exemple",
+                Description = "Bonjour je suis un exemple",
                 PosX = 1,
                 PosY = 5,
                 LinkImg = "https://www.andre-briant.fr/media/polystichum_polyblepharum__023010700_1629_24042016.jpg",
@@ -246,7 +246,7 @@ namespace Setup
             (new DataModel{
                 LinkImg = "https://i2.cdscdn.com/pdt2/4/9/2/1/700x700/auc2009459774492/rw/stickers-citron-rigolo-sens-inverse-30-x-30-cm.jpg",
                 LinkVideo = "https://www.youtube.com/watch?v=3q7oJuyy5Ac",
-                Texte = "TOP 10 DES TRUCS LES PLUS DROLES D INTERNET LE TROISIEME VA VOUS RENDRE FOU !!!"
+                Texte = "Ceci est un exemple d'event"
             });
             var newEvents = new List<Event> {Event1};
             return newEvents;
@@ -264,8 +264,8 @@ namespace Setup
         private static IEnumerable<Social> CreateNewSocial(){
             Social Social1 = new Social
             {
-                Username = "MurVegetal",
-                PageWidget = "accueil",
+                Username = "Exemple",
+                PageWidget = "Exemple",
                 Widget = "http://poulespondeuses.com/wp-content/uploads/2019/02/Poussin-Muesli.jpg",
             };
             var newSocials = new List<Social> {Social1};
@@ -276,7 +276,7 @@ namespace Setup
             {
                 DureeAffichage = 10,
                 EstAffiche = true,
-                Nom = "LA Joconde",
+                Nom = "Exemple",
                 DureeCarroussel = 20,
             };
             var newTableaus = new List<Tableau> {Tableau1};
@@ -285,7 +285,7 @@ namespace Setup
         private static IEnumerable<Media> CreateNewMedias(){
             Media Media1 = new Media
             {
-                Nom = "BFMTV",
+                Nom = "Exemple",
                 DateDeb = 1559689243,
                 DateFin = 1559689946,
                 Data = new List<DataModel>(),
@@ -294,7 +294,7 @@ namespace Setup
             (new DataModel{
                 LinkImg = "https://i2.cdscdn.com/pdt2/4/9/2/1/700x700/auc2009459774492/rw/stickers-citron-rigolo-sens-inverse-30-x-30-cm.jpg",
                 LinkVideo = "https://www.youtube.com/watch?v=3q7oJuyy5Ac",
-                Texte = "TOP 10 DES TRUCS LES PLUS DROLES D INTERNET LE TROISIEME VA VOUS RENDRE FOU !!!"
+                Texte = "Exemple"
             });
             var newMedias = new List<Media> {Media1};
             return newMedias;
@@ -302,8 +302,8 @@ namespace Setup
         private static IEnumerable<CompteARebours> CreateNewCompteARebours(){
             CompteARebours CompteARebours1 = new CompteARebours
             {
-                Nom = "je suis le car numero 1",
-                Texte = "ATTENTION: Il ne reste plus beaucoup de temps pour vous acheter votre abonnement TéléZ",
+                Nom = "Exemple",
+                Texte = "Exemple",
                 DateButoir = 1559689946,
                 DateDebut = 1559689243,
                 DateFin = 1559689946,
@@ -313,7 +313,7 @@ namespace Setup
             (new Data{
                 linkImg = "http://fr.web.img4.acsta.net/c_216_288/pictures/19/04/25/17/17/5767838.jpg",
                 linkVideo = "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                texte = "IL MONTE SUR UNE GRUE (l oiseau) ET CA TOURNE MAL OMG !!!!"
+                texte = "Exemple"
             });*/
             var newCompteARebours = new List<CompteARebours> {CompteARebours1};
             return newCompteARebours;
