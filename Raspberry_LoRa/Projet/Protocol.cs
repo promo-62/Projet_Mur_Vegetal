@@ -131,8 +131,8 @@ namespace Projet{
                     Console.WriteLine("");
 
                     //Renvoie du JSON en string
-                    string response = obj.ToString();
-                    //string response = MQTT_Raspberry.RaspberryToServer(obj.ToString());
+                    //string response = obj.ToString();
+                    string response = MQTT_Raspberry.RaspberryToServer(obj.ToString());
 
                     //Verifie si le serveur repond et si il ne repond pas parse la payload et stocke l'ID 
                     if(response.Equals("")){
