@@ -2,17 +2,9 @@
 
 When you use our project for the first time, you need to setup the database. This is how to do it.
 
-
-
-## Install MongoDB on debian
-
----- SOON !!! ----
-
-En attendant:
+## Install MongoDB
 
 https://docs.mongodb.com/manual/tutorial/install-mongodb-on-debian/#install-mongodb-community-edition
-
-
 
 ## Run script
 
