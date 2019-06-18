@@ -260,4 +260,16 @@ namespace CapteursApi.Models
         public long DateFin { get; set; }
     }
 
+    public class ApiUser : ICollectionModel
+    {
+        [BsonElement("username")]
+        public string username {get; set; }
+
+        [BsonElement("hashedPassword")]
+        public string hashedPassword {get; set; }
+
+        [BsonElement("salt")]
+        public string salt {get; set; }
+    }
+
 }

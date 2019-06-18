@@ -52,7 +52,7 @@ namespace CapteursApi.Services
 
         public void Update(string Collection, string id, ICollectionModel templateIn)
         {
-            _database.GetCollection<ICollectionModel>(Collection).ReplaceOne(template => template.Id == id, templateIn);
+            //_database.GetCollection<ICollectionModel>(Collection).ReplaceOne(template => template.Id == id, templateIn);
         }
 
         public void Remove(string Collection, ICollectionModel templateIn)
@@ -62,7 +62,12 @@ namespace CapteursApi.Services
 
         public void Remove(string Collection, string id)
         {
-            _database.GetCollection<ICollectionModel>(Collection).DeleteOne(template => template.Id == id);
+            //_database.GetCollection<ICollectionModel>(Collection).DeleteOne(template => template.Id == id);
+        }
+
+        public void getUser(string username) 
+        {
+            Console.WriteLine(_database.GetCollection<ICollectionModel>("Users").Find("{ \"username\" : \"" + username + "\"}") );
         }
     }
 }
