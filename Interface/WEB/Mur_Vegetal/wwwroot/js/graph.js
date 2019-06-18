@@ -45,7 +45,7 @@ chart.hideCredits = true;
 
 $(document).ready(function(){
   $("g[aria-labelledby]").hide();
-}) //Hide credits
+})
 
 }; // end am4core.ready()
 
