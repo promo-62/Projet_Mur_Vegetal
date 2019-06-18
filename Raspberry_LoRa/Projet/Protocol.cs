@@ -243,13 +243,13 @@ namespace Projet{
             }
             //Pas reponse serveur
             if(Errors.Equals(0x00)){
-                sendError[0] = 0x00;
-            //Format invalide
-            }else if(Errors.Equals(0x01)){
                 sendError[0] = 0x01;
+            //Format Header invalide
+            }else if(Errors.Equals(0x01)){
+                sendError[0] = 0x02;
             //Taille de payload invalide
             }else if(Errors.Equals(0x02)){
-                sendError[0] = 0x02;
+                sendError[0] = 0x03;
             }
             return sendError;
         }

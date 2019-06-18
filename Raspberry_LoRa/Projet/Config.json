@@ -109,7 +109,7 @@
         {
             "VERSION_PROTOCOL_1": "00",
             "VERSION_PROTOCOL_2": "01",
-            "TYPE_MESSAGE":       "01",
+            "TYPE_MESSAGE":       "02",
             "NUMBER_MESSAGE":     "",
             "TO_REMOVE":{
                 "VERSION_PROTOCOL_1": "",
@@ -129,7 +129,7 @@
         {
             "VERSION_PROTOCOL_1": "00",
             "VERSION_PROTOCOL_2": "01",
-            "TYPE_MESSAGE":       "01",
+            "TYPE_MESSAGE":       "03",
             "NUMBER_MESSAGE":     "",
             "TO_REMOVE":{
                 "VERSION_PROTOCOL_1": "",

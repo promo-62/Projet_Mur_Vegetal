@@ -93,13 +93,13 @@ namespace Projet
                         stream.Write(Errors, 0, Errors.Length);
                     }
                     test = BitConverter.ToString(Errors);
-                    if(Errors[0].Equals(0x00)){
+                    if(Errors[0].Equals(0x01)){
                         Console.WriteLine("MESSAGE SEND: NO RESPONSE FROM DATABASE");
                         Console.WriteLine("");
-                    }else if(Errors[0].Equals(0x01)){
+                    }else if(Errors[0].Equals(0x02)){
                         Console.WriteLine("MESSAGE SEND: INVALID FORMAT");
                         Console.WriteLine("");
-                    }else{
+                    }else if(Errors[0].Equals(0x03)){
                         Console.WriteLine("MESSAGE SEND: INVALID PAYLOAD SIZE");
                         Console.WriteLine("");
                     }
