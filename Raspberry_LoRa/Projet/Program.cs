@@ -71,14 +71,19 @@ namespace Projet
 
                     //Convertion du JSON en BYTE[]
                     byte[] Raw_Data = Protocol.JsonToData(response, Config);
-                    
+                    byte[] Data_To_Send = new Byte[Raw_Data.Length+1];
+                    Data_To_Send[0] = 0x00;
+                    for(int g = 0; g < Raw_Data.Length; g++){
+                        Data_To_Send[g+1] = Raw_Data[g];
+                    }
+
                     //Envoi de la reponse au LoRA
                     try{
-                        stream.Write(Raw_Data, 0, Raw_Data.Length);
+                        stream.Write(Data_To_Send, 0, Data_To_Send.Length);
                     }catch(Exception e){
                         Console.WriteLine(e.StackTrace);
                     }
-                    test = BitConverter.ToString(Raw_Data);
+                    test = BitConverter.ToString(Data_To_Send);
                     Console.WriteLine("MESSAGE SEND: "+test);
                     Console.WriteLine("");
                 }else{
