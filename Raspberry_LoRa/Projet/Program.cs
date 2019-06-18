@@ -102,6 +102,7 @@ namespace Projet
                         Console.WriteLine("MESSAGE SEND: NO RESPONSE FROM DATABASE");
                         Console.WriteLine("");
                     }else if(Errors[0].Equals(0x02)){
+
                         Console.WriteLine("MESSAGE SEND: INVALID FORMAT");
                         Console.WriteLine("");
                     }else if(Errors[0].Equals(0x03)){

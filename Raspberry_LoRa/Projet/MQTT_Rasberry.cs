@@ -1,159 +1,104 @@
 ﻿using System;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using System.Text;
 using Newtonsoft.Json;
+using System.Text;
+using uPLibrary.Networking.M2Mqtt;
+using uPLibrary.Networking.M2Mqtt.Messages;
 
 namespace Projet
 {
     class MQTT_Raspberry
     {
-        public static string messageServer = "";
-
-        static void Appel(string[] args)
+        public static string message = "";
+        public static string IP = "localhost"; //"192.168.43.155"
+        public static string new_ID_client_server = "d_c_s";
+        public static string new_ID_server_client = "d_s_c";
+        public static string value_client_server = "e_d_c_s";
+        public static string value_server_client = "e_d_s_c";
+        public static string action_client_server = "d_I_c_s";
+        public static string action_server_client = "d_I_s_c";
+        public static int waitingTime = 10; // time in seconds
+        static void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
         {
-            Console.WriteLine("Here is the Raspberry!");
-            Console.WriteLine("Enter a message for the server: ");
-            string mes = Console.ReadLine();
-            string test = RaspberryToServer(mes);
-            //Console.WriteLine("\n\n\n Tu m'as oublier crétin" + test);
+            Console.WriteLine("We receive : " + Encoding.UTF8.GetString(e.Message) + "; By " + e.Topic + "\n");
+            message = Encoding.UTF8.GetString(e.Message);
+            
         }
-
-        public static string RaspberryToServer(string mes)
+        public static string RaspberryToServer(string jsonLora)
         {
             /*
-             * string mes : message du Raspberry pour le serveur (JSON serialized)
-             */
-            string ans = "";
+            *jsonLora : message from the RaspBerry to the server (serialized JSON)
+            */
+            message = "";
 
-            dynamic deserialized = JsonConvert.DeserializeObject(mes);
-            var typeMessage = deserialized.type;
+            dynamic deserialized = JsonConvert.DeserializeObject(jsonLora);
+            var typeMessage = deserialized.TYPE_MESSAGE;
 
-            var factory = new ConnectionFactory() { HostName = "localhost"};
-            using (var connection = factory.CreateConnection())
-            using (var channel = connection.CreateModel())
+            //Connection to the server
+
+            MqttClient client = new MqttClient(IP);
+
+            //choose the right topic from the message "mes"
+
+            string clientId = Guid.NewGuid().ToString();
+
+            client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
+
+            client.Connect(clientId);
+            Console.WriteLine("CONNECT\n");
+
+            if (typeMessage == "01")
             {
-                if (typeMessage == "01")
+                //Inscrition au topic de réponse
+                string[] topic = { new_ID_server_client };
+                byte[] QoS = { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE };
+                client.Subscribe(topic, QoS);
+
+                client.Publish(new_ID_client_server, Encoding.UTF8.GetBytes(jsonLora));
+                Console.WriteLine("We send to the server: " + jsonLora + "; " + new_ID_client_server + "\n");
+                DateTime deadLine = DateTime.Now.AddSeconds(waitingTime);
+
+                while (message == "" && deadLine.CompareTo(DateTime.Now)>0)
                 {
-                    //Console.WriteLine("Par ici!");
-                    channel.QueueDeclare(queue: "decouverte_client_serveur",
-                        durable: false,
-                        exclusive: false,
-                        autoDelete: false,
-                        arguments: null);
-
-                    var body = Encoding.UTF8.GetBytes(mes);
-
-                    channel.BasicPublish(exchange: "",
-                        routingKey: "decouverte_client_serveur",
-                        basicProperties: null,
-                        body: body);
-
-                    Console.WriteLine("We send to the server: " + mes + " ; By AskID");
-
-                    channel.QueueDeclare(queue: "decouverte_serveur_client",
-                        durable: false,
-                        exclusive: false,
-                        autoDelete: false,
-                        arguments: null);
-
-                    var consumer = new EventingBasicConsumer(channel);
-                    while (messageServer == "") {
-                        consumer.Received += (model, ea) =>
-                        {
-                            var rep = ea.Body;
-                            Program.messageServer = Encoding.UTF8.GetString(rep);
-                        };
-                        channel.BasicConsume(queue: "decouverte_serveur_client",
-                                             autoAck: true,
-                                             consumer: consumer);
-                    }
-                    Console.WriteLine("We receive from the server: " + messageServer + " ; By AnsID");
-                    ans = messageServer;
-                    messageServer = "";
+                    //Boucle d'attente de réponse de la part du serveur
                 }
-
-                if (typeMessage == "02") {
-                    //Console.WriteLine("Par là");
-                    channel.QueueDeclare(queue: "envoiInfoClientServeur",
-                        durable: false,
-                        exclusive: false,
-                        autoDelete: false,
-                        arguments: null);
-
-                    var body1 = Encoding.UTF8.GetBytes(mes);
-
-                    channel.BasicPublish(exchange: "",
-                        routingKey: "envoiInfoClientServeur",
-                        basicProperties: null,
-                        body: body1);
-
-                    Console.WriteLine("We send to the server: " + mes + " ; By DeliverValues");
-
-                    channel.QueueDeclare(queue: "envoiInfoServeurClient",
-                        durable: false,
-                        exclusive: false,
-                        autoDelete: false,
-                        arguments: null);
-
-                    var consumer1 = new EventingBasicConsumer(channel);
-                    while (messageServer == "") {
-                        consumer1.Received += (model, ea) =>
-                        {
-                            var rep = ea.Body;
-                            Program.messageServer = Encoding.UTF8.GetString(rep);
-                        };
-                        channel.BasicConsume(queue: "envoiInfoServeurClient",
-                                             autoAck: true,
-                                             consumer: consumer1);
-                    }
-                    Console.WriteLine("We receive from the server: " + messageServer + " ; By AnsValue");
-                    ans = messageServer;
-                    messageServer = "";
-                }
-
-                if (typeMessage == "03")
-                {
-                    channel.QueueDeclare(queue: "demandeActionClientServeur",
-                        durable: false,
-                        exclusive: false,
-                        autoDelete: false,
-                        arguments: null);
-
-                    var body2 = Encoding.UTF8.GetBytes(mes);
-
-                    channel.BasicPublish(exchange: "",
-                        routingKey: "demandeActionClientServeur",
-                        basicProperties: null,
-                        body: body2);
-
-                    Console.WriteLine("We send to the server: " + mes + " ; By AskAction");
-
-                    channel.QueueDeclare(queue: "demandeActionServeurClient",
-                        durable: false,
-                        exclusive: false,
-                        autoDelete: false,
-                        arguments: null);
-
-                    var consumer2 = new EventingBasicConsumer(channel);
-                    while (messageServer == "")
-                    {
-                        consumer2.Received += (model, ea) =>
-                        {
-                            var rep = ea.Body;
-                            Program.messageServer = Encoding.UTF8.GetString(rep);
-                        };
-                        channel.BasicConsume(queue: "demandeActionServeurClient",
-                                             autoAck: true,
-                                             consumer: consumer2);
-                    }
-                    Console.WriteLine("We receive from the server: " + messageServer + " ; By AnsAction");
-                    ans = messageServer;
-                    messageServer = "";
-                }
-
-                return ans;
             }
+
+            if (typeMessage == "02")
+            {
+                string[] topic = { value_server_client };
+                byte[] QoS = { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE };
+                client.Subscribe(topic, QoS);
+
+                client.Publish(value_client_server, Encoding.UTF8.GetBytes(jsonLora));
+                Console.WriteLine("We send to the server: " + jsonLora + "; " + value_client_server + "\n");
+                DateTime deadLine = DateTime.Now.AddSeconds(waitingTime);
+
+                while (message == "" && deadLine.CompareTo(DateTime.Now) > 0)
+                {
+                    //Boucle d'attente de réponse de la part du serveur
+                }
+            }
+
+            if (typeMessage == "03")
+            {
+                string[] topic = { action_server_client };
+                byte[] QoS = { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE };
+                client.Subscribe(topic, QoS);
+
+                client.Publish("d_I_c_s", Encoding.UTF8.GetBytes(jsonLora));
+                Console.WriteLine("We send to the server: " + jsonLora + "; " + action_client_server + "\n");
+                DateTime deadLine = DateTime.Now.AddSeconds(waitingTime);
+
+                while (message == "" && deadLine.CompareTo(DateTime.Now) > 0)
+                {
+                    //Boucle d'attente de réponse de la part du serveur
+                }
+            }
+            
+            client.Disconnect();
+            Console.WriteLine("DISCONNECT\n");
+
+            return message;
         }
     }
 }
