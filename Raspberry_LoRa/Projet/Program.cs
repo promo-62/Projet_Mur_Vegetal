@@ -70,15 +70,20 @@ namespace Projet
                 if( !(response.Equals("")) ){
 
                     //Convertion du JSON en BYTE[]
-                    byte[] Raw_Data = Protocol.JsonToData(response);
-                    
+                    byte[] Raw_Data = Protocol.JsonToData(response, Config);
+                    byte[] Data_To_Send = new Byte[Raw_Data.Length+1];
+                    Data_To_Send[0] = 0x00;
+                    for(int g = 0; g < Raw_Data.Length; g++){
+                        Data_To_Send[g+1] = Raw_Data[g];
+                    }
+
                     //Envoi de la reponse au LoRA
                     try{
-                        stream.Write(Raw_Data, 0, Raw_Data.Length);
+                        stream.Write(Data_To_Send, 0, Data_To_Send.Length);
                     }catch(Exception e){
                         Console.WriteLine(e.StackTrace);
                     }
-                    test = BitConverter.ToString(Raw_Data);
+                    test = BitConverter.ToString(Data_To_Send);
                     Console.WriteLine("MESSAGE SEND: "+test);
                     Console.WriteLine("");
                 }else{
@@ -93,13 +98,14 @@ namespace Projet
                         stream.Write(Errors, 0, Errors.Length);
                     }
                     test = BitConverter.ToString(Errors);
-                    if(Errors[0].Equals(0x00)){
+                    if(Errors[0].Equals(0x01)){
                         Console.WriteLine("MESSAGE SEND: NO RESPONSE FROM DATABASE");
                         Console.WriteLine("");
-                    }else if(Errors[0].Equals(0x01)){
+                    }else if(Errors[0].Equals(0x02)){
+
                         Console.WriteLine("MESSAGE SEND: INVALID FORMAT");
                         Console.WriteLine("");
-                    }else{
+                    }else if(Errors[0].Equals(0x03)){
                         Console.WriteLine("MESSAGE SEND: INVALID PAYLOAD SIZE");
                         Console.WriteLine("");
                     }

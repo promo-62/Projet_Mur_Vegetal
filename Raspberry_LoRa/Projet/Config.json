@@ -6,7 +6,13 @@
             "VERSION_PROTOCOL_1": "00",
             "VERSION_PROTOCOL_2": "01",
             "TYPE_MESSAGE":       "01",
-            "NUMBER_MESSAGE":     ""
+            "NUMBER_MESSAGE":     "",
+            "TO_REMOVE":{
+                "ID_1": "",
+                "ID_2": ""
+            },
+            "TO_ADD":[
+            ]
         },
         {
             "ID_1": "42",
@@ -14,7 +20,13 @@
             "VERSION_PROTOCOL_1": "00",
             "VERSION_PROTOCOL_2": "01",
             "TYPE_MESSAGE":       "02",
-            "NUMBER_MESSAGE":     ""
+            "NUMBER_MESSAGE":     "",
+            "TO_REMOVE":{
+                "ID_1": "",
+                "ID_2": ""
+            },
+            "TO_ADD":[
+            ]
         },
         {
             "ID_1": "42",
@@ -22,7 +34,13 @@
             "VERSION_PROTOCOL_1": "00",
             "VERSION_PROTOCOL_2": "01",
             "TYPE_MESSAGE":       "03",
-            "NUMBER_MESSAGE":     ""
+            "NUMBER_MESSAGE":     "",
+            "TO_REMOVE":{
+                "ID_1": "",
+                "ID_2": ""
+            },
+            "TO_ADD":[
+            ]
         }
     ],
 
@@ -30,7 +48,7 @@
         {
             "VERSION_PROTOCOL_1": "00",
             "VERSION_PROTOCOL_2": "01",
-            "SIZE": 3
+            "SIZE": 4
         }
     ],
     
@@ -40,9 +58,10 @@
             "VERSION_PROTOCOL_2": "01",
             "TYPE_MESSAGE": "01",
             "Format":{
-                "BATTERY_LEVEL": "",
-                "SENSOR_TYPE": "",
-                "SENSOR_VERSION": ""
+                "COMPONENT_TYPE_1": "",
+                "COMPONENT_TYPE_2": "",
+                "VERSION_1": "",
+                "VERSION_2": ""
             }
         },
         {
@@ -50,9 +69,10 @@
             "VERSION_PROTOCOL_2": "01",
             "TYPE_MESSAGE": "02",
             "Format":{
-                "BATTERY_LEVEL": "",
-                "ID": "",
-                "DATA": ""
+                "ID_1": "",
+                "ID_2": "",
+                "DATA": "",
+                "BATTERY": ""
             }
         },
         {
@@ -60,9 +80,71 @@
             "VERSION_PROTOCOL_2": "01",
             "TYPE_MESSAGE": "03",
             "Format":{
-                "BATTERY_LEVEL": "",
-                "ID": ""
+                "ID_1": "",
+                "ID_2": ""
             }
+        }
+    ],
+    "Header_Response":[
+        {
+            "VERSION_PROTOCOL_1": "00",
+            "VERSION_PROTOCOL_2": "01",
+            "TYPE_MESSAGE":       "01",
+            "NUMBER_MESSAGE":     "",
+            "TO_REMOVE":{
+                "VERSION_PROTOCOL_1": "",
+                "VERSION_PROTOCOL_2": ""
+            },
+            "TO_ADD":[
+                {
+                    "POSITION": 0,
+                    "ID_1": "26"
+                },
+                {
+                    "POSITION": 1,
+                    "ID_1": "42"
+                }
+            ]
+        },
+        {
+            "VERSION_PROTOCOL_1": "00",
+            "VERSION_PROTOCOL_2": "01",
+            "TYPE_MESSAGE":       "02",
+            "NUMBER_MESSAGE":     "",
+            "TO_REMOVE":{
+                "VERSION_PROTOCOL_1": "",
+                "VERSION_PROTOCOL_2": ""
+            },
+            "TO_ADD":[
+                {
+                    "POSITION": 0,
+                    "ID_1": "26"
+                },
+                {
+                    "POSITION": 1,
+                    "ID_1": "42"
+                }
+            ]
+        },
+        {
+            "VERSION_PROTOCOL_1": "00",
+            "VERSION_PROTOCOL_2": "01",
+            "TYPE_MESSAGE":       "03",
+            "NUMBER_MESSAGE":     "",
+            "TO_REMOVE":{
+                "VERSION_PROTOCOL_1": "",
+                "VERSION_PROTOCOL_2": ""
+            },
+            "TO_ADD":[
+                {
+                    "POSITION": 0,
+                    "ID_1": "26"
+                },
+                {
+                    "POSITION": 1,
+                    "ID_1": "42"
+                }
+            ]
         }
     ]
 }
