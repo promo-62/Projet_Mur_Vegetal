@@ -8,7 +8,7 @@ namespace CapteursApi.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public ObjectId Id { get; set; }
+        public string Id { get; set; }
     }
 
     public class Capteur : ICollectionModel
@@ -137,7 +137,7 @@ namespace CapteursApi.Models
         public int Taille { get; set; }
     }
 
-    public class Plantes : ICollectionModel
+    public class Plante : ICollectionModel
     {
         [BsonElement("Nom")]
         public string Nom { get; set; }
@@ -258,6 +258,24 @@ namespace CapteursApi.Models
 
         [BsonElement("DateFin")]
         public long DateFin { get; set; }
+    }
+
+    public class Alerte : ICollectionModel
+    {
+        [BsonElement("IdCapteur")]
+        public int IdCapteur { get; set; }
+
+        [BsonElement("Nom")]
+        public string Nom { get; set; }
+
+        [BsonElement("DateAlerte")]
+        public long DateAlerte { get; set; }
+
+        [BsonElement("Fonctionne")]
+        public bool Fonctionne { get; set; }
+
+        [BsonElement("RaisonAlerte")]
+        public string RaisonAlerte { get; set; }
     }
 
 }
