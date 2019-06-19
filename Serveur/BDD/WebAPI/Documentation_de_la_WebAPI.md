@@ -2,13 +2,16 @@
 
 ### ➢ WebAPI v2
 
-Résumé des fonctionnalités :
+**Résumé des fonctionnalités :**
 
 - Lecture seule des éléments de toutes les collections (requêtes GET)
 - Lecture seule custom selon les demandes de la team interface web (requêtes GET)
 - Insertion d’éléments dans certaines collections (requêtes POST)
 - Modification d’élément dans certaines collections (requêtes PUT)
-Utilisation : api/web/[Route]
+
+**Utilisation :**  `api/web/[Route]`
+
+
 
 | Méthode |          Route          |                        Fonctionnalité                        |
 | ------: | :---------------------: | :----------------------------------------------------------: |
@@ -36,6 +39,10 @@ Utilisation : api/web/[Route]
 |         |     /tableaux/{id}      |     Obtenir [tous les champs] du tableau d'ObjectId {id}     |
 |         |    /comptearebours/     | Obtenir [tous les champs] de tous les éléments de la collection CompteARebours |
 |         |  /comptearebours/{id}   | Obtenir [tous les champs] du compteARebours d'ObjectId {id}  |
+|         |        /alertes/        | Obtenir [tous les champs] de tous les éléments de la collection Alerte |
+|         |      /alertes/{id}      |    Obtenir [tous les champs] de l'alerte d'ObjectId {id}     |
+
+
 
 | Méthode |      Route       |                    Fonctionnalité                    |
 | :-----: | :--------------: | :--------------------------------------------------: |
@@ -47,6 +54,9 @@ Utilisation : api/web/[Route]
 |         |    /tableaux/    |    Insérer un élément dans la collection Capteurs    |
 |         |     /medias/     |     Insérer un élément dans la collection Media      |
 |         | /comptearebours/ | Insérer un élément dans la collection CompteARebours |
+|         |    /alertes/     |     Insérer un élément dans la collection Alerte     |
+
+
 
 | Méthode |        Route         |                        Fonctionnalité                        |
 | :-----: | :------------------: | :----------------------------------------------------------: |
@@ -58,3 +68,4 @@ Utilisation : api/web/[Route]
 |         |    /tableaux/{id}    | Modifier [tous les champs] de l’élément d’ObjectId {id} de la collection Capteurs |
 |         |     /medias/{id}     | Modifier [tous les champs] de l’élément d’ObjectId {id} de la collection Media |
 |         | /comptearebours/{id} | Modifier [tous les champs] de l’élément d’ObjectId {id} de la collection CompteARebours |
+|         |    /alertes/{id}     | Modifier [tous les champs] de l’élément d’ObjectId {id} de la collection Alerte |
