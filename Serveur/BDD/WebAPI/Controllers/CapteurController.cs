@@ -366,35 +366,6 @@ namespace CapteursApi.Controllers
             return compteARebours;
         }
 
-        // obtenir [tous les champs] de tous les éléments de la collection Alerte
-        [Microsoft.AspNetCore.Mvc.HttpGet("alertes")]
-        public ActionResult<List<Alerte>> GetAlertes()
-        {
-            var alerte = _capteurService.Get<Alerte>("Alerte");
-
-            if (!alerte.Any())
-            {
-                return NoContent();
-            }
-
-            return alerte;
-        }
-
-        // obtenir [tous les champs] de l'alerte avec l'{id}
-        [Microsoft.AspNetCore.Mvc.HttpGet("comptearebours/{id:length(24)}", Name = "GetAlerte")]
-        public ActionResult<Alerte> GetAlerte(string id)
-        {
-            var alerte = _capteurService.GetById<Alerte>("Alerte", id);
-
-            if (alerte == null)
-            {
-                return NotFound();
-            }
-
-            return alerte;
-        }
-
-
 
         /* ----- REQUETES POST ----- */
 
@@ -469,16 +440,6 @@ namespace CapteursApi.Controllers
 
             return CreatedAtRoute("GetCompteARebours", new { id = compteARebours.Id.ToString() }, compteARebours);
         }
-
-        // insérer un élément dans la collection Alerte
-        [Microsoft.AspNetCore.Mvc.HttpPost("alertes")]
-        public ActionResult<Alerte> CreateAlerte(Alerte alerte)
-        {
-            _capteurService.Create("Alerte", alerte);
-
-            return CreatedAtRoute("GetAlerte", new { id = alerte.Id.ToString() }, alerte);
-        }
-
 
 
         /* ----- REQUETES PUT ----- */
@@ -606,22 +567,6 @@ namespace CapteursApi.Controllers
             }
 
             _capteurService.Update("CompteARebours", id, compteAReboursIn);
-
-            return NoContent();
-        }
-
-        // modifier [tous les champs] de l’élément d’ObjectId {id} de la collection Alerte
-        [Microsoft.AspNetCore.Mvc.HttpPut("alertes/{id:length(24)}")]
-        public ActionResult UpdateAlerte(string id, Alerte alerteIn)
-        {
-            var alerte = _capteurService.GetById<Alerte>("Alerte", id);
-
-            if (alerte == null)
-            {
-                return NotFound();
-            }
-
-            _capteurService.Update("CompteARebours", id, alerteIn);
 
             return NoContent();
         }

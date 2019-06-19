@@ -259,7 +259,6 @@ namespace CapteursApi.Models
         [BsonElement("DateFin")]
         public long DateFin { get; set; }
     }
-
     public class Alerte : ICollectionModel
     {
         [BsonElement("IdCapteur")]
