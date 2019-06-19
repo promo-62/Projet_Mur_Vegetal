@@ -53,7 +53,25 @@ namespace CapteursApi.Models
         public bool Fonctionne { get; set; }
     }
 
-    public class CapteurWeb : ICollectionModel
+    public class Alerte : ICollectionModel
+    {
+        [BsonElement("IdCapteur")]
+        public int IdCapteur { get; set; }
+
+        [BsonElement("Nom")]
+        public string Nom { get; set; }
+
+        [BsonElement("DateAlerte")]
+        public long DateAlerte { get; set; }
+
+        [BsonElement("Fonctionne")]
+        public bool Fonctionne { get; set; }
+
+        [BsonElement("RaisonAlerte")]
+        public string RaisonAlerte { get; set; }
+    }
+
+        public class CapteurWeb : ICollectionModel
     {
         [BsonElement("IdCapteur")]
         public int IdCapteur { get; set; }
