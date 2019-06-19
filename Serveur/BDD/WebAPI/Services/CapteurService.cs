@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Http;
 using CapteursApi.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -26,9 +29,9 @@ namespace CapteursApi.Services
                 .Project<T>(projection)
                 .ToList();
         }
-        
-        // récupère le dernier relevé pour chaque capteur
-        public List<T> GetDerniersReleves<T>(string Collection, string group, string projection = "{}", string sort = "{}") // récupère la liste de tous les éléments de la collection 
+
+        // récupère le dernier relevé pour chaque capteur avec la {projection} et un tri {sort}
+        public List<T> GetDerniersReleves<T>(string Collection, string group, string projection = "{}", string sort = "{}")
         {
             return _database.GetCollection<T>(Collection)
                 .Aggregate<T>()
@@ -38,31 +41,37 @@ namespace CapteursApi.Services
                 .ToList();
         }
 
-        public T GetById<T>(string Collection, string id) // récupère l'élément d'{id} dans la {collection}
+        // récupère l'élément d'{id} dans la {collection}
+        public T GetById<T>(string Collection, string id)
         {
             var filter = Builders<T>.Filter.Eq("Id", id);
             return _database.GetCollection<T>(Collection).Find<T>(filter).FirstOrDefault();
         }
 
+        // insère un élément dans la {collection}
         public ICollectionModel Create(string Collection, ICollectionModel template)
         {
             _database.GetCollection<ICollectionModel>(Collection).InsertOne(template);
             return template;
         }
 
+        // met à jour tous les champs de l'élément avec l'{id} dans la {collection}
         public void Update(string Collection, string id, ICollectionModel templateIn)
         {
             _database.GetCollection<ICollectionModel>(Collection).ReplaceOne(template => template.Id == id, templateIn);
         }
 
+        // supprime l'élément {templateIn} dans la {collection}
         public void Remove(string Collection, ICollectionModel templateIn)
         {
             _database.GetCollection<ICollectionModel>(Collection).DeleteOne(template => template.Id == templateIn.Id);
         }
 
+        // supprime l'élément avec l'{id} dans la {collection}
         public void Remove(string Collection, string id)
         {
             _database.GetCollection<ICollectionModel>(Collection).DeleteOne(template => template.Id == id);
         }
+
     }
 }

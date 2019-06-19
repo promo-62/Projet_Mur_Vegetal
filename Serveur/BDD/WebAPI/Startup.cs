@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using CapteursApi.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace WebAPI
 {
@@ -28,6 +29,7 @@ namespace WebAPI
         {
             services.AddScoped<CapteurService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
