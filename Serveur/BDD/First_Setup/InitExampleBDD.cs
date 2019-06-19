@@ -313,7 +313,7 @@ namespace Setup
             (new Data{
                 linkImg = "http://fr.web.img4.acsta.net/c_216_288/pictures/19/04/25/17/17/5767838.jpg",
                 linkVideo = "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                texte = "Exemple"
+                texte = "Exemple!"
             });*/
             var newCompteARebours = new List<CompteARebours> {CompteARebours1};
             return newCompteARebours;

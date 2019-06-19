@@ -2,6 +2,7 @@
 using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
 
+
 namespace CapteursApi.Models
 {
     public class ICollectionModel
