@@ -1,0 +1,17 @@
+@page
+@model NewsModel
+@{
+    ViewData["Title"] = "Informations";
+}
+@section heads{
+  <link href="@Url.Content("css/usersite/newspage.css")" rel="stylesheet" type="text/css" />
+}
+
+
+<div class="news-body">
+    @{ Html.RenderPartial("_News"); }
+</div>
+
+
+    
+
