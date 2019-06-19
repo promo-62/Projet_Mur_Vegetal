@@ -1,4 +1,4 @@
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -117,7 +117,7 @@ namespace Setup
                 TypeCapteur = new List<string>(),
                 Projet = new List<string>{"MurVegetal"},
                 Nom = "",
-                Description = "",
+                Description = "Ceci est un capteur exemple",
                 DateCapteur = DateTimeOffset.Now.ToUnixTimeSeconds() - m_Rand.Next(100000),
                 DateDernierReleve = DateTimeOffset.Now.ToUnixTimeSeconds(),
                 Batterie = true,
