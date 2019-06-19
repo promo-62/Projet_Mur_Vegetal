@@ -46,10 +46,17 @@ namespace Capteurdefectueux
             Console.WriteLine("\n");
 
             /*tolerance: this is the tolerance threshold, number of missing statements acceptable*/
-            int toleranceThreshold = 0; /* Tolerance: nombre de releve non recues avant de considerer le capteur mort*/
+            int toleranceThreshold = 0; /* Tolerance: nombre de releve non recues avant de considerer le capteur defecteux*/
             Console.WriteLine("Entrez un nombre pour le seuil de tolerance, c'est a dire a partir de combien de releves manquant un capteur est declare defectueux / Enter a number for the tolerance threshold, that is to say from how many missing readings a sensor is declared defective: ");
             toleranceThreshold = int.Parse(Console.ReadLine());
             Console.WriteLine("\n");
+
+            /*death: this is the death threshold, number of missing statements acceptable before delete from database*/
+            int deathThreshold = 0; /* death: nombre de releve non recues avant de considerer le capteur mort et de la retirer de la BDD*/
+            Console.WriteLine("Entrez un nombre pour le seuil de mort, c'est a dire a partir de combien de releves manquant un capteur est declare mort / Enter a number for the death threshold, that is to say from how many missing readings a sensor is declared dead and deleted from the database: ");
+            deathThreshold = int.Parse(Console.ReadLine());
+            Console.WriteLine("\n");
+
 
             /*alertUpdateTime: intervalle temps maximum au bout duquel un message d'alerte reste dans la base de donnee / maximum time interval at the end of which an alert message remains in the database*/
             int alertUpdateTime = 0;
@@ -68,6 +75,7 @@ namespace Capteurdefectueux
             long timenow = 0;
             long timexec = 0;
             long timelimit = 0;
+            long timedeath = 0;
             bool alertBattery = false;
 
             Console.WriteLine("\n Fin de la configuration, mise en marche / End of configuration, start ");
@@ -84,16 +92,12 @@ namespace Capteurdefectueux
                     timenow = DateTimeOffset.Now.ToUnixTimeSeconds(); /*prise de temps reel*/
                 }
 
-
-
-
-
-
                 /*Tri des alertes*/
                 Console.WriteLine("Debut de la mise a jour des alertes/ update of alerts begins");
                 var alertlist = m_CRUD.LoadRecords<Alerte>("Alertes"); /*je recupere les alertes*/ /*retrievering of the alerts from the database*/
                 foreach(var alert in alertlist)
                 {
+                    
                     /*les erreurs vieillent de plus de alertUpdateTime sont supprimes*/
                     if (alert.DateAlerte < DateTimeOffset.Now.ToUnixTimeSeconds() - alertUpdateTime)
                     {
@@ -103,14 +107,14 @@ namespace Capteurdefectueux
                     {
 
                         /*les messages d'alerte back online sont supprime au bout de trois jours*/
-                        if ((alert.RaisonAlerte == "De nouveau operationnel / Back online") & (alert.DateAlerte < DateTimeOffset.Now.ToUnixTimeSeconds() - goodAlertTime))
+                        if ((alert.RaisonAlerte == "De nouveau operationnel / Back online") && (alert.DateAlerte < DateTimeOffset.Now.ToUnixTimeSeconds() - goodAlertTime))
                         {
                             m_CRUD.DeleteRecord<Alerte>("Alertes", alert.Id);
                         }
                         /*les messages attention batterie sont supprimes si le niveau de batterie est de nouveau plein, une alerte batterie remise est ajoute pour 3 jours*/
                         if (alert.RaisonAlerte == "Attention Batterie faible/ Careful low battery")
                         {
-                            List<Capteur> alertsensor = m_CRUD.LoadRecordByParameterString<Capteur, int>("Capteurs", "IdCapteur", alert.IdCapteur);
+                            List<Capteur> alertsensor = m_CRUD.LoadRecordByParameter<Capteur, int>("Capteurs", "IdCapteur", alert.IdCapteur);
                             foreach (var sensor in alertsensor) /*La fonction LoadRecord renvoie une liste mais il n'y a normalement qu'un seul capteur dedans*/
                             {
                                 if (sensor.NiveauBatterie[sensor.NiveauBatterie.Count - 1] > 20)
@@ -131,7 +135,7 @@ namespace Capteurdefectueux
                             }
 
                         }
-                        if ((alert.RaisonAlerte == "Batterie Rechargee / Recharged Battery") & (alert.DateAlerte < DateTimeOffset.Now.ToUnixTimeSeconds() - goodAlertTime))
+                        if ((alert.RaisonAlerte == "Batterie Rechargee / Recharged Battery") && (alert.DateAlerte < DateTimeOffset.Now.ToUnixTimeSeconds() - goodAlertTime))
                         {
                             m_CRUD.DeleteRecord<Alerte>("Alertes", alert.Id);
                         }
@@ -159,167 +163,248 @@ namespace Capteurdefectueux
 
                     if (sensor.DateDernierReleve == 0)     /*si le capteur n'a jamais au grand jamais envoye de donnees*/ /*if the sensor had not yet send statement*/
                     {
+
                         timenow = DateTimeOffset.Now.ToUnixTimeSeconds(); /*prise de temps reel*/
-                        if (sensor.DateCapteur + sensor.DelaiVeille * toleranceThreshold < timenow) /*s'il n'est pas neuf il est considere comme non fonctionnel */ /*if the sensor isn't new, it is defected*/
+
+
+                        if (sensor.DateCapteur + sensor.DelaiVeille * deathThreshold < timenow) /*si un capteur n'est pas neuf et n'a pas envoye de releve depuis tres longtemps*/
                         {
-                            sensor.Fonctionne = false;
-                            m_CRUD.UpsetRecord<Capteur>("Capteurs", sensor.Id, sensor); /*mise a jour du statut*/
-                            Console.WriteLine($"le capteur {sensor.Nom} d'id {sensor.IdCapteur} est defectueux/ the sensor {sensor.Nom} id {sensor.IdCapteur} id defected");
-
-
-
-
-                            /*puisqu'il a une erreur, le programme va regarder si la batterie est responsable si c'est le cas une alerte Batterie est ajoutee a la liste des alertes si ce n'est pas la batterie c'est une alerte de fonctionnement qui est ajoutee a la liste des alertes*/
-                            /*it has an error, the program will look if the battery is responsible if it is the case a battery alert is added to the list of Alerts if it is not the battery is an operating alert that is added to the list of Alerts*/
-                            if (sensor.Batterie == true)
+                            Alerte AlerteDeath = new Alerte
                             {
-                                if (sensor.NiveauBatterie[sensor.NiveauBatterie.Count - 1] <= 10)
+                                IdCapteur = sensor.IdCapteur,
+                                Nom = sensor.Nom,
+                                DateAlerte = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                                Fonctionne = false,
+                                RaisonAlerte = "Capteur est considere comme mort, il a ete supprime de la base de donnee/ Sensor is considered dead, it has been deleted from the database"
+                            };
+                            m_CRUD.InsertRecord<Alerte>("Alertes", AlerteDeath);
+                            Console.WriteLine($"Alerte Batterie capteur {sensor.Nom} d'id {sensor.IdCapteur}/ Battery Alert sensor {sensor.Nom} id {sensor.IdCapteur}");
+                            alertBattery = true;
+                            m_CRUD.DeleteRecord<Capteur>("Capteurs", sensor.Id);
+                        }
+
+                        else
+                        {
+                            if (sensor.DateCapteur + sensor.DelaiVeille * toleranceThreshold < timenow) /*s'il n'est pas neuf il est considere comme non fonctionnel */ /*if the sensor isn't new, it is defected*/
+                            {
+                                sensor.Fonctionne = false;
+                                m_CRUD.UpsetRecord<Capteur>("Capteurs", sensor.Id, sensor); /*mise a jour du statut*/
+                                Console.WriteLine($"le capteur {sensor.Nom} d'id {sensor.IdCapteur} est defectueux/ the sensor {sensor.Nom} id {sensor.IdCapteur} id defected");
+
+
+
+
+                                /*puisqu'il a une erreur, le programme va regarder si la batterie est responsable si c'est le cas une alerte Batterie est ajoutee a la liste des alertes si ce n'est pas la batterie c'est une alerte de fonctionnement qui est ajoutee a la liste des alertes*/
+                                /*it has an error, the program will look if the battery is responsible if it is the case a battery alert is added to the list of Alerts if it is not the battery is an operating alert that is added to the list of Alerts*/
+                                if (sensor.Batterie == true)
                                 {
-                                    Alerte AlerteBatterie = new Alerte
+                                    if (sensor.NiveauBatterie[sensor.NiveauBatterie.Count - 1] <= 20)
                                     {
-                                        IdCapteur = sensor.IdCapteur,
-                                        Nom=sensor.Nom,
-                                        DateAlerte = DateTimeOffset.Now.ToUnixTimeSeconds(),
-                                        Fonctionne = false,
-                                        RaisonAlerte = "Plus de Batterie/ No more Battery"
-                                    };
-                                    m_CRUD.InsertRecord<Alerte>("Alertes", AlerteBatterie);
-                                    Console.WriteLine($"Alerte Batterie capteur {sensor.Nom} d'id {sensor.IdCapteur}/ Battery Alert sensor {sensor.Nom} id {sensor.IdCapteur}");
-                                    alertBattery = true;
+
+                                        /*avant d'ajouter une nouvelle alerte on regarde s'il n'y en a pas deja une*/
+                                        List<Alerte> previousAlert = m_CRUD.LoadRecordByTwoParameter<Alerte,int,string>("Alertes", "IdCapteur", sensor.IdCapteur, "RaisonAlerte", "Plus de Batterie/ No more Battery");
+                                        if (previousAlert == null)
+                                        {
+                                            Alerte AlerteBatterie = new Alerte
+                                            {
+                                                IdCapteur = sensor.IdCapteur,
+                                                Nom = sensor.Nom,
+                                                DateAlerte = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                                                Fonctionne = false,
+                                                RaisonAlerte = "Plus de Batterie/ No more Battery"
+                                            };
+                                            m_CRUD.InsertRecord<Alerte>("Alertes", AlerteBatterie);
+                                        }
+                                        Console.WriteLine($"Alerte Batterie capteur {sensor.Nom} d'id {sensor.IdCapteur}/ Battery Alert sensor {sensor.Nom} id {sensor.IdCapteur}");
+                                        alertBattery = true;
+                                    }
+                                    else
+                                    {
+                                        /*avant d'ajouter une nouvelle alerte on regarde s'il n'y en a pas deja une*/
+                                        List<Alerte> previousAlert = m_CRUD.LoadRecordByTwoParameter<Alerte, int, string>("Alertes", "IdCapteur", sensor.IdCapteur, "RaisonAlerte", "Erreur de fonctionnement/ Operating error");
+                                        if (previousAlert == null)
+                                        {
+                                            Alerte AlerteFonctionnement = new Alerte
+                                            {
+                                                IdCapteur = sensor.IdCapteur,
+                                                Nom = sensor.Nom,
+                                                DateAlerte = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                                                Fonctionne = false,
+                                                RaisonAlerte = "Erreur de fonctionnement/ Operating error"
+                                            };
+                                            m_CRUD.InsertRecord<Alerte>("Alertes", AlerteFonctionnement);
+                                        }
+                                        Console.WriteLine($"Alerte de Fonctionnement capteur {sensor.Nom} d'id {sensor.IdCapteur}/ Operating Alert sensor {sensor.Nom} id {sensor.IdCapteur}");
+
+                                    }
                                 }
                                 else
                                 {
-                                    Alerte AlerteFonctionnement = new Alerte
+                                    /*avant d'ajouter une nouvelle alerte on regarde s'il n'y en a pas deja une*/
+                                    List<Alerte> previousAlert = m_CRUD.LoadRecordByTwoParameter<Alerte, int, string>("Alertes", "IdCapteur", sensor.IdCapteur, "RaisonAlerte", "Erreur de fonctionnement/ Operating error");
+                                    if (previousAlert == null)
                                     {
-                                        IdCapteur = sensor.IdCapteur,
-                                        Nom = sensor.Nom,
-                                        DateAlerte = DateTimeOffset.Now.ToUnixTimeSeconds(),
-                                        Fonctionne = false,
-                                        RaisonAlerte = "Erreur de fonctionnement/ Operating error"
-                                    };
-                                    m_CRUD.InsertRecord<Alerte>("Alertes", AlerteFonctionnement);
+                                        Alerte AlerteFonctionnement = new Alerte
+                                        {
+                                            IdCapteur = sensor.IdCapteur,
+                                            Nom = sensor.Nom,
+                                            DateAlerte = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                                            Fonctionne = false,
+                                            RaisonAlerte = "Erreur de fonctionnement/ Operating error"
+                                        };
+                                        m_CRUD.InsertRecord<Alerte>("Alertes", AlerteFonctionnement);
+                                    }
                                     Console.WriteLine($"Alerte de Fonctionnement capteur {sensor.Nom} d'id {sensor.IdCapteur}/ Operating Alert sensor {sensor.Nom} id {sensor.IdCapteur}");
-
                                 }
-                            }
-                            else
-                            {
-                                Alerte AlerteFonctionnement = new Alerte
-                                {
-                                    IdCapteur = sensor.IdCapteur,
-                                    Nom = sensor.Nom,
-                                    DateAlerte = DateTimeOffset.Now.ToUnixTimeSeconds(),
-                                    Fonctionne = false,
-                                    RaisonAlerte = "Erreur de fonctionnement/ Operating error"
-                                };
-                                m_CRUD.InsertRecord<Alerte>("Alertes", AlerteFonctionnement);
-                                Console.WriteLine($"Alerte de Fonctionnement capteur {sensor.Nom} d'id {sensor.IdCapteur}/ Operating Alert sensor {sensor.Nom} id {sensor.IdCapteur}");
-                            }
 
+
+                            }
+                            else { Console.WriteLine($"le capteur {sensor.Nom} d'id {sensor.IdCapteur} fonctionne bien/ the sensor {sensor.Nom} id {sensor.IdCapteur} is functional"); }
 
                         }
-                        else { Console.WriteLine($"le capteur {sensor.Nom} d'id {sensor.IdCapteur} fonctionne bien/ the sensor {sensor.Nom} id {sensor.IdCapteur} is functional"); }
-
                     }
                     else
                     {       /*s'il a deja donne des releves*/ /*if the sensor had already send a statement*/
                         timenow = DateTimeOffset.Now.ToUnixTimeSeconds(); /*prise de temps reel*/
                         timelimit = timenow - sensor.DelaiVeille * toleranceThreshold;
-                        if (sensor.DateDernierReleve < timelimit) /*if the last statement is older than the timelimit, it is considered as defected*/
-                        { /*si le dernier releve est plus age que notre limite timelimite il est considere comme defectueux*/
-                            sensor.Fonctionne = false;
-                            m_CRUD.UpsetRecord<Capteur>("Capteurs", sensor.Id, sensor); /*mise a jour du statut*/
-                            Console.WriteLine($"le capteur {sensor.Nom} d'id {sensor.IdCapteur} est defectueux/ the sensor {sensor.Nom} id {sensor.IdCapteur} id defected");
+                        timedeath = timenow - sensor.DelaiVeille * deathThreshold;
 
-                            /*puisqu'il a une erreur, le programme va regarder si la batterie est responsable si c'est le cas une alerte Batterie est ajoutee a la liste des alertes si ce n'est pas la batterie c'est une alerte de fonctionnement qui est ajoutee a la liste des alertes*/
-                            /*it has an error, the program will look if the battery is responsible if it is the case a battery alert is added to the list of Alerts if it is not the battery is an operating alert that is added to the list of Alerts*/
+                        /*if the sensor has not sent a statement for a long time, it become dead and it is deleted from the database*/
+                        if (sensor.DateDernierReleve < timedeath)
+                        { /*si le capteur n'a pas envoye de releve depuis treeeeeeeeees longtemps, il est mort et est retire de la BDD*/
 
-
-                            if (sensor.Batterie == true)
+                            Console.WriteLine($"le capteur {sensor.Nom} d'id {sensor.IdCapteur} est mort il a ete supprime de la BDD/ the sensor {sensor.Nom} id {sensor.IdCapteur} is dead and is deleted from the database");
+                            Alerte AlerteDeath = new Alerte
                             {
-                                if (sensor.NiveauBatterie[sensor.NiveauBatterie.Count - 1] <= 10)
-                                {
-                                    Alerte AlerteBatterie = new Alerte
-                                    {
-                                        IdCapteur = sensor.IdCapteur,
-                                        Nom = sensor.Nom,
-                                        DateAlerte = DateTimeOffset.Now.ToUnixTimeSeconds(),
-                                        Fonctionne = false,
-                                        RaisonAlerte = "Plus de Batterie/ No more Battery"
-                                    };
-                                    m_CRUD.InsertRecord<Alerte>("Alertes", AlerteBatterie);
-                                    Console.WriteLine($"Alerte Batterie capteur {sensor.Nom} d'id {sensor.IdCapteur}/ Battery Alert sensor {sensor.Nom} id {sensor.IdCapteur}");
-                                    alertBattery = true;
-                                }
-                                else
-                                {
-                                    Alerte AlerteFonctionnement = new Alerte
-                                    {
-                                        IdCapteur = sensor.IdCapteur,
-                                        Nom = sensor.Nom,
-                                        DateAlerte = DateTimeOffset.Now.ToUnixTimeSeconds(),
-                                        Fonctionne = false,
-                                        RaisonAlerte = "Erreur de fonctionnement/ Operating error"
-                                    };
-                                    m_CRUD.InsertRecord<Alerte>("Alertes", AlerteFonctionnement);
-                                    Console.WriteLine($"Alerte de Fonctionnement capteur {sensor.Nom} d'id {sensor.IdCapteur}/ Operating Alert sensor {sensor.Nom} id {sensor.IdCapteur}");
+                                IdCapteur = sensor.IdCapteur,
+                                Nom = sensor.Nom,
+                                DateAlerte = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                                Fonctionne = false,
+                                RaisonAlerte = "Capteur est considere comme mort, il a ete supprime de la base de donnee/ Sensor is considered dead, it has been deleted from the database"
+                            };
+                            m_CRUD.InsertRecord<Alerte>("Alertes", AlerteDeath);
+                            Console.WriteLine($"Alerte Batterie capteur {sensor.Nom} d'id {sensor.IdCapteur}/ Battery Alert sensor {sensor.Nom} id {sensor.IdCapteur}");
+                            alertBattery = true;
+                            m_CRUD.DeleteRecord<Capteur>("Capteurs", sensor.Id);
 
-                                }
-                            }
-                            else
-                            {
-                                Alerte AlerteFonctionnement = new Alerte
-                                {
-                                    IdCapteur = sensor.IdCapteur,
-                                    Nom = sensor.Nom,
-                                    DateAlerte = DateTimeOffset.Now.ToUnixTimeSeconds(),
-                                    Fonctionne = false,
-                                    RaisonAlerte = "Erreur de fonctionnement/ Operating error"
-                                };
-                                m_CRUD.InsertRecord<Alerte>("Alertes", AlerteFonctionnement);
-                                Console.WriteLine($"Alerte de Fonctionnement capteur {sensor.Nom} d'id {sensor.IdCapteur}/ Operating Alert sensor {sensor.Nom} id {sensor.IdCapteur}");
-                            }
+
                         }
-                        else /*si un capteur a bien donne des releves*/ /*if the sensor had send recently a statement*/
+                        else
                         {
-                            sensor.Fonctionne = true;
-
-                            m_CRUD.UpsetRecord<Capteur>("Capteurs", sensor.Id, sensor); /*mise a jour du statut*/
-                            if (sensor.Fonctionne == false)/*si un capteur mort redonne des releves on peut le reclasser parmis les vivants*/ /*if a defected gives back statement, it is again functional*/
-                            {
-                                sensor.Fonctionne = true;
+                            if (sensor.DateDernierReleve < timelimit) /*if the last statement is older than the timelimit, it is considered as defected*/
+                            { /*si le dernier releve est plus age que notre limite timelimite il est considere comme defectueux*/
+                                sensor.Fonctionne = false;
                                 m_CRUD.UpsetRecord<Capteur>("Capteurs", sensor.Id, sensor); /*mise a jour du statut*/
-                                Console.WriteLine($"le capteur {sensor.Nom} d'id {sensor.IdCapteur} n'est plus defectueux/ the sensor {sensor.Nom} id {sensor.IdCapteur}is not defective any more");
+                                Console.WriteLine($"le capteur {sensor.Nom} d'id {sensor.IdCapteur} est defectueux/ the sensor {sensor.Nom} id {sensor.IdCapteur} is defected");
 
-                                /*Une alerte qui indique le retour du capteur est ajoutee aux alertes*/
-                                /*An alert indicating the return of the sensor is added to the alerts*/
-                                Alerte AlerteRetour = new Alerte
-                                {
-                                    IdCapteur = sensor.IdCapteur,
-                                    Nom = sensor.Nom,
-                                    DateAlerte = DateTimeOffset.Now.ToUnixTimeSeconds(),
-                                    Fonctionne = true,
-                                    RaisonAlerte = "De nouveau operationnel/ Back online"
-                                };
-                                m_CRUD.InsertRecord<Alerte>("Alertes", AlerteRetour);
-                                Console.WriteLine($"Le capteur {sensor.Nom} d'id {sensor.IdCapteur} est de nouveau operationnel/ The sensor {sensor.Nom} id {sensor.IdCapteur} is back online");
+                                /*puisqu'il a une erreur, le programme va regarder si la batterie est responsable si c'est le cas une alerte Batterie est ajoutee a la liste des alertes si ce n'est pas la batterie c'est une alerte de fonctionnement qui est ajoutee a la liste des alertes*/
+                                /*it has an error, the program will look if the battery is responsible if it is the case a battery alert is added to the list of Alerts if it is not the battery is an operating alert that is added to the list of Alerts*/
 
-                                /*Les alertes fonctionnement ou batterie precedentes sont supprimes*/
-                                /*Previous operation or battery alerts are deleted*/
-                                List<Alerte> VieilleAlertes = m_CRUD.LoadRecordByParameterString<Alerte, int>("Alerte", "IdCapteur", sensor.IdCapteur);
-                                foreach (var VieilleAlerte in VieilleAlertes)
+
+                                if (sensor.Batterie == true)
                                 {
-                                    if ((VieilleAlerte.RaisonAlerte== "Erreur de fonctionnement/ Operating error")||(VieilleAlerte.RaisonAlerte == "Plus de Batterie/ No more Battery"))
+                                    if (sensor.NiveauBatterie[sensor.NiveauBatterie.Count - 1] <= 20)
+
                                     {
-                                        m_CRUD.DeleteRecord<Alerte>("Alertes", VieilleAlerte.Id);
+                                        /*avant d'ajouter une nouvelle alerte on regarde s'il n'y en a pas deja une*/
+                                        List<Alerte> previousAlert = m_CRUD.LoadRecordByTwoParameter<Alerte, int, string>("Alertes", "IdCapteur", sensor.IdCapteur, "RaisonAlerte", "Plus de Batterie/ No more Battery");
+                                        if (previousAlert.Count == 0)
+                                        {
+                                            Alerte AlerteBatterie = new Alerte
+                                            {
+                                                IdCapteur = sensor.IdCapteur,
+                                                Nom = sensor.Nom,
+                                                DateAlerte = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                                                Fonctionne = false,
+                                                RaisonAlerte = "Plus de Batterie/ No more Battery"
+                                            };
+                                            m_CRUD.InsertRecord<Alerte>("Alertes", AlerteBatterie);
+                                        }
+                                        Console.WriteLine($"Alerte Batterie capteur {sensor.Nom} d'id {sensor.IdCapteur}/ Battery Alert sensor {sensor.Nom} id {sensor.IdCapteur}");
+                                        alertBattery = true;
+                                    }
+                                    else
+                                    {
+                                        /*avant d'ajouter une nouvelle alerte on regarde s'il n'y en a pas deja une*/
+                                        List<Alerte> previousAlert = m_CRUD.LoadRecordByTwoParameter<Alerte, int, string>("Alertes", "IdCapteur", sensor.IdCapteur, "RaisonAlerte", "Erreur de fonctionnement/ Operating error");
+                                        if (previousAlert.Count == 0)
+                                        {
+
+                                            Alerte AlerteFonctionnement = new Alerte
+                                            {
+                                                IdCapteur = sensor.IdCapteur,
+                                                Nom = sensor.Nom,
+                                                DateAlerte = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                                                Fonctionne = false,
+                                                RaisonAlerte = "Erreur de fonctionnement/ Operating error"
+                                            };
+                                            m_CRUD.InsertRecord<Alerte>("Alertes", AlerteFonctionnement);
+                                        }
+                                        Console.WriteLine($"Alerte de Fonctionnement capteur {sensor.Nom} d'id {sensor.IdCapteur}/ Operating Alert sensor {sensor.Nom} id {sensor.IdCapteur}");
 
                                     }
                                 }
+                                else
+                                {
 
+                                    /*avant d'ajouter une nouvelle alerte on regarde s'il n'y en a pas deja une*/
+                                    List<Alerte> previousAlert = m_CRUD.LoadRecordByTwoParameter<Alerte, int, string>("Alertes", "IdCapteur", sensor.IdCapteur, "RaisonAlerte", "Erreur de fonctionnement/ Operating error");
+                                    if (previousAlert.Count== 0)
+                                    {
+                                        Alerte AlerteFonctionnement = new Alerte
+                                        {
+                                            IdCapteur = sensor.IdCapteur,
+                                            Nom = sensor.Nom,
+                                            DateAlerte = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                                            Fonctionne = false,
+                                            RaisonAlerte = "Erreur de fonctionnement/ Operating error"
+                                        };
+                                        m_CRUD.InsertRecord<Alerte>("Alertes", AlerteFonctionnement);
+                                    }
+                                    Console.WriteLine($"Alerte de Fonctionnement capteur {sensor.Nom} d'id {sensor.IdCapteur}/ Operating Alert sensor {sensor.Nom} id {sensor.IdCapteur}");
+                                }
                             }
-                            else /*si tout va bien*/ /*if all goes well*/
+                            else /*si un capteur a bien donne des releves*/ /*if the sensor had send recently a statement*/
                             {
-                                Console.WriteLine($"le capteur {sensor.Nom} d'id {sensor.IdCapteur} fonctionne bien/ the sensor {sensor.Nom} id {sensor.IdCapteur} is functional");
+                                sensor.Fonctionne = true;
+
+                                m_CRUD.UpsetRecord<Capteur>("Capteurs", sensor.Id, sensor); /*mise a jour du statut*/
+                                if (sensor.Fonctionne == false)/*si un capteur mort redonne des releves on peut le reclasser parmis les vivants*/ /*if a defected gives back statement, it is again functional*/
+                                {
+                                    sensor.Fonctionne = true;
+                                    m_CRUD.UpsetRecord<Capteur>("Capteurs", sensor.Id, sensor); /*mise a jour du statut*/
+                                    Console.WriteLine($"le capteur {sensor.Nom} d'id {sensor.IdCapteur} n'est plus defectueux/ the sensor {sensor.Nom} id {sensor.IdCapteur}is not defective any more");
+
+                                    /*Une alerte qui indique le retour du capteur est ajoutee aux alertes*/
+                                    /*An alert indicating the return of the sensor is added to the alerts*/
+                                    Alerte AlerteRetour = new Alerte
+                                    {
+                                        IdCapteur = sensor.IdCapteur,
+                                        Nom = sensor.Nom,
+                                        DateAlerte = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                                        Fonctionne = true,
+                                        RaisonAlerte = "De nouveau operationnel/ Back online"
+                                    };
+                                    m_CRUD.InsertRecord<Alerte>("Alertes", AlerteRetour);
+                                    Console.WriteLine($"Le capteur {sensor.Nom} d'id {sensor.IdCapteur} est de nouveau operationnel/ The sensor {sensor.Nom} id {sensor.IdCapteur} is back online");
+
+                                    /*Les alertes fonctionnement ou batterie precedentes sont supprimes*/
+                                    /*Previous operation or battery alerts are deleted*/
+                                    List<Alerte> VieilleAlertes = m_CRUD.LoadRecordByParameter<Alerte, int>("Alerte", "IdCapteur", sensor.IdCapteur);
+                                    foreach (var VieilleAlerte in VieilleAlertes)
+                                    {
+                                        if ((VieilleAlerte.RaisonAlerte == "Erreur de fonctionnement/ Operating error") || (VieilleAlerte.RaisonAlerte == "Plus de Batterie/ No more Battery"))
+                                        {
+                                            m_CRUD.DeleteRecord<Alerte>("Alertes", VieilleAlerte.Id);
+
+                                        }
+                                    }
+
+                                }
+                                else /*si tout va bien*/ /*if all goes well*/
+                                {
+                                    Console.WriteLine($"le capteur {sensor.Nom} d'id {sensor.IdCapteur} fonctionne bien/ the sensor {sensor.Nom} id {sensor.IdCapteur} is functional");
+                                }
                             }
                         }
 
@@ -331,18 +416,25 @@ namespace Capteurdefectueux
                     {
                         if (sensor.NiveauBatterie[sensor.NiveauBatterie.Count - 1] <= 20)
                         {
-                            Alerte AlerteBatterie = new Alerte
+
+                            /*avant d'ajouter une nouvelle alerte on regarde s'il n'y en a pas deja une*/
+                            List<Alerte> previousAlert = m_CRUD.LoadRecordByTwoParameter<Alerte, int, string>("Alertes", "IdCapteur", sensor.IdCapteur, "RaisonAlerte", "Attention Batterie faible/ Careful low battery");
+                            if (previousAlert.Count == 0)
                             {
-                                IdCapteur = sensor.IdCapteur,
-                                Nom = sensor.Nom,
-                                DateAlerte = DateTimeOffset.Now.ToUnixTimeSeconds(),
-                                Fonctionne = true,
-                                RaisonAlerte = "Attention Batterie faible/ Careful low battery"
-                            };
-                            m_CRUD.InsertRecord<Alerte>("Alertes", AlerteBatterie);
+                                Alerte AlerteBatterie = new Alerte
+                                {
+                                    IdCapteur = sensor.IdCapteur,
+                                    Nom = sensor.Nom,
+                                    DateAlerte = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                                    Fonctionne = true,
+                                    RaisonAlerte = "Attention Batterie faible/ Careful low battery"
+                                };
+                                m_CRUD.InsertRecord<Alerte>("Alertes", AlerteBatterie);
+                            }
                             Console.WriteLine($"Attention la Batterie du capteur{sensor.Nom} d'id {sensor.IdCapteur} est presque dechargee ({sensor.NiveauBatterie[sensor.NiveauBatterie.Count - 1]})/ Careful the Battery of the sensor {sensor.Nom} id {sensor.IdCapteur} is runnig out of power ({sensor.NiveauBatterie[sensor.NiveauBatterie.Count - 1]})");
                         }
                     }
+
 
                 } Console.WriteLine("tous les capteurs ont ete verifies/ all sensors have been checked\n##################################################\n");
             }
