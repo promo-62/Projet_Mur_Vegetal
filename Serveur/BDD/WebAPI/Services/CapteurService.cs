@@ -38,7 +38,7 @@ namespace CapteursApi.Services
                 .ToList();
         }
 
-        public T GetById<T>(string Collection, string id) // récupère l'élément d'{id} dans la {collection}
+        public T GetById<T>(string Collection, ObjectId id) // récupère l'élément d'{id} dans la {collection}
         {
             var filter = Builders<T>.Filter.Eq("Id", id);
             return _database.GetCollection<T>(Collection).Find<T>(filter).FirstOrDefault();
@@ -50,7 +50,7 @@ namespace CapteursApi.Services
             return template;
         }
 
-        public void Update(string Collection, string id, ICollectionModel templateIn)
+        public void Update(string Collection, ObjectId id, ICollectionModel templateIn)
         {
             _database.GetCollection<ICollectionModel>(Collection).ReplaceOne(template => template.Id == id, templateIn);
         }
@@ -60,7 +60,7 @@ namespace CapteursApi.Services
             _database.GetCollection<ICollectionModel>(Collection).DeleteOne(template => template.Id == templateIn.Id);
         }
 
-        public void Remove(string Collection, string id)
+        public void Remove(string Collection, ObjectId id)
         {
             _database.GetCollection<ICollectionModel>(Collection).DeleteOne(template => template.Id == id);
         }
