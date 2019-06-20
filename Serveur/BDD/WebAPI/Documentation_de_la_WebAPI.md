@@ -13,40 +13,40 @@
 
 
 
-| Méthode |          Route          |                        Fonctionnalité                        |
-| ------: | :---------------------: | :----------------------------------------------------------: |
-|     GET |       /capteurs/        |     Obtenir [tous les champs] des capteurs fonctionnels      |
-|         |     /capteurs/{id}      |     Obtenir [tous les champs] du capteur d'ObjectId {id}     |
-|         |      /capteurs/ids      |  Obtenir [IdCapteur, TypeCapteur, Nom, Projet] des capteurs  |
-|         |        /releves/        | Obtenir [tous les champs] de tous les éléments de la collection Releves |
-|         |      /releves/{id}      |     Obtenir [tous les champs] du relevé d'ObjectId {id}      |
-|         |    releves/derniers/    | Obtenir [IdCapteur, Valeur] du relevé le plus récent pour chaque capteur |
-|         |  /releves/capteur/{id}  | Obtenir [tous les relevés] pour un capteur d'IdCapteur {id}  |
-|         |   /versionsprotocole/   | Obtenir [tous les champs] de tous les éléments de la collection VersionsProtocoles |
-|         | /versionsprotocole/{id} | Obtenir [tous les champs] de la version de protocole d'ObjectId {id} |
-|         |        /plantes/        | Obtenir [tous les champs] de tous les éléments de la collection Plantes |
-|         |      /plantes/{id}      |    Obtenir [tous les champs] de la plante d'ObjectId {id}    |
-|         |        /events/         | Obtenir [tous les champs] de tous les éléments de la collection Events |
-|         |      /events/{id}       |   Obtenir [tous les champs] de l’évènement d'ObjectId {id}   |
-|         |     /event/dernier/     | Obtenir [tous les champs] du dernier élément ajouté à Events |
-|         |     /usershololens/     | Obtenir [tous les champs] du dernier élément ajouté à UsersHololens |
-|         |   /usershololens/{id}   | Obtenir [tous les champs] de l'utilisateur de l'Hololens d'ObjectId {id} |
-|         |      /usersadmin/       | Obtenir [tous les champs] du dernier élément ajouté à UsersAdmin |
-|         |    /usersadmin/{id}     | Obtenir [tous les champs] de l'utilisateur admin d'ObjectId {id} |
-|         |       /usersapi/        | Obtenir [tous les champs] du dernier élément ajouté à UsersAPI |
-|         |     /usersapi/{id}      | Obtenir [tous les champs] de l'utilisateur de l'API d'ObjectId {id} |
-|         |        /socials/        | Obtenir [tous les champs] du dernier élément ajouté à Socials |
-|         |      /socials/{id}      |  Obtenir [tous les champs] du compte social d'ObjectId {id}  |
-|         |        /medias/         | Obtenir [tous les champs] de tous les éléments de la collection Medias |
-|         |      /medias/{id}       |      Obtenir [tous les champs] du media d'ObjectId {id}      |
-|         |       /tableaux/        | Obtenir [tous les champs] de tous les éléments de la collection Tableaux |
-|         |     /tableaux/{id}      |     Obtenir [tous les champs] du tableau d'ObjectId {id}     |
-|         |    /comptesarebours/    | Obtenir [tous les champs] de tous les éléments de la collection ComptesARebours |
-|         |  /comptesarebours/{id}  | Obtenir [tous les champs] du compte à rebours d'ObjectId {id} |
-|         |     /typescapteurs/     | Obtenir [tous les champs] de tous les éléments de la collection TypesCapteurs |
-|         |   /typescapteurs/{id}   |  Obtenir [tous les champs] du type capteur d'ObjectId {id}   |
-|         |        /alertes/        | Obtenir [tous les champs] de tous les éléments de la collection Alertes |
-|         |      /alertes/{id}      |    Obtenir [tous les champs] de l'alerte d'ObjectId {id}     |
+| Méthode |          Route           |                        Fonctionnalité                        |
+| :-----: | :----------------------: | :----------------------------------------------------------: |
+|   GET   |        /capteurs/        |     Obtenir [tous les champs] des capteurs fonctionnels      |
+|         |      /capteurs/{id}      |     Obtenir [tous les champs] du capteur d'ObjectId {id}     |
+|         |      /capteurs/ids       |  Obtenir [IdCapteur, TypeCapteur, Nom, Projet] des capteurs  |
+|         |        /releves/         | Obtenir [tous les champs] de tous les éléments de la collection Releves |
+|         |      /releves/{id}       |     Obtenir [tous les champs] du relevé d'ObjectId {id}      |
+|         |    releves/derniers/     | Obtenir [IdCapteur, Valeur] du relevé le plus récent pour chaque capteur |
+|         |  /releves/capteur/{id}   | Obtenir [tous les relevés] pour un capteur d'IdCapteur {id}  |
+|         |   /versionsprotocoles/   | Obtenir [tous les champs] de tous les éléments de la collection VersionsProtocoles |
+|         | /versionsprotocoles/{id} | Obtenir [tous les champs] de la version de protocole d'ObjectId {id} |
+|         |        /plantes/         | Obtenir [tous les champs] de tous les éléments de la collection Plantes |
+|         |      /plantes/{id}       |    Obtenir [tous les champs] de la plante d'ObjectId {id}    |
+|         |         /events/         | Obtenir [tous les champs] de tous les éléments de la collection Events |
+|         |       /events/{id}       |   Obtenir [tous les champs] de l’évènement d'ObjectId {id}   |
+|         |     /events/dernier/     | Obtenir [tous les champs] du dernier élément ajouté à Events |
+|         |     /usershololens/      | Obtenir [tous les champs] du dernier élément ajouté à UsersHololens |
+|         |   /usershololens/{id}    | Obtenir [tous les champs] de l'utilisateur de l'Hololens d'ObjectId {id} |
+|         |       /usersadmin/       | Obtenir [tous les champs] du dernier élément ajouté à UsersAdmin |
+|         |     /usersadmin/{id}     | Obtenir [tous les champs] de l'utilisateur admin d'ObjectId {id} |
+|         |        /usersapi/        | Obtenir [tous les champs] du dernier élément ajouté à UsersAPI |
+|         |      /usersapi/{id}      | Obtenir [tous les champs] de l'utilisateur de l'API d'ObjectId {id} |
+|         |        /socials/         | Obtenir [tous les champs] du dernier élément ajouté à Socials |
+|         |      /socials/{id}       |  Obtenir [tous les champs] du compte social d'ObjectId {id}  |
+|         |         /medias/         | Obtenir [tous les champs] de tous les éléments de la collection Medias |
+|         |       /medias/{id}       |      Obtenir [tous les champs] du media d'ObjectId {id}      |
+|         |        /tableaux/        | Obtenir [tous les champs] de tous les éléments de la collection Tableaux |
+|         |      /tableaux/{id}      |     Obtenir [tous les champs] du tableau d'ObjectId {id}     |
+|         |    /comptesarebours/     | Obtenir [tous les champs] de tous les éléments de la collection ComptesARebours |
+|         |  /comptesarebours/{id}   | Obtenir [tous les champs] du compte à rebours d'ObjectId {id} |
+|         |     /typescapteurs/      | Obtenir [tous les champs] de tous les éléments de la collection TypesCapteurs |
+|         |   /typescapteurs/{id}    |  Obtenir [tous les champs] du type capteur d'ObjectId {id}   |
+|         |        /alertes/         | Obtenir [tous les champs] de tous les éléments de la collection Alertes |
+|         |      /alertes/{id}       |    Obtenir [tous les champs] de l'alerte d'ObjectId {id}     |
 
 
 

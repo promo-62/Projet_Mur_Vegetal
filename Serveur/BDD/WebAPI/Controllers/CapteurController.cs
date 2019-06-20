@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web.Http;
 using CapteursApi.Models;
 using CapteursApi.Services;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 
 namespace CapteursApi.Controllers
 {
@@ -100,8 +98,8 @@ namespace CapteursApi.Controllers
         [Microsoft.AspNetCore.Mvc.HttpGet("releves/derniers")]
         public ActionResult<List<RelevesWeb>> GetDerniersReleves()
         {
-            var group = "{_id:'$IdCapteur', Id:{$last:'$_id'}, IdCapteur:{$last:'$IdCapteur'}, Note:{$last:'$Note'}, DateReleve:{$max:'$DateReleve'}, Valeur:{$last:'$Valeur'}, TypeCapteur:{$last:'$TypeCapteur'}, Fiabilite:{$last:'$Fiabilite'}}";
-            var projection = "{_id:'$Id', IdCapteur: '$IdCapteur', Valeur: '$Valeur'}";
+            var group = "{_id:'$IdCapteur', Id:{$last:'$_id'}, IdCapteur:{$last:'$IdCapteur'}, Note:{$last:'$Note'}, DateReleve:{$max:'$DateReleve'}, Valeurs:{$last:'$Valeurs'}}";
+            var projection = "{_id:'$Id', IdCapteur: '$IdCapteur', Valeurs: '$Valeurs'}";
             var sort = "{'IdCapteur': -1, 'DateReleve': 1}";
             var releve = _capteurService.GetDerniersReleves<RelevesWeb>("Releves", group, projection, sort);
 
@@ -454,7 +452,7 @@ namespace CapteursApi.Controllers
         [Microsoft.AspNetCore.Mvc.HttpGet("alertes")]
         public ActionResult<List<Alertes>> GetAlertes()
         {
-            var alerte = _capteurService.Get<Alertes>("Alerte");
+            var alerte = _capteurService.Get<Alertes>("Alertes");
 
             if (!alerte.Any())
             {
