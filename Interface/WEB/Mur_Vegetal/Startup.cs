@@ -48,6 +48,7 @@ namespace Mur_Vegetal
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
             app.UsePathBase("/web");
 
             app.Use((context, next) =>
@@ -56,6 +57,7 @@ namespace Mur_Vegetal
                 return next();
             });
             app.UseStaticFiles(); // DON'T FORGET THE LEADING SLASH!
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
