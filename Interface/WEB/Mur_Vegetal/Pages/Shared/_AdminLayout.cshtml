@@ -4,9 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Mur_Vegetal</title>
-    <link rel="stylesheet" href="../css/usersite/admin/admin.css" />
+    <link rel="stylesheet" href="/web/css/usersite/admin/admin.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script type="text/javascript" src="@Url.Content("../lib/jquery/dist/jquery.js")"></script>
+    <script type="text/javascript" src="@Url.Content("/web/lib/jquery/dist/jquery.js")"></script>
     @RenderSection("heads", required: false)
 </head>
 <body>
@@ -16,11 +16,11 @@
                     <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content">
-                <a asp-page="/Admin/Frame">Frame</a>
-                <a asp-page="/Admin/News">Informations</a>
-                <a asp-page="/Admin/Medias">Photos/Vidéos</a>
-                <a asp-page="/Admin/Countdown">Compte à rebours</a>
-                <a asp-page="/Admin/Socialnetworks">Réseaux Sociaux</a>
+                <a asp-page="/web/Admin/Frame">Frame</a>
+                <a asp-page="/web/Admin/News">Informations</a>
+                <a asp-page="/web/Admin/Medias">Photos/Vidéos</a>
+                <a asp-page="/web/Admin/Countdown">Compte à rebours</a>
+                <a asp-page="/web/Admin/Socialnetworks">Réseaux Sociaux</a>
                 </div>
             </div>
             <a class="putitright" asp-page="/Index">Deconnexion</a>
