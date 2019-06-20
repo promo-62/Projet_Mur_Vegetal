@@ -33,7 +33,7 @@ namespace Setup
             return collection.Find(new BsonDocument()).ToList();
         }
 
-        public T LoadRecordById<T>(string table, ObjectId id)
+        public T LoadRecordById<T>(string table, string id)
         { /*chercher l'element de la collection table grace a son id */
             /*search for the item of the table collection thanks to its id*/
             var collection = db.GetCollection<T>(table);
@@ -41,7 +41,7 @@ namespace Setup
             return collection.Find(filter).First();
         }
 
-        public void UpsetRecord<T>(string table, ObjectId id, T record)
+        public void UpsetRecord<T>(string table, string id, T record)
         { /*changer l'element id dans une collection par l'element record. Il est possible de remplacer une seule propriete de l'element */
             /*change the element id in a collection by the element record. It is possible to replace a single property of the element*/
             var collection = db.GetCollection<T>(table);
@@ -51,7 +51,7 @@ namespace Setup
              new UpdateOptions { IsUpsert = true });
         }
 
-        public void DeleteRecord<T>(string table, ObjectId id)
+        public void DeleteRecord<T>(string table, string id)
         { /*supprimer un element identifie par son id */
             /*delete an element identified by its id*/
             var collection = db.GetCollection<T>(table);
@@ -59,13 +59,25 @@ namespace Setup
             collection.DeleteOne(filter);
         }
 
-        public List<T> LoadRecordByParameterString<T,Q>(string table, string parameter, Q parameterValue)
+        public List<T> LoadRecordByParameter<T,Q>(string table, string parameter, Q parameterValue)
         { /*chercher les elements de la collection table grace a la valeur de l'un de ses parametres en Q */
             /*search the elements of the table collection thanks to the value of one of its parameters in Q*/
             var collection = db.GetCollection<T>(table);
             var filter = Builders<T>.Filter.Eq(parameter, parameterValue);
             return collection.Find(filter).ToList();
         }
+
+
+        public List<T> LoadRecordByTwoParameter<T, Q, D>(string table, string parameter, Q parameterValue, string parameter2, D parameter2Value)
+        { /*chercher les elements de la collection table grace a deux parametres l'un de type Q l'autre de type D */
+            /*search for the table collection elements using two parameters, one of type Q and the other of type D*/
+            var collection = db.GetCollection<T>(table);
+            var builder = Builders<T>.Filter;
+            var filter = builder.Eq(parameter, parameterValue) & builder.Eq(parameter2, parameter2Value);
+            return collection.Find(filter).ToList();
+        }
+
+
 
         public List<T> LoadRecordInferiorStrictParameter<T,Q>(string table, string parameter, Q parameterValue)
         { /*cherche les elements de la collection qui ont un parametre inferieur strictement a un seuil en Q*/
@@ -99,6 +111,23 @@ namespace Setup
             return collection.Find(filter).ToList();
         }
 
+        public List<T> LoadRecordIntervalincludedParameter<T, Q>(string table, string parameter, Q parameterValueFirst, Q parameterValueSecond)
+        { /*cherche les elements de la collection situes entre l'intervalle inclusif parameterValueFirst et paramaterValueSecond */
+            /*searches for items in the collection between the parameterValueFirst and paramaterValueSecond included*/
+            var collection = db.GetCollection<T>(table);
+            var builder = Builders<T>.Filter;
+            var filter = builder.Gte(parameter, parameterValueFirst) & builder.Lte(parameter, parameterValueSecond);
+            return collection.Find(filter).ToList();
+        }
+
+        public List<T> LoadRecordIntervalexcludedParameter<T, Q>(string table, string parameter, Q parameterValueFirst, Q parameterValueSecond)
+        { /*cherche les elements de la collection situes entre l'intervalle exclusif parameterValueFirst et paramaterValueSecond */
+            /*searches for items in the collection between the parameterValueFirst and paramaterValueSecond excluded*/
+            var collection = db.GetCollection<T>(table);
+            var builder = Builders<T>.Filter;
+            var filter = builder.Gt(parameter, parameterValueFirst) & builder.Lt(parameter, parameterValueSecond);
+            return collection.Find(filter).ToList();
+        }
 
     }
 }
