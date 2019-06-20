@@ -188,7 +188,8 @@ namespace test
 
                                 collectionCapteurs.InsertOne(formatCapteurs); 
 
-         // Creating the Callback Message for the Rpi
+                                // Creating the Callback Message for the Rpi
+
                                 JObject jsonMessage = new JObject();
                                 jsonMessage.Add("VERSION_PROTOCOL_1", json.Property("VERSION_PROTOCOL_1").Value);
                                 jsonMessage.Add("VERSION_PROTOCOL_2", json.Property("VERSION_PROTOCOL_2").Value);
@@ -317,6 +318,7 @@ namespace test
 
                                     // Sending to Rpi
                                     Console.WriteLine("###   Sending to Rpi   ###");
+
                                     // Message Building
                                     var message = new MqttApplicationMessageBuilder()
                                         .WithTopic("Server/EnvoiInfos/Rpi")
@@ -399,6 +401,8 @@ namespace test
                                     if(actionArray.Length == 0){ // No actions found
                                         Console.WriteLine("WARNING: No Actions in the Database for Sensor " + id);
                                         Console.WriteLine("");
+                                        jsonMessage.Add("PARAMETER_0", 0);
+
                                     }else{
                                         Console.WriteLine("INFO: " + actionArray.Length + " Actions values found");
                                         Console.WriteLine("");
