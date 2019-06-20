@@ -4,6 +4,13 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using MongoDB.Bson; ///Utilise pour le ObjectId
 
+//////////////////////////////////////////////////////////////////////////////////
+/// Setup d'exemple dans MurVegetalDb : certains sont les hard codes et d'autres sont
+/// pseudo generes. DELETE L'ANCIENNE BASE DE DONNEE AVANT ! ATTENTION !!!
+/// Example setup on MurVegetalDb : some of them are hard coded while others are
+/// pseudo generated. DELETE THE OLD DATA BASE BEFORE !!! WARNING !!!!
+//////////////////////////////////////////////////////////////////////////////////
+
 namespace Setup
 {   
     public class CapteurComparer : Comparer<Capteurs> 
@@ -39,6 +46,8 @@ namespace Setup
         {
             m_Rand = new Random();
             m_Client = new MongoClient("mongodb://127.0.0.1:27017/");
+            if(m_Client.GetDatabase("MurVegetalDb") != null)
+                m_Client.DropDatabase("MurVegetalDb");
             m_Database = m_Client.GetDatabase("MurVegetalDb");
             m_CRUD = new MongoCRUD(m_Database);
 
