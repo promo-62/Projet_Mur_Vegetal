@@ -22,8 +22,8 @@ install the project in a path like C:\\home\RaspberryPart (you can change the pa
 Download compressed files with sdk and runtime in them:
 
 ```bash
-$ wget https://download.visualstudio.microsoft.com/download/pr/9650e3a6−0399−4330−a363−1add761127f9/14d80726c16d0e3d36db2ee5c11928e4/dotnet−sdk−2.2.102−linux−arm.tar.gz
-$ wget https://download.visualstudio.microsoft.com/download/pr/9d049226−1f28−4d3d−a4ff−314e56b223c5/f67ab05a3d70b2bff46ff25e2b3acd2a/aspnetcore−runtime−2.2.1−linux−arm.tar.gz
+$ wget "https://dotnet.microsoft.com/download/thank-you/dotnet-sdk-2.2.105-linux-arm64-binaries"
+$ wget "https://dotnet.microsoft.com/download/thank-you/dotnet-runtime-2.2.3-linux-arm64-binaries"
 ```
 
 
