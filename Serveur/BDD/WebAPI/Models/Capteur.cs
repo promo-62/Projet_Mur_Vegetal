@@ -11,13 +11,13 @@ namespace CapteursApi.Models
         public string Id { get; set; }
     }
 
-    public class Capteur : ICollectionModel
+    public class Capteurs : ICollectionModel
     {
         [BsonElement("IdCapteur")]
         public int IdCapteur { get; set; }
 
         [BsonElement("TypeCapteur")]
-        public List<string> TypeCapteur { get; set; }
+        public int TypeCapteur { get; set; }
 
         [BsonElement("Projet")]
         public List<string> Projet { get; set; }
@@ -51,15 +51,18 @@ namespace CapteursApi.Models
 
         [BsonElement("Fonctionne")]
         public bool Fonctionne { get; set; }
+
+        [BsonElement("Timeout")]
+        public int Timeout { get; set; }
     }
 
-    public class CapteurWeb : ICollectionModel
+    public class CapteursWeb : ICollectionModel
     {
         [BsonElement("IdCapteur")]
         public int IdCapteur { get; set; }
 
         [BsonElement("TypeCapteur")]
-        public List<string> TypeCapteur { get; set; }
+        public int TypeCapteur { get; set; }
 
         [BsonElement("Projet")]
         public List<string> Projet { get; set; }
@@ -80,7 +83,7 @@ namespace CapteursApi.Models
         public string Nom { get; set; }
     }
 
-    public class Releve : ICollectionModel
+    public class Releves : ICollectionModel
     {
         [BsonElement("IdCapteur")]
         public int IdCapteur { get; set; }
@@ -91,26 +94,20 @@ namespace CapteursApi.Models
         [BsonElement("DateReleve")]
         public long DateReleve { get; set; }
 
-        [BsonElement("Valeur")]
-        public int Valeur { get; set; }
-
-        [BsonElement("TypeCapteur")]
-        public string TypeCapteur { get; set; }
-
-        [BsonElement("Fiabilite")]
-        public string Fiabilite { get; set; }
+        [BsonElement("Valeurs")]
+        public List<int> Valeurs { get; set; }
     }
 
-    public class ReleveWeb : ICollectionModel
+    public class RelevesWeb : ICollectionModel
     {
         [BsonElement("IdCapteur")]
         public int IdCapteur { get; set; }
 
-        [BsonElement("Valeur")]
-        public string Valeur { get; set; }
+        [BsonElement("Valeurs")]
+        public List<int> Valeurs { get; set; }
     }
 
-    public class VersionProtocole : ICollectionModel
+    public class VersionsProtocoles : ICollectionModel
     {
         [BsonElement("Version")]
         public int Version { get; set; }
@@ -137,7 +134,7 @@ namespace CapteursApi.Models
         public int Taille { get; set; }
     }
 
-    public class Plante : ICollectionModel
+    public class Plantes : ICollectionModel
     {
         [BsonElement("Nom")]
         public string Nom { get; set; }
@@ -155,7 +152,7 @@ namespace CapteursApi.Models
         public string LinkImg { get; set; }
     }
 
-    public class Event : ICollectionModel
+    public class Events : ICollectionModel
     {
         [BsonElement("Nom")]
         public string Nom { get; set; }
@@ -188,7 +185,7 @@ namespace CapteursApi.Models
         public string Texte { get; set; }
     }
 
-    public class User : ICollectionModel
+    public class UsersHololens : ICollectionModel
     {
         [BsonElement("Nom")]
         public string Nom { get; set; }
@@ -200,7 +197,34 @@ namespace CapteursApi.Models
         public string UtilisateurHololens { get; set; }
     }
 
-    public class Social : ICollectionModel
+    public class UsersAdmin : ICollectionModel
+    {
+        [BsonElement("Username")]
+        public string Username { get; set; }
+
+        [BsonElement("PwdHash")]
+        public string PwdHash { get; set; }
+
+        [BsonElement("CleHash")]
+        public string CleHash { get; set; }
+    }
+
+    public class UsersAPI : ICollectionModel
+    {
+        [BsonElement("Username")]
+        public string Username { get; set; }
+
+        [BsonElement("Password")]
+        public string Password { get; set; }
+
+        [BsonElement("Salt")]
+        public string Salt { get; set; }
+
+        [BsonElement("NiveauAccreditation")]
+        public int NiveauAccreditation { get; set; }
+    }
+
+    public class Socials : ICollectionModel
     {
         [BsonElement("Username")]
         public string Username { get; set; }
@@ -212,7 +236,7 @@ namespace CapteursApi.Models
         public string Widget { get; set; }
     }
 
-    public class Tableau : ICollectionModel
+    public class Tableaux : ICollectionModel
     {
         [BsonElement("DureeAffichage")]
         public int DureeAffichage { get; set; }
@@ -227,7 +251,7 @@ namespace CapteursApi.Models
         public int DureeCarroussel { get; set; }
     }
 
-    public class Media : ICollectionModel
+    public class Medias : ICollectionModel
     {
         [BsonElement("Nom")]
         public string Nom { get; set; }
@@ -242,7 +266,7 @@ namespace CapteursApi.Models
         public List<DataModel> Data { get; set; }
     }
 
-    public class CompteARebours : ICollectionModel
+    public class ComptesARebours : ICollectionModel
     {
         [BsonElement("Texte")]
         public string Texte { get; set; }
@@ -256,10 +280,23 @@ namespace CapteursApi.Models
         [BsonElement("DateDebut")]
         public long DateDebut { get; set; }
 
+        [BsonElement("Pos")]
+        public int Pos { get; set; }
+
         [BsonElement("DateFin")]
         public long DateFin { get; set; }
     }
-    public class Alerte : ICollectionModel
+
+    public class TypesCapteurs : ICollectionModel
+    {
+        [BsonElement("TypeCapteur")]
+        public int TypeCapteur { get; set; }
+
+        [BsonElement("NomCapteur")]
+        public string NomCapteur { get; set; }
+    }
+
+    public class Alertes : ICollectionModel
     {
         [BsonElement("IdCapteur")]
         public int IdCapteur { get; set; }
@@ -275,6 +312,6 @@ namespace CapteursApi.Models
 
         [BsonElement("RaisonAlerte")]
         public string RaisonAlerte { get; set; }
-    }   
+    }
 
 }
