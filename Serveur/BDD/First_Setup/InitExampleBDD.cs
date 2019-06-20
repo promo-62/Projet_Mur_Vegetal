@@ -164,23 +164,25 @@ namespace Setup
         {
             List<Capteurs> capteurs = m_CRUD.LoadRecords<Capteurs>("Capteurs");
             var newReleves = new List<Releves> {};
-            for(int i = 0; i < capteurs.Count; i++)
+            int nbReleve = m_Rand.Next(50) + 50;
+            for(int i = 0; i < nbReleve; i++)
             {
+                int idCapteur = m_Rand.Next(5);
                 long f_dateReleve = DateTimeOffset.Now.ToUnixTimeSeconds() - m_Rand.Next(100000);
-                if(capteurs[i].DateDernierReleve < f_dateReleve)
-                    capteurs[i].DateDernierReleve = f_dateReleve;
+                if(capteurs[idCapteur].DateDernierReleve < f_dateReleve)
+                    capteurs[idCapteur].DateDernierReleve = f_dateReleve;
                     
-                m_CRUD.UpsetRecord<Capteurs>("Capteurs", ObjectId.Parse(capteurs[i].Id), capteurs[i]);
+                m_CRUD.UpsetRecord<Capteurs>("Capteurs", ObjectId.Parse(capteurs[idCapteur].Id), capteurs[idCapteur]);
                 newReleves.Add(new Releves
                 {
-                    IdCapteur = capteurs[i].IdCapteur,
+                    IdCapteur = capteurs[idCapteur].IdCapteur,
                     DateReleve = f_dateReleve,
                     Valeurs = new List<int>()
                 });
-                int r = m_Rand.Next(100) + 2;
+                int r = m_Rand.Next(2) + 1;
                 for(int j = 0; j < r; j++)
                 {
-                    newReleves[i].Valeurs.Add(m_Rand.Next(26) + m_Rand.Next(26) + m_Rand.Next(26) + m_Rand.Next(26));
+                    newReleves[newReleves.Count - 1].Valeurs.Add(m_Rand.Next(26) + m_Rand.Next(26) + m_Rand.Next(26) + m_Rand.Next(26));
                 }
             }
             
@@ -316,8 +318,8 @@ namespace Setup
                 Nom = "LA Joconde",
                 DureeCarroussel = 20,
             };
-            var newTableaus = new List<Tableaux> {Tableau1};
-            return newTableaus;
+            var newTableaux = new List<Tableaux> {Tableau1};
+            return newTableaux;
         }
         private static IEnumerable<Medias> CreateNewMedias(){
             Medias Media1 = new Medias
