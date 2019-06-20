@@ -4,21 +4,21 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Mur_Vegetal</title>
-    <link rel="stylesheet" href="/web/css/usersite/usersite.css" />
+    <link rel="stylesheet" href="/css/usersite/usersite.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script type="text/javascript" src="@Url.Content("/web/lib/jquery/dist/jquery.js")"></script>
+    <script type="text/javascript" src="@Url.Content("/lib/jquery/dist/jquery.js")"></script>
     @RenderSection("heads", required: false)
 </head>
 <body>
     <div class="navbar">
-            <a asp-page="/web/Index">Accueil</a>
-            <a asp-page="/web/Wall">Mur Vegetal</a>
-            <a asp-page="/web/News">Informations</a>
-            <a asp-page="/web/Medias">Photos/Vidéos</a>
-            <a asp-page="/web/Countdown">Compte à rebours</a>
-            <a asp-page="/web/Socialnetworks">Réseaux Sociaux</a>
-            <a asp-page="/web/About">À Propos</a>
-            <a class="putitright" asp-page="/web/Admin/Login">Admin</a>
+            <a asp-page="/Index">Accueil</a>
+            <a asp-page="/Wall">Mur Vegetal</a>
+            <a asp-page="/News">Informations</a>
+            <a asp-page="/Medias">Photos/Vidéos</a>
+            <a asp-page="/Countdown">Compte à rebours</a>
+            <a asp-page="/Socialnetworks">Réseaux Sociaux</a>
+            <a asp-page="/About">À Propos</a>
+            <a class="putitright" asp-page="/Admin/Login">Admin</a>
             <a href="javascript:void(0);" class="icon" onclick="myFunction()"><i class="fa fa-bars"></i></a>
     </div>
     <div class="main-body">
