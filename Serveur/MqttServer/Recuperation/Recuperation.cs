@@ -58,6 +58,7 @@ namespace test
             var factory = new MqttFactory();
             var mqttClient = factory.CreateMqttClient();
 
+
             // VERSION TLS
             
                 X509Certificate ca_crt = new X509Certificate("DigiCertCA.crt");
@@ -82,6 +83,7 @@ namespace test
                 .WithTcpServer("localhost", 1883) // Port is optional
                 .Build();
             */
+
 
             // On Disconnect from Server
             mqttClient.UseDisconnectedHandler(async e =>
@@ -113,6 +115,7 @@ namespace test
             await mqttClient.ConnectAsync(options);
 
             // ========= MESSAGE RECU =========
+
 
             // Receiving Messages
             mqttClient.UseApplicationMessageReceivedHandler(e =>
@@ -186,6 +189,7 @@ namespace test
                                 collectionCapteurs.InsertOne(formatCapteurs); 
 
                                 // Creating the Callback Message for the Rpi
+
                                 JObject jsonMessage = new JObject();
                                 jsonMessage.Add("VERSION_PROTOCOL_1", json.Property("VERSION_PROTOCOL_1").Value);
                                 jsonMessage.Add("VERSION_PROTOCOL_2", json.Property("VERSION_PROTOCOL_2").Value);
@@ -398,6 +402,7 @@ namespace test
                                         Console.WriteLine("WARNING: No Actions in the Database for Sensor " + id);
                                         Console.WriteLine("");
                                         jsonMessage.Add("PARAMETER_0", 0);
+
                                     }else{
                                         Console.WriteLine("INFO: " + actionArray.Length + " Actions values found");
                                         Console.WriteLine("");
