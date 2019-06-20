@@ -68,9 +68,12 @@ namespace test{
                     }
                     int k = 0;
                     byte[] oct = new Byte[1];
+
                     foreach(JProperty property in format.Properties()){
                         //On parcourt la payload, et pour chaque propriétés on rajoute les valeurs présente dans la payload.
-                        string[] tab = new string[payload.Length-obj.Count+1];
+                        string[] tab = new string[payload.Length-format.Count+1];
+                        
+
                         if(property.Name == Data_PropertyName){
                             int g = k;
                             for(int v = k; v < tab.Length+k; v++){
