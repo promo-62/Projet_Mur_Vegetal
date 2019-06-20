@@ -1,4 +1,4 @@
-﻿using MongoDB.Bson;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
 
@@ -62,7 +62,7 @@ namespace Setup
         public int IdCapteur { get; set; }
 
         [BsonElement("TypeCapteur")]
-        public string TypeCapteur { get; set; }
+        public int TypeCapteur { get; set; }
 
         [BsonElement("Projet")]
         public List<string> Projet { get; set; }
@@ -103,8 +103,8 @@ namespace Setup
         [BsonElement("IdCapteur")]
         public int IdCapteur { get; set; }
 
-        [BsonElement("Valeur")]
-        public string Valeur { get; set; }
+        [BsonElement("Valeurs")]
+        public List<int> Valeurs { get; set; }
     }
 
     public class VersionsProtocoles : ICollectionModel
@@ -219,10 +219,11 @@ namespace Setup
 
         [BsonElement("Salt")]
         public string Salt { get; set; }
-        
+
         [BsonElement("NiveauAccreditation")]
         public int NiveauAccreditation { get; set; }
     }
+
     public class Socials : ICollectionModel
     {
         [BsonElement("Username")]
