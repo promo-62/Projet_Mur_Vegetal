@@ -6,6 +6,8 @@ using System.Text;
 using System.Collections.Generic;
 using System.Net;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace Projet{
     public class Protocol{
@@ -24,8 +26,7 @@ namespace Projet{
         private static string Header_VerProtocol_2_PropertyName = "VERSION_PROTOCOL_2";
         //Nom de la propriete contenant le payload 
         private static string Header_Payload_PropertyName = "PAYLOAD";
-
-      //Nom de la propriete contenant tout les propriete a retirer du header
+        //Nom de la propriete contenant tout les propriete a retirer du header
         private static string Header_To_Remove = "TO_REMOVE";
         //Nom de la propriete contenant tout les propriete a ajouter au header
         private static string Header_To_Add = "TO_ADD";
@@ -42,11 +43,10 @@ namespace Projet{
         //Nom de la propriete contenant le type de message dans le header
         private static string Header_Type_PropertyName = "TYPE_MESSAGE";
         //Octet stockant le type d'erreur
-
         private static byte Errors;
         
         //Verifie le format des trames arrivant du LoRA et les convertit en fichier JSON
-        public static string DataToJson(byte[] chain,string file1){
+        public static async Task<string> DataToJson(byte[] chain,string file1){
             //Ouverture des fichiers: config.json et payload_sizes.json
             JObject obj_config = JObject.Parse(file1);
             //Conversion de la chaine d'octet en chaine de string
@@ -134,8 +134,7 @@ namespace Projet{
 
                     //Renvoie du JSON en string
                     //string response = obj.ToString();
-                    string response = MQTT_Raspberry.RaspberryToServer(obj.ToString());
-
+                    string response = await MQTT_Raspberry.RaspberryToServer(obj.ToString());
 
                     //Verifie si le serveur repond et si il ne repond pas parse la payload et stocke l'ID 
                     if(response.Equals("")){
