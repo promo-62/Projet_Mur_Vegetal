@@ -73,6 +73,7 @@ namespace test{
                         //On parcourt la payload, et pour chaque propriétés on rajoute les valeurs présente dans la payload.
                         string[] tab = new string[payload.Length-format.Count+1];
                         
+
                         if(property.Name == Data_PropertyName){
                             int g = k;
                             for(int v = k; v < tab.Length+k; v++){
