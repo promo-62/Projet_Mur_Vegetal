@@ -4,13 +4,6 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using MongoDB.Bson; ///Utilise pour le ObjectId
 
-//////////////////////////////////////////////////////////////////////////////////
-/// Setup d'exemple dans MurVegetalDb : certains sont les hard codes et d'autres sont
-/// pseudo generes. DELETE L'ANCIENNE BASE DE DONNEE AVANT ! ATTENTION !!!
-/// Example setup on MurVegetalDb : some of them are hard coded while others are
-/// pseudo generated. DELETE THE OLD DATA BASE BEFORE !!! WARNING !!!!
-//////////////////////////////////////////////////////////////////////////////////
-
 namespace Setup
 {   
     public class CapteurComparer : Comparer<Capteurs> 
@@ -46,8 +39,6 @@ namespace Setup
         {
             m_Rand = new Random();
             m_Client = new MongoClient("mongodb://127.0.0.1:27017/");
-            if(m_Client.GetDatabase("MurVegetalDb") != null)
-                m_Client.DropDatabase("MurVegetalDb");
             m_Database = m_Client.GetDatabase("MurVegetalDb");
             m_CRUD = new MongoCRUD(m_Database);
 
@@ -55,6 +46,19 @@ namespace Setup
             
             Console.WriteLine("Press enter to exit");
             Console.ReadLine();
+        }
+        static int createNewIdCapteur()
+        {
+            List<Capteurs> capteurs = m_CRUD.LoadRecords<Capteurs>("Capteurs");
+            capteurs.Sort(new CapteurComparer());
+            int newID = 0;
+            foreach(Capteurs c in capteurs)
+            {
+                if(c.IdCapteur != newID)
+                    return newID;
+                newID++;
+            }
+            return newID;
         }
 
         //////////////////////////////////////////////////////////////////////////////////////
@@ -116,16 +120,12 @@ namespace Setup
         
         private static IEnumerable<Capteurs> CreateNewCapteur()
         {
-
             var NewCapteur = new List<Capteurs>();
-            for(int i = 0; i < 10; i++)
+            for(int i = 0; i < 5; i++)
             {
-                bool f_fonctionne = true;
-                if(m_Rand.Next(8) == 0)
-                    f_fonctionne = false;
                 NewCapteur.Add( new Capteurs
                 {
-                    IdCapteur = i,
+                    IdCapteur = createNewIdCapteur(),
                     TypeCapteur = m_Rand.Next(5),
                     Projet = new List<string>{"MurVegetal"},
                     Nom = "",
@@ -137,7 +137,7 @@ namespace Setup
                     DelaiVeille = 10,
                     Action = new List<ActionModel>(),
                     Version = 3,
-                    Fonctionne = f_fonctionne,
+                    Fonctionne = true,
                     Timeout = 0
                 });
                 NewCapteur[i].NiveauBatterie.Add(100);
@@ -164,25 +164,23 @@ namespace Setup
         {
             List<Capteurs> capteurs = m_CRUD.LoadRecords<Capteurs>("Capteurs");
             var newReleves = new List<Releves> {};
-            int nbReleve = m_Rand.Next(50) + 50;
-            for(int i = 0; i < nbReleve; i++)
+            for(int i = 0; i < capteurs.Count; i++)
             {
-                int idCapteur = m_Rand.Next(5);
                 long f_dateReleve = DateTimeOffset.Now.ToUnixTimeSeconds() - m_Rand.Next(100000);
-                if(capteurs[idCapteur].DateDernierReleve < f_dateReleve)
-                    capteurs[idCapteur].DateDernierReleve = f_dateReleve;
+                if(capteurs[i].DateDernierReleve < f_dateReleve)
+                    capteurs[i].DateDernierReleve = f_dateReleve;
                     
-                m_CRUD.UpsetRecord<Capteurs>("Capteurs", ObjectId.Parse(capteurs[idCapteur].Id), capteurs[idCapteur]);
+                m_CRUD.UpsetRecord<Capteurs>("Capteurs", ObjectId.Parse(capteurs[i].Id), capteurs[i]);
                 newReleves.Add(new Releves
                 {
-                    IdCapteur = capteurs[idCapteur].IdCapteur,
+                    IdCapteur = capteurs[i].IdCapteur,
                     DateReleve = f_dateReleve,
                     Valeurs = new List<int>()
                 });
-                int r = m_Rand.Next(2) + 1;
+                int r = m_Rand.Next(100) + 2;
                 for(int j = 0; j < r; j++)
                 {
-                    newReleves[newReleves.Count - 1].Valeurs.Add(m_Rand.Next(26) + m_Rand.Next(26) + m_Rand.Next(26) + m_Rand.Next(26));
+                    newReleves[i].Valeurs.Add(m_Rand.Next(26) + m_Rand.Next(26) + m_Rand.Next(26) + m_Rand.Next(26));
                 }
             }
             
@@ -318,8 +316,8 @@ namespace Setup
                 Nom = "LA Joconde",
                 DureeCarroussel = 20,
             };
-            var newTableaux = new List<Tableaux> {Tableau1};
-            return newTableaux;
+            var newTableaus = new List<Tableaux> {Tableau1};
+            return newTableaus;
         }
         private static IEnumerable<Medias> CreateNewMedias(){
             Medias Media1 = new Medias
