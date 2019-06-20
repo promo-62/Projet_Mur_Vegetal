@@ -47,19 +47,6 @@ namespace Setup
             Console.WriteLine("Press enter to exit");
             Console.ReadLine();
         }
-        static int createNewIdCapteur()
-        {
-            List<Capteurs> capteurs = m_CRUD.LoadRecords<Capteurs>("Capteurs");
-            capteurs.Sort(new CapteurComparer());
-            int newID = 0;
-            foreach(Capteurs c in capteurs)
-            {
-                if(c.IdCapteur != newID)
-                    return newID;
-                newID++;
-            }
-            return newID;
-        }
 
         //////////////////////////////////////////////////////////////////////////////////////
         /// ExampleFunction, shows somes uses to add a new document or a group of documents.
@@ -120,12 +107,16 @@ namespace Setup
         
         private static IEnumerable<Capteurs> CreateNewCapteur()
         {
+
             var NewCapteur = new List<Capteurs>();
-            for(int i = 0; i < 5; i++)
+            for(int i = 0; i < 10; i++)
             {
+                bool f_fonctionne = true;
+                if(m_Rand.Next(8) == 0)
+                    f_fonctionne = false;
                 NewCapteur.Add( new Capteurs
                 {
-                    IdCapteur = createNewIdCapteur(),
+                    IdCapteur = i,
                     TypeCapteur = m_Rand.Next(5),
                     Projet = new List<string>{"MurVegetal"},
                     Nom = "",
@@ -137,7 +128,7 @@ namespace Setup
                     DelaiVeille = 10,
                     Action = new List<ActionModel>(),
                     Version = 3,
-                    Fonctionne = true,
+                    Fonctionne = f_fonctionne,
                     Timeout = 0
                 });
                 NewCapteur[i].NiveauBatterie.Add(100);
