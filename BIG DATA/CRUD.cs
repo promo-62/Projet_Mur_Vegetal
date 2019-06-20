@@ -67,7 +67,7 @@ namespace Setup
             return collection.Find(filter).ToList();
         }
 
-        public List<T> LoadRecordInferiorStrictParameterInt<T,Q>(string table, string parameter, Q parameterValue)
+        public List<T> LoadRecordInferiorStrictParameter<T,Q>(string table, string parameter, Q parameterValue)
         { /*cherche les elements de la collection qui ont un parametre inferieur strictement a un seuil en Q*/
             /*searches for items in the collection that have a parameter that is strictly inferior to a threshold in Q*/
             var collection = db.GetCollection<T>(table);
