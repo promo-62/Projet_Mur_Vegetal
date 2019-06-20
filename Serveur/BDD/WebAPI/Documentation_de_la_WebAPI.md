@@ -1,6 +1,6 @@
 # Documentation de la WebAPI
 
-### ➢ WebAPI v3
+### ➢ WebAPI v4
 
 **Résumé des fonctionnalités :**
 
@@ -57,14 +57,14 @@
 |         | /versionsprotocoles/ | Insérer un élément dans la collection VersionsProtocoles |
 |         |      /plantes/       |      Insérer un élément dans la collection Plantes       |
 |         |       /events/       |       Insérer un élément dans la collection Events       |
-|         |   /usershololens/    |   Insérer un élément dans la collection UsersHololens    |
-|         |     /usersadmin/     |     Insérer un élément dans la collection UsersAdmin     |
+|    !    |   /usershololens/    |   Insérer un élément dans la collection UsersHololens    |
+|    !    |     /usersadmin/     |     Insérer un élément dans la collection UsersAdmin     |
 |         |      /usersapi/      |      Insérer un élément dans la collection UsersAPI      |
 |         |      /socials/       |      Insérer un élément dans la collection Socials       |
 |         |      /tableaux/      |      Insérer un élément dans la collection Capteurs      |
 |         |       /medias/       |       Insérer un élément dans la collection Medias       |
 |         |  /comptesarebours/   |  Insérer un élément dans la collection ComptesARebours   |
-|         |   /typescapteurs/    |   Insérer un élément dans la collection TypesCapteurs    |
+|    !    |   /typescapteurs/    |   Insérer un élément dans la collection TypesCapteurs    |
 |         |      /alertes/       |      Insérer un élément dans la collection Alertes       |
 
 
