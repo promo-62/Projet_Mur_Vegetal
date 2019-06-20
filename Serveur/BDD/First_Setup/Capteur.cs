@@ -2,7 +2,7 @@
 using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
 
-namespace Tests
+namespace Setup
 {
     public class ICollectionModel
     {

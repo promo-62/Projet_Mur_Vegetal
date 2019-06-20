@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using MongoDB.Bson; ///Utilise pour le ObjectId
 
-namespace Tests
+namespace Setup
 {   
     public class CapteurComparer : Comparer<Capteurs> 
     {
