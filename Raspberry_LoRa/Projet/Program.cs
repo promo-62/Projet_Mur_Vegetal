@@ -25,7 +25,7 @@ namespace Projet
 
         static async Task Test(){
             //Mise en place de la comunication entre C++ et C#
-            IPAddress ip = Dns.GetHostEntry("localhost").AddressList[0];
+            IPAddress ip = Dns.GetHostEntry("localhost").AddressList[1];
             TcpListener server = new TcpListener(ip, 15200);
             TcpClient client = default(TcpClient);
 
