@@ -12,14 +12,15 @@ RUN service mosquitto stop
 
 ADD mosquitto.conf /mosquitto/config/
 ADD log/mosquitto.log /mosquitto/log/
+ADD data/mosquitto.db /mosquitto/data/
 ADD credentials /mosquitto/credentials/
-ADD /certificates/ca.crt /mosquitto/ca_certificates/
-ADD /certificates/server.crt /mosquitto/certs/
-ADD /certificates/server.key /mosquitto/certs/
+ADD /certificates/DigiCertCA.crt /mosquitto/ca_certificates/
+ADD /certificates/iotdata.yhdf.fr.crt /mosquitto/certs/
+ADD /certificates/iotdata.yhdf.fr.key /mosquitto/certs/
 
 RUN mosquitto_passwd -U /mosquitto/credentials/credentials \
-&& chmod u+r /mosquitto/ca_certificates/ca.crt \
-&& chmod u+r /mosquitto/certs/server.crt \
-&& chmod u+r /mosquitto/certs/server.key
+&& chmod u+r /mosquitto/ca_certificates/DigiCertCA.crt \
+&& chmod u+r /mosquitto/certs/iotdata.yhdf.fr.crt \
+&& chmod u+r /mosquitto/certs/iotdata.yhdf.fr.key
 
 CMD [ "mosquitto", "-v", "-c", "/mosquitto/config/mosquitto.conf"]

@@ -18,7 +18,11 @@ On bascule de branche, si la branche n'as pas encore été fusionnée avec maste
 On utilise le script d'initialisation du serveur et on build le container Docker :  
 
 + `cd Serveur/MqttServer`
++ On copie les certificats ssl déjà présents sur le serveur vers le dossier certificates 
+  + iotdata.yhdf.fr.crt
+  + iotdata.yhdf.fr.key
+  + DigiCertCA.crts
 + `./install.sh`
 
 On lance le container :  
-+ `sudo docker run -p 8883:8883 -v $(pwd)/log:/mosquitto/log server_mqtt`
++ `sudo docker run -d -p 8883:8883 -v $(pwd)/log:/mosquitto/log server_mqtt`
