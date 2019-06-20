@@ -3,31 +3,31 @@ ADMIN PAGE
 --------------------------------------------------------------------------------------*/
 @font-face{
   font-family: 'Mukta-Bold'; 
-  src: url('/web/fonts/Mukta/Mukta-Bold.ttf'); 
+  src: url('~/../../../..~/../../../../fonts/Mukta/Mukta-Bold.ttf'); 
 }
 @font-face{
   font-family: 'Mukta-ExtraBold'; 
-  src: url('/web/fonts/Mukta/Mukta-ExtraBold.ttf'); 
+  src: url('~/../../../../fonts/Mukta/Mukta-ExtraBold.ttf'); 
 }
 @font-face{
   font-family: 'Mukta-ExtraLight'; 
-  src: url('/web/fonts/Mukta/Mukta-ExtraLight.ttf'); 
+  src: url('~/../../../../fonts/Mukta/Mukta-ExtraLight.ttf'); 
 }
 @font-face{
   font-family: 'Mukta-Light'; 
-  src: url('/web/fonts/Mukta/Mukta-Light.ttf'); 
+  src: url('~/../../../../fonts/Mukta/Mukta-Light.ttf'); 
 }
 @font-face{
   font-family: 'Mukta-Medium'; 
-  src: url('/web/fonts/Mukta/Mukta-Medium.ttf'); 
+  src: url('~/../../../../fonts/Mukta/Mukta-Medium.ttf'); 
 }
 @font-face{
   font-family: 'Mukta-Regular'; 
-  src: url('/web/fonts/Mukta/Mukta-Regular.ttf'); 
+  src: url('~/../../../../fonts/Mukta/Mukta-Regular.ttf'); 
 }
 @font-face{
   font-family: 'Mukta-SemiBold'; 
-  src: url('/web/fonts/Mukta/Mukta-SemiBold.ttf'); 
+  src: url('~/../../../../fonts/Mukta/Mukta-SemiBold.ttf'); 
 }
 
 
