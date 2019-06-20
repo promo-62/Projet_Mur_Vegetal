@@ -403,6 +403,7 @@ namespace test
                                         Console.WriteLine("WARNING: No Actions in the Database for Sensor " + id);
                                         Console.WriteLine("");
                                         jsonMessage.Add("PARAMETER_0", 0);
+
                                     }else{
                                         Console.WriteLine("INFO: " + actionArray.Length + " Actions values found");
                                         Console.WriteLine("");

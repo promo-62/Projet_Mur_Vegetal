@@ -1,0 +1,58 @@
+/* --------------------------------------------------------------------------------------
+WALL PAGE
+--------------------------------------------------------------------------------------*/
+
+.wall-body {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, auto));
+    grid-gap: 50px 100px;
+    grid-auto-flow: row;
+    padding: 10px;
+    overflow: inherit;
+}
+
+.box {
+    background-color: #F4F3F2;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    min-width: 250px;
+    margin: 5px;
+}
+
+.wall-block {
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    font-size: 1.25em;
+    align-items: center;
+    padding: 10px;
+}
+
+.info {
+    display: flex;
+    flex-direction: row;
+    justify-self: center;
+    align-items: center;
+}
+
+.info img {
+    padding: 5px;
+}
+
+
+/***************************************************************************************
+WALL IMAGE
+****************************************************************************************/
+
+img {
+    max-width: 450px;
+}
+
+.chart {
+    display: block;
+    width: 100%;
+    min-width: 200px;
+    max-width: 450px;
+    height: 300px;
+}

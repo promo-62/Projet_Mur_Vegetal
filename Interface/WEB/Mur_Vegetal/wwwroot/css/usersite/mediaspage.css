@@ -1,0 +1,38 @@
+.mediaspage-body {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, auto));
+    grid-gap: 50px 100px;
+    grid-auto-flow: row;
+    padding: 10px;
+    overflow: inherit;
+}
+
+.medias-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.box {
+    background-color: #F4F3F2;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    min-width: 250px;
+    margin: 5px;
+}
+
+.medias-image img {
+    display: block;
+    width: 100%;
+    max-width: 450px;
+    min-width: 250px;
+}
+
+.medias-video video {
+    display: block;
+    width: 100%;
+    max-width: 450px;
+    min-width: 250px;
+}
