@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web.Http;
 using CapteursApi.Models;
 using CapteursApi.Services;
 using Microsoft.AspNetCore.Mvc;
-using MongoDB.Bson;
 
 namespace CapteursApi.Controllers
 {
@@ -100,8 +98,8 @@ namespace CapteursApi.Controllers
         [Microsoft.AspNetCore.Mvc.HttpGet("releves/derniers")]
         public ActionResult<List<RelevesWeb>> GetDerniersReleves()
         {
-            var group = "{_id:'$IdCapteur', Id:{$last:'$_id'}, IdCapteur:{$last:'$IdCapteur'}, Note:{$last:'$Note'}, DateReleve:{$max:'$DateReleve'}, Valeur:{$last:'$Valeur'}, TypeCapteur:{$last:'$TypeCapteur'}, Fiabilite:{$last:'$Fiabilite'}}";
-            var projection = "{_id:'$Id', IdCapteur: '$IdCapteur', Valeur: '$Valeur'}";
+            var group = "{_id:'$IdCapteur', Id:{$last:'$_id'}, IdCapteur:{$last:'$IdCapteur'}, Note:{$last:'$Note'}, DateReleve:{$max:'$DateReleve'}, Valeurs:{$last:'$Valeurs'}}";
+            var projection = "{_id:'$Id', IdCapteur: '$IdCapteur', Valeurs: '$Valeurs'}";
             var sort = "{'IdCapteur': -1, 'DateReleve': 1}";
             var releve = _capteurService.GetDerniersReleves<RelevesWeb>("Releves", group, projection, sort);
 
@@ -454,7 +452,7 @@ namespace CapteursApi.Controllers
         [Microsoft.AspNetCore.Mvc.HttpGet("alertes")]
         public ActionResult<List<Alertes>> GetAlertes()
         {
-            var alerte = _capteurService.Get<Alertes>("Alerte");
+            var alerte = _capteurService.Get<Alertes>("Alertes");
 
             if (!alerte.Any())
             {
@@ -537,7 +535,7 @@ namespace CapteursApi.Controllers
         }
 
         // insérer un élément dans la collection UsersAdmin
-        [Microsoft.AspNetCore.Mvc.HttpPost("usershololens")]
+        [Microsoft.AspNetCore.Mvc.HttpPost("usersadmin")]
         public ActionResult<UsersAdmin> CreateUsersAdmin(UsersAdmin usersAdmin)
         {
             _capteurService.Create("UsersAdmin", usersAdmin);
@@ -590,6 +588,15 @@ namespace CapteursApi.Controllers
             return CreatedAtRoute("GetComptesARebours", new { id = compteARebours.Id.ToString() }, compteARebours);
         }
 
+        // insérer un élément dans la collection TypesCapteurs
+        [Microsoft.AspNetCore.Mvc.HttpPost("typescapteurs")]
+        public ActionResult<TypesCapteurs> CreateTypesCapteurs(TypesCapteurs typeCapteur)
+        {
+            _capteurService.Create("TypesCapteurs", typeCapteur);
+
+            return CreatedAtRoute("GetTypesCapteurs", new { id = typeCapteur.Id.ToString() }, typeCapteur);
+        }
+
         // insérer un élément dans la collection Alertes
         [Microsoft.AspNetCore.Mvc.HttpPost("alertes")]
         public ActionResult<Alertes> CreateAlertes(Alertes alerte)
@@ -607,6 +614,11 @@ namespace CapteursApi.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPut("capteurs/{id:length(24)}")]
         public IActionResult UpdateCapteurs(string id, Capteurs capteurIn)
         {
+            if (id != capteurIn.Id)
+            {
+                return BadRequest();
+            }
+
             var capteur = _capteurService.GetById<Capteurs>("Capteurs", id);
 
             if (capteur == null)
@@ -623,6 +635,11 @@ namespace CapteursApi.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPut("releves/{id:length(24)}")]
         public IActionResult UpdateReleves(string id, Releves releveIn)
         {
+            if (id != releveIn.Id)
+            {
+                return BadRequest();
+            }
+
             var releve = _capteurService.GetById<Releves>("Releves", id);
 
             if (releve == null)
@@ -639,6 +656,11 @@ namespace CapteursApi.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPut("versionsprotocoles/{id:length(24)}")]
         public IActionResult UpdateVersionsProtocoles(string id, VersionsProtocoles versionProtocoleIn)
         {
+            if (id != versionProtocoleIn.Id)
+            {
+                return BadRequest();
+            }
+
             var versionProtocole = _capteurService.GetById<VersionsProtocoles>("VersionsProtocoles", id);
 
             if (versionProtocole == null)
@@ -655,6 +677,11 @@ namespace CapteursApi.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPut("plantes/{id:length(24)}")]
         public IActionResult UpdatePlantes(string id, Plantes planteIn)
         {
+            if (id != planteIn.Id)
+            {
+                return BadRequest();
+            }
+
             var plante = _capteurService.GetById<Plantes>("Plantes", id);
 
             if (plante == null)
@@ -671,6 +698,11 @@ namespace CapteursApi.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPut("events/{id:length(24)}")]
         public IActionResult UpdateEvents(string id, Events evenementIn)
         {
+            if (id != evenementIn.Id)
+            {
+                return BadRequest();
+            }
+
             var evenement = _capteurService.GetById<Events>("Events", id);
 
             if (evenement == null)
@@ -687,7 +719,12 @@ namespace CapteursApi.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPut("usershololens/{id:length(24)}")]
         public IActionResult UpdateUsersHololens(string id, UsersHololens userHololensIn)
         {
-            var userHololens = _capteurService.GetById<VersionsProtocoles>("UsersHololens", id);
+            if (id != userHololensIn.Id)
+            {
+                return BadRequest();
+            }
+
+            var userHololens = _capteurService.GetById<UsersHololens>("UsersHololens", id);
 
             if (userHololens == null)
             {
@@ -703,6 +740,11 @@ namespace CapteursApi.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPut("usersadmin/{id:length(24)}")]
         public IActionResult UpdateUsersAdmin(string id, UsersAdmin userAdminIn)
         {
+            if (id != userAdminIn.Id)
+            {
+                return BadRequest();
+            }
+
             var userAdmin = _capteurService.GetById<UsersAdmin>("UsersAdmin", id);
 
             if (userAdmin == null)
@@ -719,6 +761,11 @@ namespace CapteursApi.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPut("usersapi/{id:length(24)}")]
         public IActionResult UpdateUsersAPI(string id, UsersAPI userAPIIn)
         {
+            if (id != userAPIIn.Id)
+            {
+                return BadRequest();
+            }
+
             var userAPI = _capteurService.GetById<UsersAPI>("UsersAPI", id);
 
             if (userAPI == null)
@@ -735,6 +782,11 @@ namespace CapteursApi.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPut("socials/{id:length(24)}")]
         public IActionResult UpdateSocials(string id, Socials socialIn)
         {
+            if (id != socialIn.Id)
+            {
+                return BadRequest();
+            }
+
             var social = _capteurService.GetById<Socials>("Socials", id);
 
             if (social == null)
@@ -751,7 +803,12 @@ namespace CapteursApi.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPut("tableaux/{id:length(24)}")]
         public IActionResult UpdateTableaux(string id, Tableaux tableauIn)
         {
-            var tableau = _capteurService.GetById<Socials>("Tableaux", id);
+            if (id != tableauIn.Id)
+            {
+                return BadRequest();
+            }
+
+            var tableau = _capteurService.GetById<Tableaux>("Tableaux", id);
 
             if (tableau == null)
             {
@@ -764,8 +821,14 @@ namespace CapteursApi.Controllers
         }
 
         // modifier [tous les champs] de l’élément d’ObjectId {id} de la collection Medias
+        [Microsoft.AspNetCore.Mvc.HttpPut("medias/{id:length(24)}")]
         public IActionResult UpdateMedias(string id, Medias mediaIn)
         {
+            if (id != mediaIn.Id)
+            {
+                return BadRequest();
+            }
+
             var media = _capteurService.GetById<Medias>("Medias", id);
 
             if (media == null)
@@ -782,6 +845,11 @@ namespace CapteursApi.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPut("comptesarebours/{id:length(24)}")]
         public ActionResult UpdateComptesARebours(string id, ComptesARebours compteAReboursIn)
         {
+            if (id != compteAReboursIn.Id)
+            {
+                return BadRequest();
+            }
+
             var compteARebours = _capteurService.GetById<ComptesARebours>("ComptesARebours", id);
 
             if (compteARebours == null)
@@ -796,16 +864,21 @@ namespace CapteursApi.Controllers
 
         // modifier [tous les champs] de l’élément d’ObjectId {id} de la collection TypesCapteurs
         [Microsoft.AspNetCore.Mvc.HttpPut("typescapteurs/{id:length(24)}")]
-        public ActionResult UpdateTypesCapteurs(string id, TypesCapteurs typesCapteursIn)
+        public ActionResult UpdateTypesCapteurs(string id, TypesCapteurs typeCapteurIn)
         {
-            var typesCapteurs = _capteurService.GetById<TypesCapteurs>("TypesCapteurs", id);
+            if (id != typeCapteurIn.Id)
+            {
+                return BadRequest();
+            }
 
-            if (typesCapteurs == null)
+            var typeCapteur = _capteurService.GetById<TypesCapteurs>("TypesCapteurs", id);
+
+            if (typeCapteur == null)
             {
                 return NotFound();
             }
 
-            _capteurService.Update("TypesCapteurs", id, typesCapteursIn);
+            _capteurService.Update("TypesCapteurs", id, typeCapteurIn);
 
             return NoContent();
         }
@@ -814,6 +887,11 @@ namespace CapteursApi.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPut("alertes/{id:length(24)}")]
         public ActionResult UpdateAlertes(string id, Alertes alerteIn)
         {
+            if (id != alerteIn.Id)
+            {
+                return BadRequest();
+            }
+
             var alerte = _capteurService.GetById<Alertes>("Alertes", id);
 
             if (alerte == null)
