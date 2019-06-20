@@ -83,7 +83,7 @@ $ wget https://dotnet.microsoft.com/download/thank-you/dotnet-runtime-2.2.3-linu
 
 
 
-## Move the project in the path you want and open a terminal window
+## open a terminal window
 
 We use the path /home/projectRaspberry where our project is, and open a terminal
 
