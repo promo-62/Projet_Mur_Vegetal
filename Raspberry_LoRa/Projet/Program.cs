@@ -6,6 +6,7 @@ using System.Net.WebSockets;
 using System.Text;
 using System.IO;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Projet
 {
@@ -16,6 +17,13 @@ namespace Projet
 
         private static string Config;
         public static void Main(string[] args){
+            Test();
+            while(true){
+
+            }
+        }
+
+        static async Task Test(){
             //Mise en place de la comunication entre C++ et C#
             IPAddress ip = Dns.GetHostEntry("localhost").AddressList[0];
             TcpListener server = new TcpListener(ip, 15200);
@@ -64,7 +72,7 @@ namespace Projet
 
                 //Envoi du message dans la section traitement du Protocol.cs et attente d'une reponse du serveur
                 //Cette section va verifier puis convertir le message en JSON
-                string response = Protocol.DataToJson(buffer, Config);
+                string response = await Protocol.DataToJson(buffer, Config);
 
                 //Verification si le message etait bien formate
                 if( !(response.Equals("")) ){
@@ -102,7 +110,6 @@ namespace Projet
                         Console.WriteLine("MESSAGE SEND: NO RESPONSE FROM DATABASE");
                         Console.WriteLine("");
                     }else if(Errors[0].Equals(0x02)){
-
                         Console.WriteLine("MESSAGE SEND: INVALID FORMAT");
                         Console.WriteLine("");
                     }else if(Errors[0].Equals(0x03)){
@@ -113,7 +120,6 @@ namespace Projet
                     Console.WriteLine("");
                 }
             }
-
         }
 
         //Mise a jour des fichier json de config

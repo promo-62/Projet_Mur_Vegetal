@@ -1,104 +1,223 @@
 ﻿using System;
-using Newtonsoft.Json;
 using System.Text;
-using uPLibrary.Networking.M2Mqtt;
-using uPLibrary.Networking.M2Mqtt.Messages;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net.Sockets;
+using System.Threading;
+using System.Threading.Tasks;
+using MQTTnet;
+using MQTTnet.Client;
+using MQTTnet.Client.Connecting;
+using MQTTnet.Client.Disconnecting;
+using MQTTnet.Client.Options;
+using MQTTnet.Client.Subscribing;
+using MQTTnet.Exceptions;
+using MQTTnet.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Security;
+using Newtonsoft.Json;
 
 namespace Projet
 {
     class MQTT_Raspberry
     {
-        public static string message = "";
-        public static string IP = "localhost"; //"192.168.43.155"
-        public static string new_ID_client_server = "d_c_s";
-        public static string new_ID_server_client = "d_s_c";
-        public static string value_client_server = "e_d_c_s";
-        public static string value_server_client = "e_d_s_c";
-        public static string action_client_server = "d_I_c_s";
-        public static string action_server_client = "d_I_s_c";
+        public static string IP = "192.168.43.39";
+        public static int Port = 1883;
+        public static string new_ID_client_server = "Rpi/DemandeID/Server";
+        public static string new_ID_server_client = "Server/DemandeID/Rpi";
+        public static string value_client_server = "Rpi/EnvoiInfos/Server";
+        public static string value_server_client = "Server/EnvoiInfos/Rpi";
+        public static string action_client_server = "Rpi/DemandeAction/Server";
+        public static string action_server_client = "Server/DemandeAction/Rpi";
         public static int waitingTime = 10; // time in seconds
-        static void client_MqttMsgPublishReceived(object sender, MqttMsgPublishEventArgs e)
+        public static string message2 = "";
+
+
+        public static void TempoMessage()
         {
-            Console.WriteLine("We receive : " + Encoding.UTF8.GetString(e.Message) + "; By " + e.Topic + "\n");
-            message = Encoding.UTF8.GetString(e.Message);
-            
+            //sous format de boucle
+
+            int waitingTime = 10; // time in seconds
+            DateTime deadLine = DateTime.Now.AddSeconds(waitingTime);
+            while (message2 == "" && deadLine.CompareTo(DateTime.Now) > 0)
+            {
+                Thread.Sleep(100);//attente de 0.1 sec
+            }
+
+            //à avoir pour utiliser la fonction ci dessus
+
+            //renvoir True si le temps est passé ou si le message à était reçu
         }
-        public static string RaspberryToServer(string jsonLora)
+        
+        public static async Task<string> RaspberryToServer (string jsonLora)
         {
-            /*
-            *jsonLora : message from the RaspBerry to the server (serialized JSON)
-            */
-            message = "";
+            // Create a new MQTT client.
+            var factory = new MqttFactory();
+            var client = factory.CreateMqttClient();
+
+            
+            
+
+            MqttNetGlobalLogger.LogMessagePublished += (sender, e) =>
+            {
+                Console.WriteLine(e.TraceMessage.Message);
+            };
+
+            // Use TCP connection.
+            var options = new MqttClientOptionsBuilder()
+            .WithTcpServer(IP, Port) // Port is optional
+            .WithCredentials("admin", "admin")
+            .WithClientId("test")
+            .Build();
+
+            // quoi faire des msg qui arrivent
+            client.UseApplicationMessageReceivedHandler(e =>
+            {
+                Console.WriteLine("### RECEIVED APPLICATION MESSAGE ###");
+                Console.WriteLine($"+ Topic = {e.ApplicationMessage.Topic}");
+                Console.WriteLine($"+ Payload = {Encoding.UTF8.GetString(e.ApplicationMessage.Payload)}");
+                Console.WriteLine($"+ QoS = {e.ApplicationMessage.QualityOfServiceLevel}");
+                Console.WriteLine($"+ Retain = {e.ApplicationMessage.Retain}");
+                Console.WriteLine();
+                message2 = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+            });
+
+
+            // on se connecte vraiment au server
+            await client.ConnectAsync(options);
+
+            // on créer un msg
 
             dynamic deserialized = JsonConvert.DeserializeObject(jsonLora);
             var typeMessage = deserialized.TYPE_MESSAGE;
 
-            //Connection to the server
-
-            MqttClient client = new MqttClient(IP);
-
-            //choose the right topic from the message "mes"
-
-            string clientId = Guid.NewGuid().ToString();
-
-            client.MqttMsgPublishReceived += client_MqttMsgPublishReceived;
-
-            client.Connect(clientId);
-            Console.WriteLine("CONNECT\n");
-
             if (typeMessage == "01")
             {
-                //Inscrition au topic de réponse
-                string[] topic = { new_ID_server_client };
-                byte[] QoS = { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE };
-                client.Subscribe(topic, QoS);
-
-                client.Publish(new_ID_client_server, Encoding.UTF8.GetBytes(jsonLora));
-                Console.WriteLine("We send to the server: " + jsonLora + "; " + new_ID_client_server + "\n");
-                DateTime deadLine = DateTime.Now.AddSeconds(waitingTime);
-
-                while (message == "" && deadLine.CompareTo(DateTime.Now)>0)
+                client.UseConnectedHandler(async e =>
                 {
-                    //Boucle d'attente de réponse de la part du serveur
-                }
+                    Console.WriteLine("### CONNECTED WITH SERVER ###");
+
+                    // Subscribe to a topic
+                    await client.SubscribeAsync(new TopicFilterBuilder().WithTopic(new_ID_client_server).Build());
+
+                    Console.WriteLine("### SUBSCRIBED ###");
+                });
+               
+                // gerer les deconnexions
+                client.UseDisconnectedHandler(async e =>
+                {
+                    Console.WriteLine("### DISCONNECTED FROM SERVER ###");
+                    await Task.Delay(TimeSpan.FromSeconds(5));
+                    try
+                    {
+                        await client.ConnectAsync(options);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("### RECONNECTING FAILED ###");
+                    }
+                });
+
+                
+                await client.SubscribeAsync(new TopicFilterBuilder().WithTopic(new_ID_server_client).Build());
+                // on créer un msg
+                var message = new MqttApplicationMessageBuilder()
+                .WithTopic(new_ID_client_server)
+                .WithPayload(jsonLora)
+                .WithExactlyOnceQoS()
+                .Build();
+
+                await client.PublishAsync(message);
+
+                TempoMessage();
             }
 
             if (typeMessage == "02")
             {
-                string[] topic = { value_server_client };
-                byte[] QoS = { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE };
-                client.Subscribe(topic, QoS);
-
-                client.Publish(value_client_server, Encoding.UTF8.GetBytes(jsonLora));
-                Console.WriteLine("We send to the server: " + jsonLora + "; " + value_client_server + "\n");
-                DateTime deadLine = DateTime.Now.AddSeconds(waitingTime);
-
-                while (message == "" && deadLine.CompareTo(DateTime.Now) > 0)
+                client.UseConnectedHandler(async e =>
                 {
-                    //Boucle d'attente de réponse de la part du serveur
-                }
+                    Console.WriteLine("### CONNECTED WITH SERVER ###");
+
+                    // Subscribe to a topic
+                    await client.SubscribeAsync(new TopicFilterBuilder().WithTopic(value_client_server).Build());
+
+                    Console.WriteLine("### SUBSCRIBED ###");
+                });
+
+                // gerer les deconnexions
+                client.UseDisconnectedHandler(async e =>
+                {
+                    Console.WriteLine("### DISCONNECTED FROM SERVER ###");
+                    await Task.Delay(TimeSpan.FromSeconds(5));
+                    try
+                    {
+                        await client.ConnectAsync(options);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("### RECONNECTING FAILED ###");
+                    }
+                });
+                
+                await client.SubscribeAsync(new TopicFilterBuilder().WithTopic(value_server_client).Build());
+                // on créer un msg
+                var message = new MqttApplicationMessageBuilder()
+                .WithTopic(value_client_server)
+                .WithPayload(jsonLora)
+                .WithExactlyOnceQoS()
+                .Build();
+
+                await client.PublishAsync(message);
+                TempoMessage();
             }
 
             if (typeMessage == "03")
             {
-                string[] topic = { action_server_client };
-                byte[] QoS = { MqttMsgBase.QOS_LEVEL_EXACTLY_ONCE };
-                client.Subscribe(topic, QoS);
-
-                client.Publish("d_I_c_s", Encoding.UTF8.GetBytes(jsonLora));
-                Console.WriteLine("We send to the server: " + jsonLora + "; " + action_client_server + "\n");
-                DateTime deadLine = DateTime.Now.AddSeconds(waitingTime);
-
-                while (message == "" && deadLine.CompareTo(DateTime.Now) > 0)
+                client.UseConnectedHandler(async e =>
                 {
-                    //Boucle d'attente de réponse de la part du serveur
-                }
-            }
-            
-            client.Disconnect();
-            Console.WriteLine("DISCONNECT\n");
+                    Console.WriteLine("### CONNECTED WITH SERVER ###");
 
-            return message;
+                    // Subscribe to a topic
+                    await client.SubscribeAsync(new TopicFilterBuilder().WithTopic(action_server_client).Build());
+
+                    Console.WriteLine("### SUBSCRIBED ###");
+                });
+
+                // gerer les deconnexions
+                client.UseDisconnectedHandler(async e =>
+                {
+                    Console.WriteLine("### DISCONNECTED FROM SERVER ###");
+                    await Task.Delay(TimeSpan.FromSeconds(5));
+                    try
+                    {
+                        await client.ConnectAsync(options);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("### RECONNECTING FAILED ###");
+                    }
+                });
+                
+                await client.SubscribeAsync(new TopicFilterBuilder().WithTopic(action_client_server).Build());
+                // on créer un msg
+                var message = new MqttApplicationMessageBuilder()
+                .WithTopic(action_client_server)
+                .WithPayload(jsonLora)
+                .WithExactlyOnceQoS()
+                .Build();
+
+                await client.PublishAsync(message);
+
+                TempoMessage();
+            }
+
+            
+            await client.DisconnectAsync();
+            Console.WriteLine (JsonConvert.DeserializeObject(message2));
+            return message2;
         }
+
+       
     }
 }
+
