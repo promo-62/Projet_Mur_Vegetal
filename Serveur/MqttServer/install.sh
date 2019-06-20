@@ -1,7 +1,9 @@
 #!/bin/bash
-cd certificates
-./generate_certificates.sh
-cd ..
+
+if [ ! -f certificates/DigiCertCA.crt ] || [ ! -f certificates/iotdata.yhdf.fr.crt ] || [ ! -f certificates/iotdata.yhdf.fr.key ]; then
+    echo "--> ERROR : Files are missing. You must provide DigiCertCA.crt, iotdata.yhdf.fr.crt, iotdata.yhdf.fr.key into the certificates folder"
+    exit 99
+fi
 
 mkdir log
 touch log/mosquitto.log
