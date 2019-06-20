@@ -19,6 +19,10 @@ using MQTTnet.Exceptions;
 using MQTTnet.Protocol;
 using MQTTnet.Server;
 
+// Libs Certificates
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Security;
+
 // Libs MongoDB
 using MongoDB;
 using MongoDB.Driver;
@@ -55,8 +59,8 @@ namespace test
             var mqttClient = factory.CreateMqttClient();
 
             // VERSION TLS
-            /*
-                X509Certificate ca_crt = new X509Certificate("/home/loic/Bureau/test_sfardoux/DigiCertCA.crt");
+            
+                X509Certificate ca_crt = new X509Certificate("DigiCertCA.crt");
                 var tlsOptions = new MqttClientOptionsBuilderTlsParameters();
                 tlsOptions.SslProtocol = System.Security.Authentication.SslProtocols.Tls;
                 tlsOptions.Certificates = new List<IEnumerable<byte>>() { ca_crt.Export(X509ContentType.Cert).Cast<byte>() };
@@ -66,18 +70,18 @@ namespace test
                 var options = new MqttClientOptionsBuilder()
                 .WithTcpServer("10.34.160.10", 8883)
                 .WithCredentials("admin", "admin")
-                .WithClientId("loic")
+                .WithClientId("gbb")
                 .WithTls(tlsOptions)
                 .Build();
-            */
+            
 
             // VERSION NON TLS
-            
+            /*
                 // Use TCP connection.
                 var options = new MqttClientOptionsBuilder()
                 .WithTcpServer("localhost", 1883) // Port is optional
                 .Build();
-            
+            */
 
             // On Disconnect from Server
             mqttClient.UseDisconnectedHandler(async e =>
