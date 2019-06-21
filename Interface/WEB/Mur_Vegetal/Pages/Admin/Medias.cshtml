@@ -1,0 +1,197 @@
+@page
+@model MediasAdminModel
+@{
+    ViewData["Title"] = "Admin - Medias";
+    Layout = "/Pages/Shared/_AdminLayout.cshtml";
+}
+@section heads{
+  <link href="@Url.Content("~/css/usersite/admin/mediasadmin.css")" rel="stylesheet" type="text/css" />
+}
+
+<!----------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------->
+<!--div PRINCIPALE CONTENANT LES DIFFERRENTES MEDIAS div ENFANTS-->
+  <div class="media-box ">
+<!-----------------------------------------AJOUT DE MEDIA--------------------------------------------> 
+    <div class="medias-addnew">
+      <legend class="medias-name">Ajouter média</legend>
+
+        <div class="addnew-name">
+          <label class="addnew-name">Nom de la photo : </label>
+          <input type="text" class="addnew-name" placeholder="Ex: JPO">
+        </div>
+
+        <div class="addnew-img">
+          <label class="addnew-img">Image : </label>
+          <input class="addnew-img" type="file" accept="image/png, image/jpeg">
+        </div>
+
+        <div class="addnew-video">
+          <label class="addnew-video">Video : </label>
+          <input type="text" class="addnew-video" placeholder="Ex: https://www.youtube.com/watch?v=WIIAbl7pBnI">
+        </div>
+
+        <div class="addnew-start-date">
+          <label class="addnew-start-date">Date de début : </label>
+          <input class="addnew-start-date" type="date">
+        </div>
+
+        <div class="addnew-end-date">
+          <label class="addnew-end-date">Date de fin : </label>
+          <input class="addnew-end-date" type="date">
+        </div>
+
+        <div class=button>
+         <button class="button-delete"> Supprimer </button>
+         <button class="button-apply"> Valider </button>
+        </div>
+      
+    </div>
+<!-----------------------------------------FIN AJOUT DE MEDIA--------------------------------------------> 
+<!-----------------------------------------MEDIA 1--------------------------------------------> 
+    <div class="medias-param">
+      <legend class="medias-name">photo1</legend>
+
+        <div class="param-name">
+          <label class="param-name">Nom de la photo : </label>
+          <input type="text" class="param-name" placeholder="Ex: JPO">
+        </div>
+
+        <div class="param-img">
+          <label class="param-img">Image : </label>
+          <a href="~/images/news4.jpg" target="_blank"><img class="param-img" src="~/images/news1.jpg"> </a>
+        </div>
+
+        <div class="param-video">
+          <label class="param-video">Video : </label>
+          <input type="text" class="param-video" placeholder="Ex: https://www.youtube.com/watch?v=WIIAbl7pBnI">
+        </div>
+
+        <div class="param-start-date">
+          <label class="param-start-date">Date de début : </label>
+          <input class="param-start-date" type="date">
+        </div>
+
+        <div class="param-end-date">
+          <label class="param-end-date">Date de fin : </label>
+          <input class="param-end-date" type="date">
+        </div>
+
+        <div class=button>
+         <button class="button-delete"> Supprimer </button>
+         <button class="button-apply"> Valider </button>
+        </div>
+      
+    </div>
+<!-----------------------------------------FIN MEDIA 1--------------------------------------------> 
+<!-----------------------------------------MEDIA 2--------------------------------------------> 
+    <div class="medias-param">
+      <legend class="medias-name">photo2</legend>
+
+        <div class="param-name">
+          <label class="param-name">Nom de la photo : </label>
+          <input type="text" class="param-name" placeholder="Ex: JPO">
+        </div>
+
+        <div class="param-img">
+          <label class="param-img">Image : </label>
+          <a href="~/images/news4.jpg" target="_blank"><img class="param-img" src="~/images/news2.jpg"> </a>
+        </div>
+
+        <div class="param-video">
+          <label class="param-video">Video : </label>
+          <input type="text" class="param-video" placeholder="Ex: https://www.youtube.com/watch?v=WIIAbl7pBnI">
+        </div>
+
+        <div class="param-start-date">
+          <label class="param-start-date">Date de début : </label>
+          <input class="param-start-date" type="date">
+        </div>
+
+        <div class="param-end-date">
+          <label class="param-end-date">Date de fin : </label>
+          <input class="param-end-date" type="date">
+        </div>
+
+        <div class=button>
+         <button class="button-delete"> Supprimer </button>
+         <button class="button-apply"> Valider </button>
+        </div>
+      
+    </div>
+<!-----------------------------------------FIN MEDIA 2--------------------------------------------> 
+<!-----------------------------------------MEDIA 3--------------------------------------------> 
+    <div class="medias-param">
+      <legend class="medias-name">photo3</legend>
+
+        <div class="param-name">
+          <label class="param-name">Nom de la photo : </label>
+          <input type="text" class="param-name" placeholder="Ex: JPO">
+        </div>
+
+        <div class="param-img">
+          <label class="param-img">Image : </label>
+          <a href="~/images/news3.jpg" target="_blank"><img class="param-img" src="~/images/news3.jpg"> </a>
+        </div>
+
+        <div class="param-video">
+          <label class="param-video">Video : </label>
+          <input type="text" class="param-video" placeholder="Ex: https://www.youtube.com/watch?v=WIIAbl7pBnI">
+        </div>
+
+        <div class="param-start-date">
+          <label class="param-start-date">Date de début : </label>
+          <input class="param-start-date" type="date">
+        </div>
+
+        <div class="param-end-date">
+          <label class="param-end-date">Date de fin : </label>
+          <input class="param-end-date" type="date">
+        </div>
+
+        <div class=button>
+         <button class="button-delete"> Supprimer </button>
+         <button class="button-apply"> Valider </button>
+        </div>
+      
+    </div>
+<!-----------------------------------------FIN MEDIA 3--------------------------------------------> 
+<!-----------------------------------------MEDIA 4--------------------------------------------> 
+    <div class="medias-param">
+      <legend class="medias-name">photo4</legend>
+
+        <div class="param-name">
+          <label class="param-name">Nom de la photo : </label>
+          <input type="text" class="param-name" placeholder="Ex: JPO">
+        </div>
+
+        <div class="param-img">
+          <label class="param-img">Image : </label>
+          <a href="~/images/news3.jpg" target="_blank"><img class="param-img" src="~/images/news3.jpg"> </a>
+        </div>
+
+        <div class="param-video">
+          <label class="param-video">Video : </label>
+          <input type="text" class="param-video" placeholder="Ex: https://www.youtube.com/watch?v=WIIAbl7pBnI">
+        </div>
+
+        <div class="param-start-date">
+          <label class="param-start-date">Date de début : </label>
+          <input class="param-start-date" type="date">
+        </div>
+
+        <div class="param-end-date">
+          <label class="param-end-date">Date de fin : </label>
+          <input class="param-end-date" type="date">
+        </div>
+
+        <div class=button>
+         <button class="button-delete"> Supprimer </button>
+         <button class="button-apply"> Valider </button>
+        </div>
+      
+    </div>
+<!-----------------------------------------FIN MEDIA 4--------------------------------------------> 
+  </div>
+<!----------------------------------------------------------------------------------------------------------------------------->
+<!----------------------------------------------------------------------------------------------------------------------------->

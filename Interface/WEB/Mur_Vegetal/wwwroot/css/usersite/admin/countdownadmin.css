@@ -1,0 +1,35 @@
+.countdown-box {
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, auto));
+    grid-gap: 50px 100px;
+    grid-auto-flow: row;
+    padding: 10px;
+    overflow: inherit;
+    justify-items: center;
+}
+
+.countdown-addnew,
+.countdown-param {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.25em;
+    background-color: #F4F3F2;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    min-width: 450px;
+    max-width: 30%;
+    margin: 5px;
+    padding: 15px;
+    align-self: flex-start;
+}
+
+@media screen and (max-width:500px) {
+    .countdown-box {
+        grid-template-columns: repeat(auto-fit, minmax(250px, auto));
+    }
+    .countdown-addnew,
+    .countdown-param {
+        min-width: 250px;
+    }
+}
