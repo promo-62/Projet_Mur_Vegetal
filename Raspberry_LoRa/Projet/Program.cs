@@ -25,7 +25,7 @@ namespace Projet
 
         static async Task Test(){
             //Mise en place de la comunication entre C++ et C#
-            IPAddress ip = Dns.GetHostEntry("localhost").AddressList[0];
+            IPAddress ip = Dns.GetHostEntry("localhost").AddressList[1];
             TcpListener server = new TcpListener(ip, 15200);
             TcpClient client = default(TcpClient);
 
@@ -34,7 +34,7 @@ namespace Projet
                 server.Start();
                 var client2 = new WebClient();
                 Config = client2.DownloadString(filepath_1);
-                //Console.WriteLine(Config);
+                Console.WriteLine("ADDRESS: "+ip);
                 Console.WriteLine("SERVER: STARTED");
                 Console.WriteLine("");
             }catch(Exception e){
@@ -60,7 +60,7 @@ namespace Projet
                 try{
                     stream.Read(buffer, 0, buffer.Length);
                 }catch(Exception e){
-                    Console.WriteLine(e.StackTrace);
+                    Console.WriteLine("CONNECTION LOST WITH LORA");
                     client = server.AcceptTcpClient();
                     stream = client.GetStream();
                     stream.Read(buffer, 0, buffer.Length);
@@ -89,7 +89,9 @@ namespace Projet
                     try{
                         stream.Write(Data_To_Send, 0, Data_To_Send.Length);
                     }catch(Exception e){
-                        Console.WriteLine(e.StackTrace);
+                        Console.WriteLine("CONNECTION LOST WITH LORA");
+                        client = server.AcceptTcpClient();
+                        stream = client.GetStream();
                     }
                     test = BitConverter.ToString(Data_To_Send);
                     Console.WriteLine("MESSAGE SEND: "+test);
@@ -100,10 +102,9 @@ namespace Projet
                     try{
                         stream.Write(Errors, 0, Errors.Length);
                     }catch(Exception e){
-                        Console.WriteLine(e.StackTrace);
+                        Console.WriteLine("CONNECTION LOST WITH LORA");
                         client = server.AcceptTcpClient();
                         stream = client.GetStream();
-                        stream.Write(Errors, 0, Errors.Length);
                     }
                     test = BitConverter.ToString(Errors);
                     if(Errors[0].Equals(0x01)){

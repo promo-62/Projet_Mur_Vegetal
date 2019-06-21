@@ -35,7 +35,8 @@ namespace Projet{
         //Nom de la propriete contenant le format de la payload
         private static string Payload_Format = "Format";
         //Nom de la propriete contenant l'ID dans la payload
-        private static string ID_PropertyName = "ID";
+        private static string ID_PropertyName = "ID_1";
+        private static string ID2_PropertyName = "ID_2";
         //Stockage de l'ID au cas ou la base de donnees ne repond plus
         private static string Id = "";
         //Nom du tableau contenant tout les formats de payload
@@ -144,10 +145,13 @@ namespace Projet{
                                 if( !((string)(obj.Property(Header_Type_PropertyName))).Equals("01") ){
                                     JObject format = (JObject)(obj_id.GetValue(Payload_Format));
                                     int w = 0;
-                                    byte[] rev = new byte[1];
+                                    byte[] rev = new byte[2];
                                     foreach(JProperty property in format.Properties()){
                                         if(property.Name == ID_PropertyName){
                                             rev[0] = chain[w+header_size];
+                                        }
+                                        if(property.Name == ID2_PropertyName){
+                                            rev[1] = chain[w+header_size];
                                             Id = BitConverter.ToString(rev);
                                         }
                                         w++;
@@ -238,9 +242,11 @@ namespace Projet{
 
         //Code byte[] a renvoyer en cas d'erreur
         public static byte[] ErrorsFound(){
-            byte[] sendError = new Byte[2];
+            byte[] sendError = new Byte[3];
             if(Id != ""){
-                sendError[1] = Convert.ToByte(Id, 16);
+                string[] ids = Id.Split('-');
+                sendError[1] = Convert.ToByte(ids[0], 16);
+                sendError[2] = Convert.ToByte(ids[1], 16);
                 Id = "";
             }
             //Pas reponse serveur
