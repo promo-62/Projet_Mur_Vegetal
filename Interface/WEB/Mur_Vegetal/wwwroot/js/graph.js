@@ -43,9 +43,5 @@ chart.cursor.xAxis = dateAxis;
 chart.scrollbarX = new am4core.Scrollbar();
 chart.hideCredits = true;
 
-$(document).ready(function(){
-  $("g[aria-labelledby]").hide();
-})
-
 }; // end am4core.ready()
 
