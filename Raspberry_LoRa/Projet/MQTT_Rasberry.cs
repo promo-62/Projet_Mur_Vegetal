@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
@@ -21,8 +20,8 @@ namespace Projet
 {
     class MQTT_Raspberry
     {
-        public static string IP = "192.168.43.39";
-        public static int Port = 1883;
+        public static string IP = "10.34.160.10";
+        public static int Port = 8883;
         public static string new_ID_client_server = "Rpi/DemandeID/Server";
         public static string new_ID_server_client = "Server/DemandeID/Rpi";
         public static string value_client_server = "Rpi/EnvoiInfos/Server";
@@ -36,7 +35,6 @@ namespace Projet
         public static void TempoMessage()
         {
             //sous format de boucle
-
             int waitingTime = 10; // time in seconds
             DateTime deadLine = DateTime.Now.AddSeconds(waitingTime);
             while (message2 == "" && deadLine.CompareTo(DateTime.Now) > 0)
@@ -55,7 +53,14 @@ namespace Projet
             var factory = new MqttFactory();
             var client = factory.CreateMqttClient();
 
-            
+            X509Certificate ca_crt = new X509Certificate("/home/valentin/Documents/Login/DigiCertCA.crt");
+            var tlsOptions = new MqttClientOptionsBuilderTlsParameters();
+            tlsOptions.SslProtocol = System.Security.Authentication.SslProtocols.Tls;
+            tlsOptions.Certificates = new List<IEnumerable<byte>>() { ca_crt.Export(X509ContentType.Cert).Cast<byte>() };
+            tlsOptions.UseTls = true;
+            tlsOptions.AllowUntrustedCertificates = true;
+            //tlsOptions.IgnoreCertificateChainErrors = false;
+            //tlsOptions.IgnoreCertificateRevocationErrors = false;
             
 
             MqttNetGlobalLogger.LogMessagePublished += (sender, e) =>
@@ -68,20 +73,14 @@ namespace Projet
             .WithTcpServer(IP, Port) // Port is optional
             .WithCredentials("admin", "admin")
             .WithClientId("test")
+            .WithTls(tlsOptions)
             .Build();
 
             // quoi faire des msg qui arrivent
             client.UseApplicationMessageReceivedHandler(e =>
             {
-                Console.WriteLine("### RECEIVED APPLICATION MESSAGE ###");
-                Console.WriteLine($"+ Topic = {e.ApplicationMessage.Topic}");
-                Console.WriteLine($"+ Payload = {Encoding.UTF8.GetString(e.ApplicationMessage.Payload)}");
-                Console.WriteLine($"+ QoS = {e.ApplicationMessage.QualityOfServiceLevel}");
-                Console.WriteLine($"+ Retain = {e.ApplicationMessage.Retain}");
-                Console.WriteLine();
                 message2 = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
             });
-
 
             // on se connecte vraiment au server
             await client.ConnectAsync(options);
@@ -95,28 +94,15 @@ namespace Projet
             {
                 client.UseConnectedHandler(async e =>
                 {
-                    Console.WriteLine("### CONNECTED WITH SERVER ###");
 
                     // Subscribe to a topic
                     await client.SubscribeAsync(new TopicFilterBuilder().WithTopic(new_ID_client_server).Build());
 
-                    Console.WriteLine("### SUBSCRIBED ###");
+
                 });
                
-                // gerer les deconnexions
-                client.UseDisconnectedHandler(async e =>
-                {
-                    Console.WriteLine("### DISCONNECTED FROM SERVER ###");
-                    await Task.Delay(TimeSpan.FromSeconds(5));
-                    try
-                    {
-                        await client.ConnectAsync(options);
-                    }
-                    catch
-                    {
-                        Console.WriteLine("### RECONNECTING FAILED ###");
-                    }
-                });
+                
+
 
                 
                 await client.SubscribeAsync(new TopicFilterBuilder().WithTopic(new_ID_server_client).Build());
@@ -135,6 +121,7 @@ namespace Projet
             if (typeMessage == "02")
             {
                 client.UseConnectedHandler(async e =>
+
                 {
                     Console.WriteLine("### CONNECTED WITH SERVER ###");
 
@@ -144,20 +131,8 @@ namespace Projet
                     Console.WriteLine("### SUBSCRIBED ###");
                 });
 
-                // gerer les deconnexions
-                client.UseDisconnectedHandler(async e =>
-                {
-                    Console.WriteLine("### DISCONNECTED FROM SERVER ###");
-                    await Task.Delay(TimeSpan.FromSeconds(5));
-                    try
-                    {
-                        await client.ConnectAsync(options);
-                    }
-                    catch
-                    {
-                        Console.WriteLine("### RECONNECTING FAILED ###");
-                    }
-                });
+                
+
                 
                 await client.SubscribeAsync(new TopicFilterBuilder().WithTopic(value_server_client).Build());
                 // on créer un msg
@@ -184,19 +159,8 @@ namespace Projet
                 });
 
                 // gerer les deconnexions
-                client.UseDisconnectedHandler(async e =>
-                {
-                    Console.WriteLine("### DISCONNECTED FROM SERVER ###");
-                    await Task.Delay(TimeSpan.FromSeconds(5));
-                    try
-                    {
-                        await client.ConnectAsync(options);
-                    }
-                    catch
-                    {
-                        Console.WriteLine("### RECONNECTING FAILED ###");
-                    }
-                });
+
+                
                 
                 await client.SubscribeAsync(new TopicFilterBuilder().WithTopic(action_client_server).Build());
                 // on créer un msg

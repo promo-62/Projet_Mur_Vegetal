@@ -6,7 +6,7 @@ You need to install gettext and libunwind8 :
 
 ```bash
 $ sudo apt−get −y update
-$ sudo apt−get −y install libunwind8 gettext
+$ sudo apt−get −y install curl libunwind8 gettext
 ```
 
 
@@ -17,29 +17,46 @@ install the project in a path like /home/projectRaspberry (you can change the pa
 
 
 
-## Dotnet Installation
+## .NET Installation
 
-Download compressed files with sdk and runtime in them:
+Download the compressed files of .NET core runtime
 
 ```bash
-$ wget "https://dotnet.microsoft.com/download/thank-you/dotnet-sdk-2.2.105-linux-arm64-binaries"
-$ wget "https://dotnet.microsoft.com/download/thank-you/dotnet-runtime-2.2.3-linux-arm64-binaries"
+$ curl -sSL -o dotnet.tar.gz https://dotnetcli.blob.core.windows.net/dotnet/Runtime/release/2.2/dotnet-runtime-latest-linux-arm.tar.gz
 ```
 
 
 
 
 
-Finally we use command to install software:
+Then install .NET core runtime
 
 ```bash
-$ sudo mkdir /opt /dotnet
-$ sudo tar −xvf dotnet−sdk−2.2.105−linux−arm.tar.gz −C /opt /dotnet/
-$ sudo tar −xvf dotnet−runtime−2.2.3−linux−arm.tar.gz −C /opt /dotnet/
-$ sudo ln −s /opt /dotnet/dotnet /usr/local/bin
+$ sudo mkdir -p /opt/dotnet && sudo tar zxf dotnet.tar.gz -C /opt/dotnet
+$ sudo ln -s /opt/dotnet/dotnet /usr/local/bin
+$ sudo rm dotnet.tar.gz
 ```
 
 
+
+
+
+Now download the compressed files of .NET core SDK 
+
+```bash
+$ curl -sSL -o dotnet.tar.gz https://download.visualstudio.microsoft.com/download/pr/d79ab9a0-937f-4b93-beb4-8b5a24b96085/16141146887856795ba21c0315c09c2b/dotnet-sdk-2.2.202-linux-arm.tar.gz
+```
+
+
+
+
+
+Finally we install .NET core SDK
+
+```bash
+$ sudo tar zxf dotnet.tar.gz -C /opt/dotnet
+$ sudo rm dotnet.tar.gz
+```
 
 
 
@@ -56,34 +73,26 @@ $ dotnet −−info
 And you should have an equivalent of these lines :
 
 ```bash
-pi@crowpi:˜ $ dotnet −−info
-.NET Core SDK (reflecting any global.json) :
-  Version: 2.2.105
-
-Runtime Environment :
-  OS Name:     raspbian
-  OS Version:  9
-  OS Platform: Linux
-  RID:         lnux−arm
-  Base Path:   /home/pi/dotnet/sdk/2.2.105/
+pi@raspberrypi:~ $ dotnet --info
 
 Host (useful for support):
   Version: 2.2.3
+  Commit:  6b8ad509b6
 
 .NET Core SDKs installed:
-  2.2.105 [/home/pi/dotnet/sdk]
+  No SDKs were found.
 
-.NET Core run times installed:
-  Microsoft.AspNetCore.All2.2.1 [/home/pi/dotnet/shared/Microsoft.AspNetCore.All]
-  Microsoft.AspNetCore.App2.2.1 [/home/pi/dotnet$ wget https://dotnet.microsoft.com/download/thank-you/dotnet-sdk-2.2.105-linux-arm64-binaries
-$ wget https://dotnet.microsoft.com/download/thank-you/dotnet-runtime-2.2.3-linux-arm64-binaries]
-  Microsoft.NETCore.App2.2.1 [/home/pi/dotnet/shared/Microsoft.NETCore.App]
+.NET Core runtimes installed:
+  Microsoft.NETCore.App 2.2.3 [/opt/dotnet/shared/Microsoft.NETCore.App]
+
+To install additional .NET Core runtimes or SDKs:
+  https://aka.ms/dotnet-download
 ```
 
 
 
 
-## open a terminal window
+## Add libraries
 
 We use the path /home/projectRaspberry where our project is, and open a terminal
 
