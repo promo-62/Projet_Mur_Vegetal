@@ -1,43 +1,62 @@
-/* --------------------------------------------------------------------------------------
+    /* --------------------------------------------------------------------------------------
 COUNTDOWN PAGE  
 --------------------------------------------------------------------------------------*/
-
-.countdown-body {
-    width: 100%;
-    height: 100%;
-    padding: 10px;
-    overflow: inherit;
-}
-
-.countdown-block {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    align-content: center;
-    align-items: center;
-}
-
-.box {
-    background-color: #F4F3F2;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    max-height: 40vh;
-    margin: 5px;
-}
-
-.countdown-block:first-of-type>div:nth-child(1) {
-    height: 40vh;
-}
-
-.countdown-image img {
-    display: block;
-    height: 100%;
-}
-
-.countdown-text {
-    text-align: center;
-    font-family: Mukta-Bold, sans-serif;
-    font-size: 6vw;
-    color: #629460;
-    padding: 20px;
-}
+    
+    .countdown-body {
+        width: 100%;
+        height: auto;
+        display: grid;
+        grid-template-columns: repeat(1, minmax(450px, auto));
+        grid-gap: 50px 100px;
+        grid-auto-flow: row;
+        padding: 10px;
+        overflow: inherit;
+    }
+    
+    .countdown-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .box {
+        background-color: #F4F3F2;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        min-width: 450px;
+        margin: 5px;
+        font-size: 5em;
+    }
+    
+    @media screen and (max-width:500px) {
+        .countdown-body {
+            grid-template-columns: repeat(1, minmax(250px, auto));
+        }
+        .box {
+            min-width: 250px;
+            font-size: 2em;
+        }
+    }
+    
+    img {
+        display: block;
+        width: 100%;
+        min-width: 250px;
+    }
+    
+    .countdown-image {
+        max-width: 30%;
+    }
+    
+    .countdown-text {
+        font-family: Mukta-Bold, sans-serif;
+        color: #629460;
+        padding: 20px;
+    }
+    
+    @media screen and (max-width:500px) {
+        img {
+            min-width: 200px;
+            max-width: 250px;
+        }
+    }
