@@ -1,7 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using CapteursApi.Models;
 using CapteursApi.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CapteursApi.Controllers
@@ -20,6 +24,19 @@ namespace CapteursApi.Controllers
 
 
         /* ----- REQUETES GET ----- */
+
+        // renvoyer Ok, tester API
+        [HttpGet("ok")]
+        public HttpResponseMessage GetOk()
+        {
+            string timeStamp = DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss:ffff");
+
+            var response = new HttpResponseMessage();
+            response.Headers.Add("X-WebAPI-Infos", new string[] { "Timestamp: "+ timeStamp, "Version: WebAPI v4.1", "Dev: Etienne" });
+
+            return response;
+            //return StatusCode(200, "WebAPI v4 - Etienne "+ timeStamp);
+        }
 
         // obtenir [tous les champs] des capteurs fonctionnels
         [Microsoft.AspNetCore.Mvc.HttpGet("capteurs")]
@@ -551,7 +568,7 @@ namespace CapteursApi.Controllers
 
             return CreatedAtRoute("GetUsersAPI", new { id = usersAPI.Id.ToString() }, usersAPI);
         }
-        
+
         // insérer un élément dans la collection Socials
         [Microsoft.AspNetCore.Mvc.HttpPost("socials")]
         public ActionResult<Socials> CreateSocials(Socials social)
@@ -904,5 +921,27 @@ namespace CapteursApi.Controllers
             return NoContent();
         }
 
+
+
+        // default NotFound
+        [HttpGet("{*url}"), HttpPost("{*url}"), HttpPut("{*url}"), HttpDelete("{*url}"), HttpHead("{*url}"), HttpOptions("{*url}"), HttpPatch("{*url}")]
+        public ActionResult Error()
+        {
+            return Unauthorized();
+        }
+
     }
+
+    /* ----- API default NotFound ----- */
+    [Microsoft.AspNetCore.Mvc.Route("")]
+    [ApiController]
+    public class ErrorController : ControllerBase
+    {
+        [HttpGet("{*url}"), HttpPost("{*url}"), HttpPut("{*url}"), HttpDelete("{*url}"), HttpHead("{*url}"), HttpOptions("{*url}"), HttpPatch("{*url}")]
+        public ActionResult Error()
+        {
+            return Unauthorized();
+        }
+    }
+
 }

@@ -1,13 +1,14 @@
 # Documentation de la WebAPI
 
-### ➢ WebAPI v4
+### ➢ WebAPI v4.1
 
 **Résumé des fonctionnalités :**
 
-- Lecture seule des éléments de toutes les collections (requêtes GET)
-- Lecture seule custom selon les demandes de la team interface web (requêtes GET)
-- Insertion d’éléments dans toutes les collections (requêtes POST)
-- Modification d’élément dans toutes les collections (requêtes PUT)
+- Lecture seule des éléments de toutes les collections (requêtes GET).
+- Lecture seule custom selon les demandes de la team interface web (requêtes GET).
+- Insertion d’éléments dans toutes les collections (requêtes POST).
+- Modification d’élément dans toutes les collections (requêtes PUT).
+- Envoi d'une erreur 401 Unauthorized pour toutes les requêtes GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH non prises en charge.
 
 **Utilisation :**  `api/web/[Route]`
 
