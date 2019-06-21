@@ -2,7 +2,7 @@
     width: 100%;
     height: auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, auto));
+    grid-template-columns: repeat(auto-fit, minmax(450px, auto));
     grid-gap: 50px 100px;
     grid-auto-flow: row;
     padding: 10px;
@@ -19,9 +19,23 @@
 .box {
     background-color: #F4F3F2;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    min-width: 250px;
+    min-width: 450px;
     margin: 5px;
 }
+
+@media screen and (max-width:500px) {
+    .mediaspage-body {
+        grid-template-columns: repeat(auto-fit, minmax(250px, auto));
+    }
+    .box {
+        min-width: 250px;
+    }
+}
+
+
+/***************************************************************************************
+MEDIAS IMAGE AND VIDEO
+****************************************************************************************/
 
 .medias-image img {
     display: block;
@@ -35,4 +49,15 @@
     width: 100%;
     max-width: 450px;
     min-width: 250px;
+}
+
+@media screen and (max-width:500px) {
+    .medias-image img {
+        min-width: 200px;
+        max-width: 250px;
+    }
+    .medias-video video {
+        min-width: 200px;
+        max-width: 250px;
+    }
 }
