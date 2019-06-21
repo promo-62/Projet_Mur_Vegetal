@@ -30,6 +30,7 @@ ADMIN PAGE
 @font-face {
     font-family: 'Mukta-Regular';
     src: url('~/../../../../fonts/Mukta/Mukta-Regular.ttf');
+
 }
 
 @font-face {
@@ -48,6 +49,7 @@ body {
 .main-body {
     display: flex;
     height: calc(100% - 43px);
+
 }
 
 
