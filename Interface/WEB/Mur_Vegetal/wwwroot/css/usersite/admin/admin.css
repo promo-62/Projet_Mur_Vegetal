@@ -1,6 +1,7 @@
 /* --------------------------------------------------------------------------------------
 ADMIN PAGE  
 --------------------------------------------------------------------------------------*/
+
 @font-face {
     font-family: 'Mukta-Bold';
     src: url('~/../../../..~/../../../../fonts/Mukta/Mukta-Bold.ttf');
@@ -29,7 +30,6 @@ ADMIN PAGE
 @font-face {
     font-family: 'Mukta-Regular';
     src: url('~/../../../../fonts/Mukta/Mukta-Regular.ttf');
-
 }
 
 @font-face {
@@ -47,8 +47,7 @@ body {
 
 .main-body {
     display: flex;
-    overflow: auto;
-    height: calc(100% - 40px);
+    height: calc(100% - 43px);
 }
 
 
