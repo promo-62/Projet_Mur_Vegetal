@@ -301,21 +301,28 @@ namespace Setup
             return newUsers;
         }
         private static IEnumerable<UsersAPI> CreateNewUsersAPI(){
-            UsersAPI User1 = new UsersAPI
+            UsersAPI admin = new UsersAPI
             {
-                Username = "JeanClaudeVendamne",
-                PasswordHash = "CeciEstUnMotDePasseHacheDoncVoila",
-                Salt = "azerty",
+                Username = "admin",
+                PasswordHash = "dda4c543d55d652c43be7f8be2c15982394a1faa00f3ea51297240452178c37f",
+                Salt = "blabla",
                 AccreditationLevel = 3
             };
-            UsersAPI User2 = new UsersAPI
+            UsersAPI interfaceWeb = new UsersAPI
             {
-                Username = "Un mec au pif",
-                PasswordHash = "CeciEstUnMotDePasseHacheDoncVoilou",
-                Salt = "azerty",
+                Username = "interfaceWeb",
+                PasswordHash = "68b1382b48b44ec56651d0ac56e7d775979e1d85b71ca1c52e2465138d22d121",
+                Salt = "cococococo",
                 AccreditationLevel = 1
             };
-            var newUsers = new List<UsersAPI> {User1};
+            UsersAPI interfaceMobile = new UsersAPI
+            {
+                Username = "interfaceMobile",
+                PasswordHash = "6dc248aff25aa300c74817846b913f63b78a6f350822e74c14e0592c424177be",
+                Salt = "coucoujesuis1seltrèss4le",
+                AccreditationLevel = 1
+            };
+            var newUsers = new List<UsersAPI> {admin, interfaceWeb, interfaceMobile};
             return newUsers;
         }
         private static IEnumerable<Socials> CreateNewSocials(){
