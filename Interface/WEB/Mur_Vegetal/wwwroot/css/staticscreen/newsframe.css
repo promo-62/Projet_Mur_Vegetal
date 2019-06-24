@@ -2,6 +2,7 @@
 NEWS FRAME  
 --------------------------------------------------------------------------------------*/
 
+<<<<<<< HEAD
 .news-frame {
     width: 100%;
     display: grid;
@@ -17,21 +18,49 @@ NEWS FRAME
 .news-block {
     display: flex;
     flex-direction: column;
+=======
+.news-body{
+    width: 100%;
+    height: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, auto));
+    grid-gap: 50px 100px;
+    grid-auto-flow: row;
+    padding: 10px;
+    overflow: inherit;
+}
+    
+.news-block{
+    display: flex;
+    flex-direction: column ;
+>>>>>>> Serveur
     align-items: center;
     text-align: center;
     font-size: 1.25em;
 }
 
+<<<<<<< HEAD
 .box {
     background-color: #F4F3F2;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 
+=======
+.box{
+    background-color: #F4F3F2;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    min-width: 500px;
+    max-width: 30%;
+    margin: 5px;
+}
+    
+>>>>>>> Serveur
 /* --------------------------------------------------------------------------------------
 NEWS IMAGE 
 --------------------------------------------------------------------------------------*/
 
+<<<<<<< HEAD
 .news-image img {
     display: block;
     min-width: 700px;
@@ -43,11 +72,23 @@ NEWS IMAGE
 }
 
 
+=======
+.news-image img{
+    display: block;
+    width: 100%;
+}
+
+>>>>>>> Serveur
 /* --------------------------------------------------------------------------------------
 NEWS TEXT
 --------------------------------------------------------------------------------------*/
 
+<<<<<<< HEAD
 .news-text {
     max-width: 70%;
     margin: 10px;
 }
+=======
+    
+    
+>>>>>>> Serveur

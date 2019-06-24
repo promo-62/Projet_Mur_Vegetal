@@ -2,7 +2,11 @@
     width: 100%;
     height: auto;
     display: grid;
+<<<<<<< HEAD
     grid-template-columns: repeat(auto-fit, minmax(450px, auto));
+=======
+    grid-template-columns: repeat(auto-fit, minmax(250px, auto));
+>>>>>>> Serveur
     grid-gap: 50px 100px;
     grid-auto-flow: row;
     padding: 10px;
@@ -19,6 +23,7 @@
 .box {
     background-color: #F4F3F2;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+<<<<<<< HEAD
     min-width: 450px;
     margin: 5px;
 }
@@ -37,6 +42,12 @@
 MEDIAS IMAGE AND VIDEO
 ****************************************************************************************/
 
+=======
+    min-width: 250px;
+    margin: 5px;
+}
+
+>>>>>>> Serveur
 .medias-image img {
     display: block;
     width: 100%;
@@ -49,6 +60,7 @@ MEDIAS IMAGE AND VIDEO
     width: 100%;
     max-width: 450px;
     min-width: 250px;
+<<<<<<< HEAD
 }
 
 @media screen and (max-width:500px) {
@@ -60,4 +72,6 @@ MEDIAS IMAGE AND VIDEO
         min-width: 200px;
         max-width: 250px;
     }
+=======
+>>>>>>> Serveur
 }
