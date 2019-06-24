@@ -1,10 +1,10 @@
 # Documentation de la WebAPI
 
-### ➢ WebAPI v5.1
+### ➢ WebAPI v5.2
 
 **Résumé des fonctionnalités :**
 
-- Lecture seule des éléments de toutes les collections (requêtes GET).
+- Lecture seule des éléments de toutes les collections sauf UsersHololens, UsersAdmin, UsersAPI  (requêtes GET).
 - Lecture seule custom selon les demandes de la team interface web (requêtes GET).
 - Insertion d’éléments dans toutes les collections (requêtes POST).
 - Modification d’élément dans toutes les collections (requêtes PUT).
@@ -30,12 +30,6 @@
 |         |        /events/        | Obtenir [tous les champs] de tous les éléments de la collection Events |
 |         |      /events/{id}      |       Obtenir [tous les champs] de l'évènement d'{id}        |
 |         |     /events/last/      | Obtenir [tous les champs] du dernier élément ajouté à Events |
-|         |    /usershololens/     | Obtenir [tous les champs] de tous les éléments de la collection UsersHololens |
-|         |  /usershololens/{id}   |           Obtenir [tous les champs] du user d'{id}           |
-|         |      /usersadmin/      | Obtenir [tous les champs] de tous les éléments de la collection UsersAdmin |
-|         |    /usersadmin/{id}    |   Obtenir [tous les champs] de l'utilisateur admin d'{id}    |
-|         |       /usersapi/       | Obtenir [tous les champs] de tous les éléments de la collection UsersAPI |
-|         |     /usersapi/{id}     |           Obtenir [tous les champs] du user d'{id}           |
 |         |       /socials/        | Obtenir [tous les champs] de tous les éléments de la collection Socials |
 |         |     /socials/{id}      |      Obtenir [tous les champs] du compte social d'{id}       |
 |         |        /tables/        | Obtenir [tous les champs] de tous les éléments de la collection Tables |

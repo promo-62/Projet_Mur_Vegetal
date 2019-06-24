@@ -1,10 +1,10 @@
 # Documentation of WebAPI
 
-### ➢ WebAPI v5.1
+### ➢ WebAPI v5.2
 
 **Summary of functionalities :**
 
-- Read only for all collections (GET request).
+- Read only for all collections except UsersHololens, UsersAdmin, UsersAPI (GET request).
 - Custom read only for web interface (GET requests).
 - Insert new elements for all collections (POST request).
 - Modify an element for all collections (PUT request).
@@ -30,12 +30,6 @@
 |        |        /events/        |      Get [all fields] for elements in Events collection      |
 |        |      /events/{id}      |        Get [all fields] for event with ObjectId {id}         |
 |        |     /events/last/      | Get [all fields] for last element added in Events collection |
-|        |    /usershololens/     |  Get [all fields] for elements in UsersHololens collection   |
-|        |  /usershololens/{id}   |    Get [all fields] for hololens user with ObjectId {id}     |
-|        |      /usersadmin/      |    Get [all fields] for elements in UsersAdmin collection    |
-|        |    /usersadmin/{id}    |      Get [all fields] for admin user with ObjectId {id}      |
-|        |       /usersapi/       |     Get [all fields] for elements in UsersAPI collection     |
-|        |     /usersapi/{id}     |       Get [all fields] for API user with ObjectId {id}       |
 |        |       /socials/        |     Get [all fields] for elements in Socials collection      |
 |        |     /socials/{id}      |    Get [all fields] for social account with ObjectId {id}    |
 |        |        /tables/        |      Get [all fields] for elements in Tables collection      |

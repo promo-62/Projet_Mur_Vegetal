@@ -32,7 +32,7 @@ namespace WebAPI.Controllers
             string timeStamp = DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss");
 
             var response = new HttpResponseMessage();
-            response.Headers.Add("X-WebAPI-Infos", new string[] { "Datetime: "+ timeStamp, "Version: WebAPI v5.1", "Dev: Etienne" });
+            response.Headers.Add("X-WebAPI-Infos", new string[] { "Datetime: "+ timeStamp, "Version: WebAPI v5.2", "Dev: Etienne" });
 
             return response;
         }
@@ -252,96 +252,6 @@ namespace WebAPI.Controllers
             }
 
             return evenement;
-        }
-
-        // get [all fields] for elements in UsersHololens collection
-        // obtenir [tous les champs] de tous les éléments de la collection UsersHololens
-        [Microsoft.AspNetCore.Mvc.HttpGet("usershololens")]
-        public ActionResult<List<UsersHololens>> GetUsersHololens()
-        {
-            var userHololens = _webService.Get<UsersHololens>("UsersHololens");
-
-            if (!userHololens.Any())
-            {
-                return NoContent();
-            }
-
-            return userHololens;
-        }
-
-        // get [all fields] for hololens user with ObjectId {id}
-        // obtenir [tous les champs] du user d'{id}
-        [Microsoft.AspNetCore.Mvc.HttpGet("usershololens/{id:length(24)}", Name = "GetUserHololens")]
-        public ActionResult<UsersHololens> GetUserHololensById(string id)
-        {
-            var userHololens = _webService.GetById<UsersHololens>("UsersHololens", id);
-
-            if (userHololens == null)
-            {
-                return NotFound();
-            }
-
-            return userHololens;
-        }
-
-        // get [all fields] for elements in UsersAdmin collection
-        // obtenir [tous les champs] de tous les éléments de la collection UsersAdmin
-        [Microsoft.AspNetCore.Mvc.HttpGet("usersadmin")]
-        public ActionResult<List<UsersAdmin>> GetUsersAdmin()
-        {
-            var userAdmin = _webService.Get<UsersAdmin>("UsersAdmin");
-
-            if (!userAdmin.Any())
-            {
-                return NoContent();
-            }
-
-            return userAdmin;
-        }
-
-        // get [all fields] for admin user with ObjectId {id}
-        // obtenir [tous les champs] de l'utilisateur admin d'{id}
-        [Microsoft.AspNetCore.Mvc.HttpGet("usersadmin/{id:length(24)}", Name = "GetUserAdmin")]
-        public ActionResult<UsersAdmin> GetUserAdminById(string id)
-        {
-            var userAdmin = _webService.GetById<UsersAdmin>("UsersAdmin", id);
-
-            if (userAdmin == null)
-            {
-                return NotFound();
-            }
-
-            return userAdmin;
-        }
-
-        // get [all fields] for elements in UsersAPI collection
-        // obtenir [tous les champs] de tous les éléments de la collection UsersAPI
-        [Microsoft.AspNetCore.Mvc.HttpGet("usersapi")]
-        public ActionResult<List<UsersAPI>> GetUsersAPI()
-        {
-            var userAPI = _webService.Get<UsersAPI>("UsersAPI");
-
-            if (!userAPI.Any())
-            {
-                return NoContent();
-            }
-
-            return userAPI;
-        }
-
-        // get [all fields] for API user with ObjectId {id}
-        // obtenir [tous les champs] du user d'{id}
-        [Microsoft.AspNetCore.Mvc.HttpGet("usersapi/{id:length(24)}", Name = "GetUserAPI")]
-        public ActionResult<UsersAPI> GetUserAPIById(string id)
-        {
-            var userAPI = _webService.GetById<UsersAPI>("UsersAPI", id);
-
-            if (userAPI == null)
-            {
-                return NotFound();
-            }
-
-            return userAPI;
         }
 
         // get [all fields] for elements in Socials collection

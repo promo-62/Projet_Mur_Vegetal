@@ -3,22 +3,29 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using MongoDB.Bson; ///Utilise pour le ObjectId
-using CapteursApi.Models;
+using WebAPI.Models;
+
+//////////////////////////////////////////////////////////////////////////////////
+/// Setup d'exemple dans MurVegetalDb : certains sont les hard codes et d'autres sont
+/// pseudo generes.DELETE L'ANCIENNE BASE DE DONNEE AVANT ! ATTENTION !!!
+/// Example setup on MurVegetalDb : some of them are hard coded while others are
+/// pseudo generated. DELETE THE OLD DATA BASE BEFORE !!! WARNING !!!!
+//////////////////////////////////////////////////////////////////////////////////
 
 namespace Setup
 {   
-    public class CapteurComparer : Comparer<Capteur> 
+    public class CapteurComparer : Comparer<Sensors> 
     {
         // Compares by Length, Height, and Width.
-        public override int Compare(Capteur x, Capteur y)
+        public override int Compare(Sensors x, Sensors y)
         {
-            if (x.IdCapteur.CompareTo(y.IdCapteur) != 0)
+            if (x.IdSensor.CompareTo(y.IdSensor) != 0)
             {
-                return x.IdCapteur.CompareTo(y.IdCapteur);
+                return x.IdSensor.CompareTo(y.IdSensor);
             }
             else
             {
-                Console.Error.WriteLine("Deux capteurs ont le meme idCapteur!!!!");
+                Console.Error.WriteLine("Two sensors have the same SensorId!!!!");
                 return 0;
             }
         }
@@ -39,7 +46,9 @@ namespace Setup
         static void StartNewExamples(string[] args)
         {
             m_Rand = new Random();
-            m_Client = new MongoClient("mongodb://127.0.0.1:27017/"); 
+            m_Client = new MongoClient("mongodb://127.0.0.1:27017/");
+            if(m_Client.GetDatabase("MurVegetalDb") != null)
+                m_Client.DropDatabase("MurVegetalDb");
             m_Database = m_Client.GetDatabase("MurVegetalDb");
             m_CRUD = new MongoCRUD(m_Database);
 
@@ -47,19 +56,6 @@ namespace Setup
             
             Console.WriteLine("Press enter to exit");
             Console.ReadLine();
-        }
-        static int createNewIdCapteur()
-        {
-            List<Capteur> capteurs = m_CRUD.LoadRecords<Capteur>("Capteurs");
-            capteurs.Sort(new CapteurComparer());
-            int newID = 0;
-            foreach(Capteur c in capteurs)
-            {
-                if(c.IdCapteur != newID)
-                    return newID;
-                newID++;
-            }
-            return newID;
         }
 
         //////////////////////////////////////////////////////////////////////////////////////
@@ -70,25 +66,34 @@ namespace Setup
         //////////////////////////////////////////////////////////////////////////////////////
         static void ExampleFunction()
         {
-            addNewDocuments<Capteur>(CreateNewCapteur(), "Capteurs").Wait();
-            addNewDocuments<Capteur>(CreateNewCapteur(), "Capteurs").Wait();
-            addNewDocuments<Capteur>(CreateNewCapteur(), "Capteurs").Wait();
-            addNewDocuments<Capteur>(CreateNewCapteur(), "Capteurs").Wait();
-            addNewDocuments<Releve>(CreateNewReleve(), "Releve").Wait();
-            addNewDocuments<Releve>(CreateNewReleve(), "Releve").Wait();
-            addNewDocuments<Releve>(CreateNewReleve(), "Releve").Wait();
-            addNewDocuments<Releve>(CreateNewReleve(), "Releve").Wait();
-            addNewDocuments<Releve>(CreateNewReleve(), "Releve").Wait();
-            addNewDocuments<Releve>(CreateNewReleve(), "Releve").Wait();
-            addNewDocuments<Releve>(CreateNewReleve(), "Releve").Wait();
-            addNewDocuments<VersionProtocole>(CreateNewVersionProtocoles(), "Version_protocole").Wait();
-            addNewDocuments<Plantes>(CreateNewPlantes(), "Plantes").Wait();
-            addNewDocuments<Event>(CreateNewEvents(), "Event").Wait();
-            addNewDocuments<User>(CreateNewUsers(), "User").Wait();
-            addNewDocuments<Social>(CreateNewSocial(), "Social").Wait();
-            addNewDocuments<Tableau>(CreateNewTableaux(), "Tableau").Wait();
-            addNewDocuments<Media>(CreateNewMedias(), "Media").Wait();
-            addNewDocuments<CompteARebours>(CreateNewCompteARebours(), "CompteARebours").Wait();   
+            addNewDocuments<SensorTypes>(CreateNewSensorTypes(), "SensorTypes").Wait();
+            addNewDocuments<Sensors>(CreateNewSensors(), "Sensors").Wait();
+
+            List<SensorTypes> listTypes = m_CRUD.LoadRecords<SensorTypes>("SensorTypes");
+            List<Sensors> listSensors = m_CRUD.LoadRecords<Sensors>("Sensors");
+            foreach(Sensors Sensor in listSensors)
+                foreach(SensorTypes type in listTypes)
+                {
+                    if(type.IdSensorType == Sensor.IdSensor)
+                    {
+                        type.SensorIds.Add(Sensor.Id);
+                        m_CRUD.UpsetRecord<SensorTypes>("SensorTypes", ObjectId.Parse(type.Id), type);
+                    }
+                }
+
+            addNewDocuments<Samples>(CreateNewSamples(), "Samples").Wait();
+            addNewDocuments<ProtocolVersions>(CreateNewProtocolVersions(), "ProtocolVersions").Wait();
+            addNewDocuments<Plants>(CreateNewPlants(), "Plants").Wait();
+            addNewDocuments<Events>(CreateNewEvents(), "Events").Wait();
+            addNewDocuments<UsersHololens>(CreateNewUsersHololens(), "UsersHololens").Wait();
+            addNewDocuments<UsersAdmin>(CreateNewUsersAdmin(), "UsersAdmin").Wait();
+            addNewDocuments<UsersAPI>(CreateNewUsersAPI(), "UsersAPI").Wait();
+            addNewDocuments<Socials>(CreateNewSocials(), "Socials").Wait();
+            addNewDocuments<Tables>(CreateNewTables(), "Tables").Wait();
+            addNewDocuments<Medias>(CreateNewMedias(), "Medias").Wait();
+            addNewDocuments<Countdowns>(CreateNewCountdowns(), "Countdowns").Wait();  
+            addNewDocuments<Alerts>(CreateNewAlerts(), "Alerts").Wait();
+            addNewDocuments<Screens>(CreateNewScreens(), "Screens").Wait();  
         }
         //////////////////////////////////////////////////////////////////////////////////////
         /// addNewDocuments adds the objects given from the "Documents" list inside
@@ -107,156 +112,180 @@ namespace Setup
             var collection = m_Database.GetCollection<T>(nameOfCollection);
             await collection.InsertManyAsync(Documents);
         }
-        
-        private static IEnumerable<Capteur> CreateNewCapteur()
+        private static IEnumerable<SensorTypes> CreateNewSensorTypes()
         {
-            List<string> typesCapteur = new List<string>{"Humidite", "Temperature", "Luminosite", "QualiteDAir", "Pression"};
-            Capteur Capteur1 = new Capteur
-            {
-                IdCapteur = createNewIdCapteur(),
-                TypeCapteur = new List<string>(),
-                Projet = new List<string>{"MurVegetal"},
-                Nom = "",
-                Description = "",
-                DateCapteur = DateTimeOffset.Now.ToUnixTimeSeconds() - m_Rand.Next(100000),
-                DateDernierReleve = DateTimeOffset.Now.ToUnixTimeSeconds(),
-                Batterie = true,
-                NiveauBatterie = new List<int>(),
-                DelaiVeille = 10,
-                Action = new List<ActionModel>(),
-                Version = 3,
-                Fonctionne = true
-            };
-            List<int> entiers = new List<int>();
-            for(int i = 0; i < 3; i++)
-            {
-                int temp = m_Rand.Next(typesCapteur.Count);
-                if(entiers.IndexOf(temp) == -1)
-                {
-                    entiers.Add(temp);
-                    Capteur1.TypeCapteur.Add(typesCapteur[temp]);
-                }
-            }
-            Capteur1.NiveauBatterie.Add(100);
-            int max = m_Rand.Next(40);
-            for(int i = 0; i < max; i++)
-            {
-                int newBatteryLvl = Capteur1.NiveauBatterie[i] - m_Rand.Next(4);
-                if(newBatteryLvl < 0)
-                    newBatteryLvl = 0;
-                Capteur1.NiveauBatterie.Add(newBatteryLvl);
-            }
-            if(m_Rand.Next(2) == 0)
-                Capteur1.Action.Add
-                (new ActionModel{
-                    Nom = "LedDelai",
-                    Description = "Delai du clignotement de la led d'etat en secondes.",
-                    Data = 10
-                });
+            List<string> sensorTypes = new List<string>{"Humidite", "Temperature", "Luminosite", "QualiteDAir", "Pression"};
             
-            var newCapteurs = new List<Capteur> {Capteur1};
-            return newCapteurs;
+            var NewSensorType = new List<SensorTypes>();
+            for(int i = 0; i < sensorTypes.Count; i++)
+            {
+                NewSensorType.Add( new SensorTypes
+                {
+                    IdSensorType = i,
+                    SamplesTypes = new List<string>(),
+                    SensorIds = new List<string>()
+                });
+                NewSensorType[i].SamplesTypes.Add(sensorTypes[i]);
+
+            }
+            return NewSensorType;
         }
         
-        private static IEnumerable<Releve> CreateNewReleve()
+        private static IEnumerable<Sensors> CreateNewSensors()
         {
-            List<Capteur> capteurs = m_CRUD.LoadRecords<Capteur>("Capteurs");
-            Capteur capteur = capteurs[m_Rand.Next(capteurs.Count)];
-            long f_dateReleve = DateTimeOffset.Now.ToUnixTimeSeconds() - m_Rand.Next(100000);
-            if(capteur.DateDernierReleve < f_dateReleve)
-                capteur.DateDernierReleve = f_dateReleve;
-            m_CRUD.UpsetRecord<Capteur>("Capteurs", capteur.Id, capteur);
-            Releve releve1 = new Releve
+            var NewSensors = new List<Sensors>();
+            for(int i = 0; i < 10; i++)
             {
-                IdCapteur = capteur.IdCapteur,
-                TypeCapteur = capteur.TypeCapteur[m_Rand.Next(capteur.TypeCapteur.Count)],
-                Note = "",
-                DateReleve = f_dateReleve,
-                Valeur = m_Rand.Next(26) + m_Rand.Next(26) + m_Rand.Next(26) + m_Rand.Next(26)
-            };
-            var newReleves = new List<Releve> {releve1};
-            return newReleves;
+                bool f_IsWorking = true;
+                if(m_Rand.Next(8) == 0)
+                    f_IsWorking = false;
+                int sensorType = m_Rand.Next(5);
+                NewSensors.Add( new Sensors
+                {
+                    IdSensor = i,
+                    IdSensorType = sensorType,
+                    Project = new List<string>{"MurVegetal"},
+                    Name = "",
+                    Description = "",
+                    SensorDate = DateTimeOffset.Now.ToUnixTimeSeconds() - m_Rand.Next(100000),
+                    LastSampleDate = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                    Battery = true,
+                    BatteryLevel = new List<int>(),
+                    SleepTime = 10,
+                    Action = new List<ActionModel>(),
+                    Version = 3,
+                    IsWorking = f_IsWorking,
+                    TimeOut = 0
+                });
+                
+                
+                NewSensors[i].BatteryLevel.Add(100);
+                int max = m_Rand.Next(40);
+                for(int j = 0; j < max; j++)
+                {
+                    int newBatteryLvl = NewSensors[i].BatteryLevel[j] - m_Rand.Next(4);
+                    if(newBatteryLvl < 0)
+                        newBatteryLvl = 0;
+                    NewSensors[i].BatteryLevel.Add(newBatteryLvl);
+                }
+                if(m_Rand.Next(2) == 0)
+                    NewSensors[i].Action.Add
+                    (new ActionModel{
+                        Name = "LedDelai",
+                        Description = "Delai du clignotement de la led d'etat en secondes.",
+                        ToDo = 10
+                    });
+            }
+            return NewSensors;
         }
-        private static IEnumerable<VersionProtocole> CreateNewVersionProtocoles(){
-            VersionProtocole VersionProtocole1 = new VersionProtocole
+        
+        private static IEnumerable<Samples> CreateNewSamples()
+        {
+            List<Sensors> sensors = m_CRUD.LoadRecords<Sensors>("Sensors");
+            var newSamples = new List<Samples> {};
+            int nbSample = m_Rand.Next(50) + 50;
+            for(int i = 0; i < nbSample; i++)
+            {
+                int idSensor = m_Rand.Next(5);
+                long f_SampleDate = DateTimeOffset.Now.ToUnixTimeSeconds() - m_Rand.Next(100000);
+                if(sensors[idSensor].LastSampleDate < f_SampleDate)
+                    sensors[idSensor].LastSampleDate = f_SampleDate;
+                    
+                m_CRUD.UpsetRecord<Sensors>("Sensors", ObjectId.Parse(sensors[idSensor].Id), sensors[idSensor]);
+                newSamples.Add(new Samples
+                {
+                    IdSensor = sensors[idSensor].IdSensor,
+                    SampleDate = f_SampleDate,
+                    Value = m_Rand.Next(26) + m_Rand.Next(26) + m_Rand.Next(26) + m_Rand.Next(26)
+                });
+            }
+            
+            return newSamples;
+        }
+        private static IEnumerable<ProtocolVersions> CreateNewProtocolVersions(){
+            ProtocolVersions ProtocolVersion1 = new ProtocolVersions
             {
                 Version = 2,
                 Message = new List<MessageModel>(),
             };
-            VersionProtocole1.Message.Add
+            ProtocolVersion1.Message.Add
             (new MessageModel{
                 TypeMessage = 1,
                 PayloadParam = new List<PayloadParamModel>(),
             });
-            VersionProtocole1.Message.Add
+            ProtocolVersion1.Message.Add
             (new MessageModel{
                 TypeMessage = 2,
                 PayloadParam = new List<PayloadParamModel>(),
             });
-            VersionProtocole1.Message[0].PayloadParam.Add(new PayloadParamModel
+            ProtocolVersion1.Message[0].PayloadParam.Add(new PayloadParamModel
                 {
                     Type = "1",
-                    Taille = 36
+                    Size = 36
                 }
             );
-            VersionProtocole1.Message[0].PayloadParam.Add(new PayloadParamModel
+            ProtocolVersion1.Message[0].PayloadParam.Add(new PayloadParamModel
                 {
                     Type = "1",
-                    Taille = 16
+                    Size = 16
                 }
             );
-            VersionProtocole1.Message[0].PayloadParam.Add(new PayloadParamModel
+            ProtocolVersion1.Message[0].PayloadParam.Add(new PayloadParamModel
                 {
                     Type = "1",
-                    Taille = 200
+                    Size = 200
                 }
             );
-            VersionProtocole1.Message[0].PayloadParam.Add(new PayloadParamModel
+            ProtocolVersion1.Message[0].PayloadParam.Add(new PayloadParamModel
                 {
                     Type = "3",
-                    Taille = 20
+                    Size = 20
                 }
             );
-            var newVersionProtocoles = new List<VersionProtocole> {VersionProtocole1};
-            return newVersionProtocoles;
+            var newProtocolVersions = new List<ProtocolVersions> {ProtocolVersion1};
+            return newProtocolVersions;
         }
-        private static IEnumerable<Plantes> CreateNewPlantes(){
-            Plantes Plante1 = new Plantes
+        private static IEnumerable<Plants> CreateNewPlants(){
+            Plants Plant1 = new Plants
             {
-                Nom = "Exemple",
-                Description = "Bonjour je suis un exemple",
-                PosX = 1,
-                PosY = 5,
-                LinkImg = "https://www.andre-briant.fr/media/polystichum_polyblepharum__023010700_1629_24042016.jpg",
+                Name = "polystichum setiferum proliferum",
+                Temperature = "Bonjour je suis une polystichum setiferum proliferum",
+                Humidity="J'ai swouaf",
+                Luminosity="gris",
+                PositionX = 1,
+                PositionY = 5,
+                Image = "https://www.andre-briant.fr/media/polystichum_polyblepharum__023010700_1629_24042016.jpg",
             };
-            var newPlantes = new List<Plantes> {Plante1};
-            return newPlantes;
+            var newPlants = new List<Plants> {Plant1};
+            return newPlants;
         }
         private static IEnumerable<Event> CreateNewEvents(){
             Event Event1 = new Event
             {
-                Nom = "VENEZ AU LASER GAME !!!!",
-                DateEvent = 1559689200,
-                DateDebut = 1559676600,
-                DateFin = 1559689200,
-                Data = new List<DataModel>(),
+                Name = "VENEZ AU LASER GAME !!!!",
+                EventDate = 1559689200,
+                BeginningDate = 1559676600,
+                EndingDate=1559689200,
+                EventImage = "vacance.jpeg",
+                Text="pew pew",
                 Position = 4,
             };
-            Event1.Data.Add
+            //ne sert plus a rien ??
+            /*Event1.Data.Add
             (new DataModel{
                 LinkImg = "https://i2.cdscdn.com/pdt2/4/9/2/1/700x700/auc2009459774492/rw/stickers-citron-rigolo-sens-inverse-30-x-30-cm.jpg",
                 LinkVideo = "https://www.youtube.com/watch?v=3q7oJuyy5Ac",
-                Texte = "Ceci est un exemple d'event"
-            });
-            var newEvents = new List<Event> {Event1};
+                Text = "TOP 10 DES TRUCS LES PLUS DROLES D INTERNET LE TROISIEME VA VOUS RENDRE FOU !!!"
+            });*/
+            var newEvents = new List<Events> {Event1};
             return newEvents;
         }
         private static IEnumerable<User> CreateNewUsers(){
             User User1 = new User
             {
-                Nom = "User",
-                Mdp = "User",
-                UtilisateurHololens = "Billy",
+                Name = "User",
+                Password = "User",
+                HololensUsername = "Billy"
             };
             var newUsers = new List<User> {User1};
             return newUsers;
@@ -264,49 +293,80 @@ namespace Setup
         private static IEnumerable<Social> CreateNewSocial(){
             Social Social1 = new Social
             {
-                Username = "Exemple",
-                PageWidget = "Exemple",
+                Username = "UserLambda",
+                PasswordHash = "TaMaman",
+                HashKey = "BobbyBob"
+            };
+            var newUsers = new List<UsersAdmin> {User1};
+            return newUsers;
+        }
+        private static IEnumerable<UsersAPI> CreateNewUsersAPI(){
+            UsersAPI User1 = new UsersAPI
+            {
+                Username = "JeanClaudeVendamne",
+                PasswordHash = "CeciEstUnMotDePasseHacheDoncVoila",
+                Salt = "azerty",
+                AccreditationLevel = 3
+            };
+            UsersAPI User2 = new UsersAPI
+            {
+                Username = "Un mec au pif",
+                PasswordHash = "CeciEstUnMotDePasseHacheDoncVoilou",
+                Salt = "azerty",
+                AccreditationLevel = 1
+            };
+            var newUsers = new List<UsersAPI> {User1};
+            return newUsers;
+        }
+        private static IEnumerable<Socials> CreateNewSocials(){
+            Socials Social1 = new Socials
+            {
+                Username = "MurVegetal",
+                PageWidget = "accueil",
                 Widget = "http://poulespondeuses.com/wp-content/uploads/2019/02/Poussin-Muesli.jpg",
             };
             var newSocials = new List<Social> {Social1};
             return newSocials;
         }
-        private static IEnumerable<Tableau> CreateNewTableaux(){
-            Tableau Tableau1 = new Tableau
+        private static IEnumerable<Tables> CreateNewTables(){
+            Tables Table1 = new Tables
             {
-                DureeAffichage = 10,
-                EstAffiche = true,
-                Nom = "Exemple",
-                DureeCarroussel = 20,
+                OnScreenTime = 10,
+                IsOnScreen = true,
+                Name = "LA Joconde",
+                CarrousselTime = 20,
             };
-            var newTableaus = new List<Tableau> {Tableau1};
-            return newTableaus;
+            var newTable = new List<Tables> {Table1};
+            return newTable;
         }
         private static IEnumerable<Media> CreateNewMedias(){
             Media Media1 = new Media
             {
-                Nom = "Exemple",
-                DateDeb = 1559689243,
-                DateFin = 1559689946,
-                Data = new List<DataModel>(),
+                Name = "BFMTV",
+                BeginningDate = 1559689243,
+                EndingDate = 1559689946,
+                Video="ytp.wav",
+                Image="vacances.jpeg"
             };
-            Media1.Data.Add
+            //bah osef aussi du coup
+            /* Media1.Data.Add
             (new DataModel{
                 LinkImg = "https://i2.cdscdn.com/pdt2/4/9/2/1/700x700/auc2009459774492/rw/stickers-citron-rigolo-sens-inverse-30-x-30-cm.jpg",
                 LinkVideo = "https://www.youtube.com/watch?v=3q7oJuyy5Ac",
-                Texte = "Exemple"
-            });
-            var newMedias = new List<Media> {Media1};
+                Text = "TOP 10 DES TRUCS LES PLUS DROLES D INTERNET LE TROISIEME VA VOUS RENDRE FOU !!!"
+            });*/
+            var newMedias = new List<Medias> {Media1};
             return newMedias;
         }
-        private static IEnumerable<CompteARebours> CreateNewCompteARebours(){
-            CompteARebours CompteARebours1 = new CompteARebours
+        private static IEnumerable<Countdowns> CreateNewCountdowns(){
+            Countdowns Countdown1 = new Countdowns
             {
-                Nom = "Exemple",
-                Texte = "Exemple",
-                DateButoir = 1559689946,
-                DateDebut = 1559689243,
-                DateFin = 1559689946,
+                Name = "je suis le car numero 1",
+                Text = "ATTENTION: Il ne reste plus beaucoup de temps pour vous acheter votre abonnement TéléZ",
+                EndingDateEvent = 1559689946,
+                BeginningDateEvent = 1559689243,
+                EndingDateCountdown = 1559689946,
+                Position = m_Rand.Next(203) + 100
             };
             /* 
             CompteARebours1.Data.Add
@@ -315,8 +375,41 @@ namespace Setup
                 linkVideo = "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                 texte = "Exemple"
             });*/
-            var newCompteARebours = new List<CompteARebours> {CompteARebours1};
-            return newCompteARebours;
+            var newCountdowns = new List<Countdowns> {Countdown1};
+            return newCountdowns;
+        }
+        private static IEnumerable<Alerts> CreateNewAlerts(){
+            Alerts Alert1 = new Alerts
+            {
+                IdSensor = m_Rand.Next(5),
+                Name = "je suis une alerte",
+                DateAlert = 1559689996,
+                IsWorking = true,
+                AlertReason = "La raison de l'alerte est encore une demande random de changement de la bdd."
+            };
+            /* 
+            CompteARebours1.Data.Add
+            (new Data{
+                linkImg = "http://fr.web.img4.acsta.net/c_216_288/pictures/19/04/25/17/17/5767838.jpg",
+                linkVideo = "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                texte = "IL MONTE SUR UNE GRUE (l oiseau) ET CA TOURNE MAL OMG !!!!"
+            });*/
+            var newCountdowns = new List<Alerts> {Alert1};
+            return newCountdowns;
+        }
+
+        private static IEnumerable<Screens> CreateNewScreens(){
+
+            Screens Screen1 = new Screens{
+
+                OnDate = 1561365090,
+                OffDate = 1561375090,
+                Delay = 600
+
+            };
+
+            var newScreens = new List<Screens> {Screen1};
+            return newScreens;
         }
     }
 }
