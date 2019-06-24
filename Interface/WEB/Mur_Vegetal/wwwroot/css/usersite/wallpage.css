@@ -6,7 +6,11 @@ WALL PAGE
     width: 100%;
     height: auto;
     display: grid;
+<<<<<<< HEAD
     grid-template-columns: repeat(auto-fit, minmax(450px, auto));
+=======
+    grid-template-columns: repeat(auto-fit, minmax(250px, auto));
+>>>>>>> Serveur
     grid-gap: 50px 100px;
     grid-auto-flow: row;
     padding: 10px;
@@ -16,7 +20,11 @@ WALL PAGE
 .box {
     background-color: #F4F3F2;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+<<<<<<< HEAD
     min-width: 450px;
+=======
+    min-width: 250px;
+>>>>>>> Serveur
     margin: 5px;
 }
 
@@ -40,6 +48,7 @@ WALL PAGE
     padding: 5px;
 }
 
+<<<<<<< HEAD
 @media screen and (max-width:500px) {
     .wall-body {
         grid-template-columns: repeat(auto-fit, minmax(250px, auto));
@@ -49,6 +58,8 @@ WALL PAGE
     }
 }
 
+=======
+>>>>>>> Serveur
 
 /***************************************************************************************
 WALL IMAGE
@@ -61,6 +72,7 @@ img {
 .chart {
     display: block;
     width: 100%;
+<<<<<<< HEAD
     max-width: 450px;
     height: 300px;
 }
@@ -73,4 +85,9 @@ img {
     chart {
         max-width: 200px;
     }
+=======
+    min-width: 200px;
+    max-width: 450px;
+    height: 300px;
+>>>>>>> Serveur
 }
