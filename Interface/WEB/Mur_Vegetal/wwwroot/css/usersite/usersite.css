@@ -32,6 +32,22 @@ LAYOUT
 
 
 body {
+<<<<<<< HEAD
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    font-family: Mukta-Regular, sans-serif;
+    background-color: #EFEDEC;
+    background-image: url('~/../../../images/fnd1.jpg');
+    background-size: 200%;
+
+}
+
+.main-body {
+    display: flex;
+    margin-bottom: 10px;
+}
+=======
   height: 100vh;
   margin: 0;
   padding:0;
@@ -39,6 +55,7 @@ body {
   font-family: Mukta-Regular, sans-serif;
 }
 
+>>>>>>> Interface
 
 .main-body{
   display: flex;
