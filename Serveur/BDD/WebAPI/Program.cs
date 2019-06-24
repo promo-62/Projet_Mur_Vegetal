@@ -20,6 +20,6 @@ namespace WebAPI
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseUrls("http://*:4001");
+                .UseUrls("https://*:4001");
     }
 }

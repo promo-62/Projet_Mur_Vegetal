@@ -1,0 +1,22 @@
+{
+    "Format_Data":[
+        {
+            "COMPONENT_TYPE_1": 22,
+            "OMPONENT_TYPE_2": 41,
+            "FORMAT":{
+                "DATA_1": "",
+                "DATA_2": "",
+                "DATA_3": ""
+            }
+        },
+        {
+            "COMPONENT_TYPE_1": 14,
+            "OMPONENT_TYPE_2": 15,
+            "FORMAT":{
+                "DATA_1": "",
+                "DATA_2": "",
+                "DATA_3": ""
+            }
+        }
+    ]
+}
