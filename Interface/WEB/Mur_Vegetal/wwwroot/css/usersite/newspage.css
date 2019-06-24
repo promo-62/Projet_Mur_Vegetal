@@ -6,11 +6,7 @@ NEWS PAGE
     width: 100%;
     height: auto;
     display: grid;
-<<<<<<< HEAD
     grid-template-columns: repeat(auto-fit, minmax(450px, auto));
-=======
-    grid-template-columns: repeat(auto-fit, minmax(250px, auto));
->>>>>>> Serveur
     grid-gap: 50px 100px;
     grid-auto-flow: row;
     padding: 10px;
@@ -28,16 +24,11 @@ NEWS PAGE
 .box {
     background-color: #F4F3F2;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-<<<<<<< HEAD
     min-width: 450px;
-=======
-    min-width: 250px;
->>>>>>> Serveur
     max-width: 30%;
     margin: 5px;
 }
 
-<<<<<<< HEAD
 @media screen and (max-width:500px) {
     .news-body {
         grid-template-columns: repeat(auto-fit, minmax(250px, auto));
@@ -47,8 +38,6 @@ NEWS PAGE
     }
 }
 
-=======
->>>>>>> Serveur
 
 /* --------------------------------------------------------------------------------------
 NEWS IMAGE 
@@ -57,7 +46,6 @@ NEWS IMAGE
 .news-image img {
     display: block;
     width: 100%;
-<<<<<<< HEAD
     min-width: 450px;
 }
 
@@ -66,16 +54,13 @@ NEWS IMAGE
         min-width: 200px;
         max-width: 250px;
     }
-=======
-    min-width: 250px;
->>>>>>> Serveur
 }
 
 
 /* --------------------------------------------------------------------------------------
 NEWS TEXT
-<<<<<<< HEAD
---------------------------------------------------------------------------------------*
-=======
 --------------------------------------------------------------------------------------*/
->>>>>>> Serveur
+
+.news-text {
+    padding: 10px;
+}

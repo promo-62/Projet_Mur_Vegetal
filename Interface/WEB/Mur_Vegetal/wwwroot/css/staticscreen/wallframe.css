@@ -2,7 +2,6 @@
 WALL FRAME  
 --------------------------------------------------------------------------------------*/
 
-<<<<<<< HEAD
 .wall-frame {
     width: 100%;
     height: inherit;
@@ -44,7 +43,7 @@ WALL FRAME
   WALL IMAGE
   ****************************************************************************************/
 
-.info img {
+  .info img {
     padding: 5px;
     display: block;
 }
@@ -54,65 +53,3 @@ WALL FRAME
     width: 100%;
     min-height: 200px;
 }
-=======
-.wall-body{
-    width: 100%;
-    height: auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(450px, auto));
-    grid-gap: 50px 100px;
-    grid-auto-flow: row;
-    padding: 10px;
-    overflow: inherit;
-  }
-    
-  .wall-block{
-    min-width: 300px;
-    border-radius: 10px;
-    margin: 5px;
-    display: flex;
-    flex-direction: column ;
-    text-align: center;
-  }
-    
-  .wall-text{
-    color : aliceblue;
-  }
- 
-  .wall-body:first-of-type>div:nth-child(1){
-    min-width: 300px;
-    border-radius: 10px;
-    margin: 5px;
-    justify-self: center;
-    align-self: flex-start;
-    border-width: 4px;
-    border-style: solid;
-    border-color : rgb(100, 185, 79);
-  }
-    
-  /***************************************************************************************
-  WALL IMAGE
-  ****************************************************************************************/
-    
-  .wall-icon img{
-    margin-top: 5px;
-    width: 50%;
-  }
-    
-  .wall-info{
-    display: flex;
-    align-items: center;
-    flex-flow: row wrap;
-  }
-    
-  .wall-graph img{
-    margin: 3px;
-    width: 40%;
-    min-width: 300px;
-    border-radius: 10px;
-    border-width: 4px;
-    border-style: solid;
-    border-color : rgb(245, 245, 245);
-  }
-    
->>>>>>> Serveur

@@ -49,7 +49,11 @@ namespace Mur_Vegetal
                 app.UseHsts();
             }
 
-            app.UsePathBase("/web");
+            /**************************************************/
+            /**************************************************/
+
+            
+            app.UsePathBase("/web"); //PUT HERE THE ROOT PATH OF WEBSERVER
 
             app.Use((context, next) =>
             {
@@ -61,6 +65,7 @@ namespace Mur_Vegetal
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseStatusCodePagesWithRedirects("~/Index"); // TO REDIRECT TO ERROR PAGES /errors/{0}
 
             app.UseMvc();
         }

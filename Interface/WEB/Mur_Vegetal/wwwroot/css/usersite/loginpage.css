@@ -4,11 +4,7 @@ LOGIN PAGE
 
 .login-body {
     width: 100%;
-<<<<<<< HEAD
     height: 80vh;
-=======
-    height: 100%;
->>>>>>> Serveur
     overflow: inherit;
     display: flex;
     flex-direction: column;
