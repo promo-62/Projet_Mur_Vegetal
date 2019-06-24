@@ -43,7 +43,7 @@ WALL FRAME
   WALL IMAGE
   ****************************************************************************************/
 
-  .info img {
+.info img {
     padding: 5px;
     display: block;
 }
