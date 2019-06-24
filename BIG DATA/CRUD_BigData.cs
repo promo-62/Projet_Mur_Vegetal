@@ -41,12 +41,12 @@ namespace Setup
             return collection.Find(filter).First();
         }
 
-        public void UpsetRecord<T>(string table, string id, T record)
+        public void UpsetRecord<T>(string table, ObjectId id, T record)/*Use Object.Parse(id)*/
         { /*changer l'element id dans une collection par l'element record. Il est possible de remplacer une seule propriete de l'element */
             /*change the element id in a collection by the element record. It is possible to replace a single property of the element*/
             var collection = db.GetCollection<T>(table);
             var result = collection.ReplaceOne(
-             new BsonDocument("_id", id),
+             new BsonDocument("_id", id ),
              record,
              new UpdateOptions { IsUpsert = true });
         }
