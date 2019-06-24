@@ -84,6 +84,13 @@ News box
     color: #629460;
 }
 
+.news-text {
+    overflow-wrap: normal;
+    align-content: center;
+    padding: 10px;
+    width: 70%;
+}
+
 
 /* -------------------------------------------
 Countdown box  
@@ -102,7 +109,6 @@ Countdown box
     overflow-wrap: normal;
     align-content: center;
     padding: 5px;
-    border-radius: 10px;
     text-transform: uppercase;
 }
 
