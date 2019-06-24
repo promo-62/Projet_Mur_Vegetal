@@ -58,14 +58,14 @@
 |         | /protocolversions/ | Insérer un élément dans la collection ProtocolVersions |
 |         |      /plants/      |      Insérer un élément dans la collection Plants      |
 |         |      /events/      |      Insérer un élément dans la collection Events      |
-|    !    |  /usershololens/   |  Insérer un élément dans la collection UsersHololens   |
-|    !    |    /usersadmin/    |    Insérer un élément dans la collection UsersAdmin    |
+|         |  /usershololens/   |  Insérer un élément dans la collection UsersHololens   |
+|         |    /usersadmin/    |    Insérer un élément dans la collection UsersAdmin    |
 |         |     /usersapi/     |     Insérer un élément dans la collection UsersAPI     |
 |         |     /socials/      |     Insérer un élément dans la collection Socials      |
 |         |      /tables/      |      Insérer un élément dans la collection Tables      |
 |         |      /medias/      |      Insérer un élément dans la collection Medias      |
 |         |    /countdowns/    |    Insérer un élément dans la collection Countdowns    |
-|    !    |   /sensortypes/    |   Insérer un élément dans la collection SensorTypes    |
+|         |   /sensortypes/    |   Insérer un élément dans la collection SensorTypes    |
 |         |      /alerts/      |      Insérer un élément dans la collection Alerts      |
 
 
