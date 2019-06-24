@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using CapteursApi.Services;
+using WebAPI.Services;
 using Microsoft.AspNetCore.Http;
+using System.Web.Http;
+using Microsoft.AspNetCore.Routing;
 
 namespace WebAPI
 {
@@ -16,11 +18,11 @@ namespace WebAPI
         }
 
         public IConfiguration Configuration { get; }
-
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<CapteurService>();
+            services.AddScoped<WebService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
@@ -41,5 +43,6 @@ namespace WebAPI
             app.UseHttpsRedirection();
             app.UseMvc();
         }
+
     }
 }

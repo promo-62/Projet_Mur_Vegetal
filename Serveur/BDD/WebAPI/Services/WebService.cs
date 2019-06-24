@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using CapteursApi.Models;
+using WebAPI.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
-namespace CapteursApi.Services
+namespace WebAPI.Services
 {
-    public class CapteurService
+    public class WebService
     {
         private readonly IMongoDatabase _database;
 
-        public CapteurService(IConfiguration config)
+        public WebService(IConfiguration config)
         {
              var client = new MongoClient(config.GetConnectionString("MurVegetalDb"));
             _database = client.GetDatabase("MurVegetalDb");
