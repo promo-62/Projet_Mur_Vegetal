@@ -57,7 +57,8 @@ namespace Mur_Vegetal
 
             app.Use((context, next) =>
             {
-                context.Request.PathBase = ""; //PUT HERE THE ROOT PATH OF WEBSERVER
+
+                context.Request.PathBase = "/web"; //PUT HERE THE ROOT PATH OF WEBSERVER
                 return next();
             });
 
