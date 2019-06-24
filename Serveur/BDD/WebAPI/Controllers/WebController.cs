@@ -563,6 +563,11 @@ namespace WebAPI.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPost("sensors")]
         public ActionResult<Sensors> CreateSensor(Sensors sensor)
         {
+            if (sensor.Id != null)
+            {
+                return BadRequest();
+            }
+
             _webService.Create("Sensors", sensor);
 
             return CreatedAtRoute("GetSensor", new { id = sensor.Id.ToString() }, sensor);
@@ -573,6 +578,11 @@ namespace WebAPI.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPost("samples")]
         public ActionResult<Samples> CreateSample(Samples sample)
         {
+            if (sample.Id != null)
+            {
+                return BadRequest();
+            }
+
             _webService.Create("Samples", sample);
 
             return CreatedAtRoute("GetSample", new { id = sample.Id.ToString() }, sample);
@@ -583,6 +593,11 @@ namespace WebAPI.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPost("protocolversions")]
         public ActionResult<ProtocolVersions> CreateProtocolVersion(ProtocolVersions protocolVersion)
         {
+            if (protocolVersion.Id != null)
+            {
+                return BadRequest();
+            }
+
             _webService.Create("ProtocolVersions", protocolVersion);
 
             return CreatedAtRoute("GetProtocolVersion", new { id = protocolVersion.Id.ToString() }, protocolVersion);
@@ -593,6 +608,11 @@ namespace WebAPI.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPost("plants")]
         public ActionResult<Plants> CreatePlant(Plants plant)
         {
+            if (plant.Id != null)
+            {
+                return BadRequest();
+            }
+
             _webService.Create("Plants", plant);
 
             return CreatedAtRoute("GetPlant", new { id = plant.Id.ToString() }, plant);
@@ -603,6 +623,11 @@ namespace WebAPI.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPost("events")]
         public ActionResult<Events> CreateEvents(Events evenement)
         {
+            if (evenement.Id != null)
+            {
+                return BadRequest();
+            }
+
             _webService.Create("Events", evenement);
 
             return CreatedAtRoute("GetEvent", new { id = evenement.Id.ToString() }, evenement);
@@ -613,6 +638,11 @@ namespace WebAPI.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPost("usershololens")]
         public ActionResult<UsersHololens> CreateUserHololens(UsersHololens userHololens)
         {
+            if (userHololens.Id != null)
+            {
+                return BadRequest();
+            }
+
             _webService.Create("UsersHololens", userHololens);
 
             return CreatedAtRoute("GetUserHololens", new { id = userHololens.Id.ToString() }, userHololens);
@@ -623,6 +653,11 @@ namespace WebAPI.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPost("usersadmin")]
         public ActionResult<UsersAdmin> CreateUsersAdmin(UsersAdmin userAdmin)
         {
+            if (userAdmin.Id != null)
+            {
+                return BadRequest();
+            }
+
             _webService.Create("UsersAdmin", userAdmin);
 
             return CreatedAtRoute("GetUserAdmin", new { id = userAdmin.Id.ToString() }, userAdmin);
@@ -633,6 +668,11 @@ namespace WebAPI.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPost("usersapi")]
         public ActionResult<UsersAPI> CreateUsersAPI(UsersAPI userAPI)
         {
+            if (userAPI.Id != null)
+            {
+                return BadRequest();
+            }
+
             _webService.Create("UsersAPI", userAPI);
 
             return CreatedAtRoute("GetUserAPI", new { id = userAPI.Id.ToString() }, userAPI);
@@ -643,6 +683,11 @@ namespace WebAPI.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPost("socials")]
         public ActionResult<Socials> CreateSocials(Socials social)
         {
+            if (social.Id != null)
+            {
+                return BadRequest();
+            }
+
             _webService.Create("Socials", social);
 
             return CreatedAtRoute("GetSocial", new { id = social.Id.ToString() }, social);
@@ -653,6 +698,11 @@ namespace WebAPI.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPost("tables")]
         public ActionResult<Tables> CreateTable(Tables table)
         {
+            if (table.Id != null)
+            {
+                return BadRequest();
+            }
+
             _webService.Create("Tables", table);
 
             return CreatedAtRoute("GetTable", new { id = table.Id.ToString() }, table);
@@ -663,6 +713,11 @@ namespace WebAPI.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPost("medias")]
         public ActionResult<Medias> CreateMedia(Medias media)
         {
+            if (media.Id != null)
+            {
+                return BadRequest();
+            }
+
             _webService.Create("Medias", media);
 
             return CreatedAtRoute("GetMedia", new { id = media.Id.ToString() }, media);
@@ -673,6 +728,11 @@ namespace WebAPI.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPost("countdowns")]
         public ActionResult<Countdowns> CreateCountdown(Countdowns countdown)
         {
+            if (countdown.Id != null)
+            {
+                return BadRequest();
+            }
+
             _webService.Create("Countdowns", countdown);
 
             return CreatedAtRoute("GetCountdown", new { id = countdown.Id.ToString() }, countdown);
@@ -683,6 +743,11 @@ namespace WebAPI.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPost("sensortypes")]
         public ActionResult<SensorTypes> CreateSensorType(SensorTypes sensorType)
         {
+            if (sensorType.Id != null)
+            {
+                return BadRequest();
+            }
+
             _webService.Create("SensorTypes", sensorType);
 
             return CreatedAtRoute("GetSensorType", new { id = sensorType.Id.ToString() }, sensorType);
@@ -693,6 +758,11 @@ namespace WebAPI.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPost("alerts")]
         public ActionResult<Alerts> CreateAlert(Alerts alert)
         {
+            if (alert.Id != null)
+            {
+                return BadRequest();
+            }
+
             _webService.Create("Alerts", alert);
 
             return CreatedAtRoute("GetAlert", new { id = alert.Id.ToString() }, alert);
@@ -703,6 +773,11 @@ namespace WebAPI.Controllers
         [Microsoft.AspNetCore.Mvc.HttpPost("screens")]
         public ActionResult<Alerts> CreateScreen(Screens screen)
         {
+            if (screen.Id != null)
+            {
+                return BadRequest();
+            }
+
             _webService.Create("Screens", screen);
 
             return CreatedAtRoute("GetScreen", new { id = screen.Id.ToString() }, screen);
@@ -1030,7 +1105,7 @@ namespace WebAPI.Controllers
                 return BadRequest();
             }
 
-            var screen = _webService.GetById<Alerts>("Screens", id);
+            var screen = _webService.GetById<Screens>("Screens", id);
 
             if (screen == null)
             {
