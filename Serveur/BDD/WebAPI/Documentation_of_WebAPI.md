@@ -1,6 +1,6 @@
 # Documentation of WebAPI
 
-### ➢ WebAPI v5
+### ➢ WebAPI v5.1
 
 **Summary of functionalities :**
 
@@ -48,6 +48,8 @@
 |        |   /sensortypes/{id}    |     Get [all fields] for sensor type with ObjectId {id}      |
 |        |        /alerts/        |      Get [all fields] for elements in Alerts collection      |
 |        |      /alerts/{id}      |        Get [all fields] for alert with ObjectId {id}         |
+|        |       /screens/        |     Get [all fields] for elements in Screens collection      |
+|        |     /screens/{id}      |        Get [all fields] for screen with ObjectId {id}        |
 
 
 
@@ -67,6 +69,7 @@
 |        |    /countdowns/    |    Insert element in Countdowns collection    |
 |        |   /sensortypes/    |   Insert element in SensorTypes collection    |
 |        |      /alerts/      |      Insert element in Alerts collection      |
+|        |     /screens/      |     Insert element in Screens collection      |
 
 
 
@@ -86,6 +89,7 @@
 |        |    /countdowns/{id}    |    Modify [all fields] for countdown with ObjectId {id}     |
 |        |   /sensortypes/{id}    |   Modify [all fields] for sensor type with ObjectId {id}    |
 |        |      /alerts/{id}      |      Modify [all fields] for alert with ObjectId {id}       |
+|        |     /screens/{id}      |      Modify [all fields] for screen with ObjectId {id}      |
 
 [^Dev]: Etienne Schelfhout
 

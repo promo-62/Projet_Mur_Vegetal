@@ -1,6 +1,6 @@
 # Documentation de la WebAPI
 
-### ➢ WebAPI v5
+### ➢ WebAPI v5.1
 
 **Résumé des fonctionnalités :**
 
@@ -48,6 +48,8 @@
 |         |   /sensortypes/{id}    |     Obtenir [tous les champs] du type de capteur d'{id}      |
 |         |        /alerts/        | Obtenir [tous les champs] de tous les éléments de la collection Alerts |
 |         |      /alerts/{id}      |         Obtenir [tous les champs] de l'alerte d'{id}         |
+|         |       /screens/        | Obtenir [tous les champs] de tous les éléments de la collection Screens |
+|         |     /screens/{id}      |         Obtenir [tous les champs] de l'écran d'{id}          |
 
 
 
@@ -58,15 +60,16 @@
 |         | /protocolversions/ | Insérer un élément dans la collection ProtocolVersions |
 |         |      /plants/      |      Insérer un élément dans la collection Plants      |
 |         |      /events/      |      Insérer un élément dans la collection Events      |
-|    !    |  /usershololens/   |  Insérer un élément dans la collection UsersHololens   |
-|    !    |    /usersadmin/    |    Insérer un élément dans la collection UsersAdmin    |
+|         |  /usershololens/   |  Insérer un élément dans la collection UsersHololens   |
+|         |    /usersadmin/    |    Insérer un élément dans la collection UsersAdmin    |
 |         |     /usersapi/     |     Insérer un élément dans la collection UsersAPI     |
 |         |     /socials/      |     Insérer un élément dans la collection Socials      |
 |         |      /tables/      |      Insérer un élément dans la collection Tables      |
 |         |      /medias/      |      Insérer un élément dans la collection Medias      |
 |         |    /countdowns/    |    Insérer un élément dans la collection Countdowns    |
-|    !    |   /sensortypes/    |   Insérer un élément dans la collection SensorTypes    |
+|         |   /sensortypes/    |   Insérer un élément dans la collection SensorTypes    |
 |         |      /alerts/      |      Insérer un élément dans la collection Alerts      |
+|         |     /screens/      |     Insérer un élément dans la collection Screens      |
 
 
 
@@ -86,3 +89,7 @@
 |         |    /countdowns/{id}    | Modifier [tous les champs] du compte à rebours d’ObjectId {id} |
 |         |   /sensortypes/{id}    | Modifier [tous les champs] du type de capteur d’ObjectId {id} |
 |         |      /alerts/{id}      |    Modifier [tous les champs] de l'alerte d’ObjectId {id}    |
+|         |     /screens/{id}      |    Modifier [tous les champs] de l'écran d’ObjectId {id}     |
+
+[^Dev]: Etienne Schelfhout
+
