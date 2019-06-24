@@ -4,7 +4,7 @@ ADMIN PAGE
 
 @font-face {
     font-family: 'Mukta-Bold';
-    src: url('~/../../../../fonts/Mukta/Mukta-Bold.ttf');
+    src: url('~/../../../..~/../../../../fonts/Mukta/Mukta-Bold.ttf');
 }
 
 @font-face {
@@ -30,6 +30,7 @@ ADMIN PAGE
 @font-face {
     font-family: 'Mukta-Regular';
     src: url('~/../../../../fonts/Mukta/Mukta-Regular.ttf');
+
 }
 
 @font-face {
@@ -47,7 +48,8 @@ body {
 
 .main-body {
     display: flex;
-    margin-bottom: 10px;
+    height: calc(100% - 43px);
+
 }
 
 

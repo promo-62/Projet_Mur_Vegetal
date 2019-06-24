@@ -1,53 +1,48 @@
 /* --------------------------------------------------------------------------------------
 Static screen  
 --------------------------------------------------------------------------------------*/
-
-@font-face {
-    font-family: 'Mukta-Bold';
-    src: url('~/../../../fonts/Mukta/Mukta-Bold.ttf');
+@font-face{
+  font-family: 'Mukta-Bold'; 
+  src: url('~/../../../fonts/Mukta/Mukta-Bold.ttf'); 
+}
+@font-face{
+  font-family: 'Mukta-ExtraBold'; 
+  src: url('~/../../../fonts/Mukta/Mukta-ExtraBold.ttf'); 
+}
+@font-face{
+  font-family: 'Mukta-ExtraLight'; 
+  src: url('~/../../../fonts/Mukta/Mukta-ExtraLight.ttf'); 
+}
+@font-face{
+  font-family: 'Mukta-Light'; 
+  src: url('~/../../../fonts/Mukta/Mukta-Light.ttf'); 
+}
+@font-face{
+  font-family: 'Mukta-Medium'; 
+  src: url('~/../../../fonts/Mukta/Mukta-Medium.ttf'); 
+}
+@font-face{
+  font-family: 'Mukta-Regular'; 
+  src: url('~/../../../fonts/Mukta/Mukta-Regular.ttf'); 
+}
+@font-face{
+  font-family: 'Mukta-SemiBold'; 
+  src: url('~/../../../fonts/Mukta/Mukta-SemiBold.ttf'); 
 }
 
-@font-face {
-    font-family: 'Mukta-ExtraBold';
-    src: url('~/../../../fonts/Mukta/Mukta-ExtraBold.ttf');
-}
-
-@font-face {
-    font-family: 'Mukta-ExtraLight';
-    src: url('~/../../../fonts/Mukta/Mukta-ExtraLight.ttf');
-}
-
-@font-face {
-    font-family: 'Mukta-Light';
-    src: url('~/../../../fonts/Mukta/Mukta-Light.ttf');
-}
-
-@font-face {
-    font-family: 'Mukta-Medium';
-    src: url('~/../../../fonts/Mukta/Mukta-Medium.ttf');
-}
-
-@font-face {
-    font-family: 'Mukta-Regular';
-    src: url('~/../../../fonts/Mukta/Mukta-Regular.ttf');
-}
-
-@font-face {
-    font-family: 'Mukta-SemiBold';
-    src: url('~/../../../fonts/Mukta/Mukta-SemiBold.ttf');
-}
 
 body {
-    width: 100%;
-    height: 100vh;
-    margin: 0;
-    padding: 0;
-    background-color: #EFEDEC;
-    font-family: Mukta-Regular, sans-serif;
-    overflow: hidden;
+  height: 100vh;
+  margin: 0;
+  padding:0;
+  background-color: #EFEDEC;
+  font-family: Mukta-Regular, sans-serif;
+  overflow: hidden;
 }
-
+  
 .staticscreen-body {
-    background-color: #EFEDEC;
-    height: inherit;
+  max-width: 500px;
+  margin: auto;
+  background-color:  #EFEDEC;
+  padding: 10px;
 }
