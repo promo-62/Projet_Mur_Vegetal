@@ -27,6 +27,7 @@
 }
 
 .countdown-image img {
+    display: block;
     min-width: 700px;
     max-height: 800px;
 }
