@@ -138,10 +138,10 @@ namespace test
                             // Parsing JSON in new format
                             string jsonString = Protocol.MQTTToMongo(messageJson, configJson);
                             
-                            var collectionCapteurs = database.GetCollection<BsonDocument>("Capteurs");
+                            var collectionCapteurs = database.GetCollection<BsonDocument>("Sensors");
 
-                            var filter = Builders<BsonDocument>.Filter.Exists("IdCapteur"); // Filter documents which contains property "idCapteur"
-                            var sort = Builders<BsonDocument>.Sort.Descending("IdCapteur"); // Sort documents in descending order by property "idCapteur"
+                            var filter = Builders<BsonDocument>.Filter.Exists("IdSensor"); // Filter documents which contains property "idCapteur"
+                            var sort = Builders<BsonDocument>.Sort.Descending("IdSensor"); // Sort documents in descending order by property "idCapteur"
                             
                             var sensorsCount = 0;
 
@@ -150,7 +150,7 @@ namespace test
                                 sensorsCount = 0;
                             }else{
                                 var biggestIdDoc = collectionCapteurs.Find(filter).Sort(sort).First(); // Documents with biggest id
-                                sensorsCount = biggestIdDoc["IdCapteur"].ToInt32() +1;
+                                sensorsCount = biggestIdDoc["IdSensor"].ToInt32() +1;
                             }
                             
                             JObject json = JObject.Parse(jsonString);
@@ -171,26 +171,29 @@ namespace test
                                 // Creating the "Capteurs" Collection's value
                                 var formatCapteurs = new BsonDocument
                                 {
-                                    { "IdCapteur", sensorsCount },
-                                    { "TypeCapteur", ( (int) json.Property("COMPONENT_TYPE_1").Value + (int) json.Property("COMPONENT_TYPE_2").Value * 255) },
-                                    { "Projet", new BsonArray {} },
-                                    { "Nom", "" },
+                                    { "IdSensor", sensorsCount },
+                                    { "IdSensorType", ( (int) json.Property("COMPONENT_TYPE_1").Value + (int) json.Property("COMPONENT_TYPE_2").Value * 255) },
+                                    { "Project", new BsonArray {} },
+                                    { "Name", "" },
                                     { "Description", "" },
-                                    { "DateCapteur", timestamp },
-                                    { "DateDernierReleve", 0 },
-                                    { "NiveauBatterie", new BsonArray {} },
-                                    { "Batterie", true },
-                                    { "DelaiVeille", 30 },
+                                    { "SensorDate", timestamp },
+                                    { "LastSampleDate", 0 },
+                                    { "BatteryLevel", new BsonArray {} },
+                                    { "Battery", true },
+                                    { "SleepTime", 30 },
                                     { "Action", new BsonArray {} },
                                     { "Version", ( (int) json.Property("VERSION_1").Value + (int) json.Property("VERSION_2").Value * 255) },
                                     { "TimeOut", timeout },
-                                    { "Fonctionne", true }
+                                    { "IsWorking", true }
                                 };
 
                                 // Sending to MongoDB
                                 Console.WriteLine("### Sending to MongoDB ###");
 
+                                Console.WriteLine("INFO: Adding Sensor to DataBase");
+
                                 collectionCapteurs.InsertOne(formatCapteurs); 
+                                
 
                                 // Creating the Callback Message for the Rpi
                                 JObject jsonMessage = new JObject();
@@ -232,8 +235,9 @@ namespace test
                             // Parsing JSON in new format
                             string jsonString = Protocol.MQTTToMongo(messageJson, configJson);
                             
-                            var collectionCapteurs = database.GetCollection<BsonDocument>("Capteurs");
-                            var collectionReleve = database.GetCollection<BsonDocument>("Releves");
+                            var collectionCapteurs = database.GetCollection<BsonDocument>("Sensors");
+                            var collectionReleve = database.GetCollection<BsonDocument>("Samples");
+                            var collectionSensorTypes = database.GetCollection<BsonDocument>("SensorTypes");
                             
                             JObject json = JObject.Parse(jsonString);
                     
@@ -248,51 +252,74 @@ namespace test
 
                                 // Get "Capteurs" Value from DataBase
                                 var id = (int) json.Property("ID_1").Value + (int) json.Property("ID_2").Value * 255;
-                                var filterID = Builders<BsonDocument>.Filter.Eq("IdCapteur", id);
+                                var filterID = Builders<BsonDocument>.Filter.Eq("IdSensor", id);
                                 
                                 if(collectionCapteurs.Find(filterID).ToList().Count == 0){
                                     Console.WriteLine("ERROR: Sensor ID not present in the DataBase");
-                                    // Error : sensor doesn't exist un the database
+                                    // Error : sensor doesn't exist in the database
 
-                                        /*
-                                        _____________________________
-                                        ERROR NOT GENERATED UNTIL NOW
-
-                                        */
                                     return;
                                 }else{
                                     var documentCapteur = collectionCapteurs.Find(filterID).First();
 
+                                    var filterType = Builders<BsonDocument>.Filter.Eq("IdSensorType", documentCapteur["IdSensorType"].ToInt32());
+                                    List<BsonDocument> samplesToDB = new List<BsonDocument>(); // Samples to send in the database
+
                                     // Default Values
-                                    int standby = documentCapteur["DelaiVeille"].ToInt32();
+                                    int standby = documentCapteur["SleepTime"].ToInt32();
                                     int timeout = documentCapteur["TimeOut"].ToInt32(); // In seconds
 
                                     // Creating the BsonArray of Datas
-                                    List<String> strArray = new List<String>( ((String) json.Property("DATA").Value).Split(',') );
-                                    BsonArray dataArray = new BsonArray {};
-                                    for(int i = 0; i < strArray.Count; i++){
-                                        dataArray.Add(int.Parse(strArray[i]));
+                                    List<String> dataArray = new List<String>( ((String) json.Property("DATA").Value).Split(',') );
+
+                                    // Check if there is the sensor type in the database
+                                    if(collectionSensorTypes.Find(filterType).ToList().Count == 0){
+                                        // Error : type doesn't exist un the database
+                                        Console.WriteLine("WARNING: Sensor Type not present in the DataBase");
+                                        Console.WriteLine(id);
+                                        Console.WriteLine(documentCapteur["IdSensorType"].ToInt32());
+
+                                        // Creating the Samples Collection's value
+                                        for(int i = 0; i < dataArray.Count; i++){
+                                            samplesToDB.Add(new BsonDocument
+                                            {
+                                                { "IdSensor", ( (int) json.Property("ID_1").Value + (int) json.Property("ID_2").Value * 255) },
+                                                { "IdSampleType", "undefined" },
+                                                { "Note", "" },
+                                                { "SampleDate", timestamp },
+                                                { "Value", int.Parse(dataArray[i]) }
+                                            });
+                                        }
+
+                                    }else{
+                                        BsonDocument documentSensorTypes = collectionSensorTypes.Find(filterType).First();
+
+                                        List<BsonValue> samplesTypes = documentSensorTypes["SamplesTypes"].AsBsonArray.ToList();
+
+                                        // Creating the Samples Collection's value
+                                        for(int i = 0; i < dataArray.Count; i++){
+                                            samplesToDB.Add(new BsonDocument
+                                            {
+                                                { "IdSensor", ( (int) json.Property("ID_1").Value + (int) json.Property("ID_2").Value * 255) },
+                                                { "IdSampleType", (i >= samplesTypes.Count) ? "undefined" : samplesTypes[i] },
+                                                { "Note", "" },
+                                                { "SampleDate", timestamp },
+                                                { "Value", int.Parse(dataArray[i]) }
+                                            });
+                                        }
                                     }
-                                    // Creating the "Releve" Collection's value
-                                    var formatReleve = new BsonDocument
-                                    {
-                                        { "IdCapteur", ( (int) json.Property("ID_1").Value + (int) json.Property("ID_2").Value * 255) },
-                                        { "Note", "" },
-                                        { "SateReleves", timestamp },
-                                        { "Valeur", dataArray }
-                                    };
 
                                     // Sending to MongoDB
                                     Console.WriteLine("### Sending to MongoDB ###");
 
                                     // Updating Sensor
-                                    BsonArray batterieNewArray = documentCapteur["NiveauBatterie"].AsBsonArray;
+                                    BsonArray batterieNewArray = documentCapteur["BatteryLevel"].AsBsonArray;
                                     batterieNewArray.Add((int) json.Property("BATTERY").Value);
 
-                                    var update1 = Builders<BsonDocument>.Update.Set("DateDernierReleve", timestamp);
-                                    var update2 = Builders<BsonDocument>.Update.Set("NiveauBatterie", batterieNewArray);
-                                    var update3 = Builders<BsonDocument>.Update.Set("Batterie", ( (int) json.Property("BATTERY").Value > 10 ) ? true : false );
-                                    var update4 = Builders<BsonDocument>.Update.Set("Fonctionne", true);
+                                    var update1 = Builders<BsonDocument>.Update.Set("LastSampleDate", timestamp);
+                                    var update2 = Builders<BsonDocument>.Update.Set("BatteryLevel", batterieNewArray);
+                                    var update3 = Builders<BsonDocument>.Update.Set("Battery", ( (int) json.Property("BATTERY").Value > 10 ) ? true : false );
+                                    var update4 = Builders<BsonDocument>.Update.Set("IsWorking", true);
 
                                     collectionCapteurs.UpdateOne(filterID, update1);
                                     collectionCapteurs.UpdateOne(filterID, update2);
@@ -300,7 +327,9 @@ namespace test
                                     collectionCapteurs.UpdateOne(filterID, update4);
 
                                     // Sending new Data
-                                    collectionReleve.InsertOne(formatReleve); 
+                                    for(int i = 0; i < samplesToDB.Count; i++){
+                                        collectionReleve.InsertOne(samplesToDB[i]); 
+                                    }
 
                                     // Creating the Callback Message for the Rpi
                                     JObject jsonMessage = new JObject();
@@ -344,7 +373,7 @@ namespace test
                             // Parsing JSON in new format
                             string jsonString = Protocol.MQTTToMongo(messageJson, configJson);
                             
-                            var collectionCapteurs = database.GetCollection<BsonDocument>("Capteurs");
+                            var collectionCapteurs = database.GetCollection<BsonDocument>("Sensors");
                             
                             JObject json = JObject.Parse(jsonString);
                     
@@ -359,7 +388,7 @@ namespace test
 
                                 // Get "Capteurs" Value from DataBase
                                 var id = (int) json.Property("ID_1").Value + (int) json.Property("ID_2").Value * 255;
-                                var filterID = Builders<BsonDocument>.Filter.Eq("IdCapteur", id);
+                                var filterID = Builders<BsonDocument>.Filter.Eq("IdSensor", id);
                                 
                                 if(collectionCapteurs.Find(filterID).ToList().Count == 0){
                                     Console.WriteLine("ERROR: Sensor ID not present in the DataBase");
@@ -375,7 +404,7 @@ namespace test
                                     var documentCapteur = collectionCapteurs.Find(filterID).First();
 
                                     // Default Values
-                                    int standby = documentCapteur["DelaiVeille"].ToInt32();
+                                    int standby = documentCapteur["SleepTime"].ToInt32();
                                     int timeout = documentCapteur["TimeOut"].ToInt32(); // In seconds
 
                                     // Sending to MongoDB
