@@ -32,7 +32,7 @@ namespace WebAPI.Controllers
             string timeStamp = DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss");
 
             var response = new HttpResponseMessage();
-            response.Headers.Add("X-WebAPI-Infos", new string[] { "Datetime: "+ timeStamp, "Version: WebAPI v5", "Dev: Etienne" });
+            response.Headers.Add("X-WebAPI-Infos", new string[] { "Datetime: "+ timeStamp, "Version: WebAPI v5.1", "Dev: Etienne" });
 
             return response;
         }
@@ -480,7 +480,7 @@ namespace WebAPI.Controllers
         }
 
         // get [all fields] for sensor type with ObjectId {id}
-        // obtenir [tous les champs] de l'alerte d'{id}
+        // obtenir [tous les champs] du type de capteur d'{id}
         [Microsoft.AspNetCore.Mvc.HttpGet("sensortypes/{id:length(24)}", Name = "GetSensorType")]
         public ActionResult<SensorTypes> GetSensorTypeById(string id)
         {
@@ -522,6 +522,36 @@ namespace WebAPI.Controllers
             }
 
             return alert;
+        }
+
+        // get [all fields] for elements in Screens collection
+        // obtenir [tous les champs] de tous les éléments de la collection Screens
+        [Microsoft.AspNetCore.Mvc.HttpGet("screens")]
+        public ActionResult<List<Screens>> GetScreens()
+        {
+            var screen = _webService.Get<Screens>("Screens");
+
+            if (!screen.Any())
+            {
+                return NoContent();
+            }
+
+            return screen;
+        }
+
+        // get [all fields] for screen with ObjectId {id}
+        // obtenir [tous les champs] de l'écran d'{id}
+        [Microsoft.AspNetCore.Mvc.HttpGet("screens/{id:length(24)}", Name = "GetScreen")]
+        public ActionResult<Screens> GetScreenById(string id)
+        {
+            var screen = _webService.GetById<Screens>("Screens", id);
+
+            if (screen == null)
+            {
+                return NotFound();
+            }
+
+            return screen;
         }
 
 
@@ -666,6 +696,16 @@ namespace WebAPI.Controllers
             _webService.Create("Alerts", alert);
 
             return CreatedAtRoute("GetAlert", new { id = alert.Id.ToString() }, alert);
+        }
+
+        // insert element in Screens collection
+        // insérer un élément dans la collection Screens
+        [Microsoft.AspNetCore.Mvc.HttpPost("screens")]
+        public ActionResult<Alerts> CreateScreen(Screens screen)
+        {
+            _webService.Create("Screens", screen);
+
+            return CreatedAtRoute("GetScreen", new { id = screen.Id.ToString() }, screen);
         }
 
 
@@ -980,6 +1020,27 @@ namespace WebAPI.Controllers
             return NoContent();
         }
 
+        // modify [all fields] for screen with ObjectId {id}
+        // modifier [tous les champs] de l'écran d’ObjectId {id}
+        [Microsoft.AspNetCore.Mvc.HttpPut("screens/{id:length(24)}")]
+        public ActionResult UpdateScreen(string id, Screens screenIn)
+        {
+            if (id != screenIn.Id)
+            {
+                return BadRequest();
+            }
+
+            var screen = _webService.GetById<Alerts>("Screens", id);
+
+            if (screen == null)
+            {
+                return NotFound();
+            }
+
+            _webService.Update("Screens", id, screenIn);
+
+            return NoContent();
+        }
 
 
         // default NotFound
