@@ -1,44 +1,51 @@
 /* --------------------------------------------------------------------------------------
-MEDIAS FRAME  
+MADIA FRAME  
 --------------------------------------------------------------------------------------*/
 
-.mediaspage-body{
+.medias-frame {
     width: 100%;
-    height: auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(450px, auto));
+    height: inherit;
+    grid-template-columns: repeat(1, minmax(700px, auto));
     grid-gap: 50px 100px;
     grid-auto-flow: row;
-    padding: 10px;
     overflow: inherit;
+    align-content: space-evenly;
 }
-    
-.medias-block{
-    min-width: 300px;
-    border-radius: 10px;
-    margin: 5px;
+
+.medias-block {
     display: flex;
-    flex-direction: column ;
-    text-align: center;
+    flex-direction: column;
+    align-items: center;
 }
-    
-.medias-image img{
+
+.box {
+    background-color: #F4F3F2;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+/* --------------------------------------------------------------------------------------
+MEDIA IMAGE  
+--------------------------------------------------------------------------------------*/
+
+.medias-image img {
     display: block;
-    width: 100%;
-    min-width: 300px;
-    /*border-radius: 10px;
-    border-width: 4px;
-    border-style: solid;
-    border-color : rgb(100, 185, 79);*/
+    min-width: 700px;
+    max-height: 500px;
 }
-    
-.medias-video video{
-    width: 100%;
-    height: 100%;
-    min-width: 300px;
-   /* border-radius: 10px;
-    border-width: 4px;
-    border-style: solid;
-    border-color : rgb(100, 185, 79);*/
+
+.media-image {
+    margin: 10px;
 }
-    
+
+
+/* --------------------------------------------------------------------------------------
+MEDIA VIDEO
+--------------------------------------------------------------------------------------*/
+
+.medias-video video {
+    display: block;
+    min-width: 700px;
+    max-height: 500px;
+}

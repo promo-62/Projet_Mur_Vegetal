@@ -18,106 +18,55 @@
       <link href="@Url.Content("~/css/staticscreen/socialnetworksframe.css")" rel="stylesheet" type="text/css" />
       <link href="@Url.Content("~/css/staticscreen/staticscreen.css")" rel="stylesheet" type="text/css" />
       <link href="@Url.Content("~/css/staticscreen/wallframe.css")" rel="stylesheet" type="text/css" />
+      <link href="@Url.Content("~/css/staticscreen/animate.min.css")" rel="stylesheet" type="text/css" />
       <script type="text/javascript" src="@Url.Content("~/js/countdown.js")"></script>
       <script type="text/javascript" src="@Url.Content("~/lib/jquery/dist/jquery.js")"></script>
-      <script type="text/javascript" src="@Url.Content("~/lib/transition.min.js")"></script>
+      <script src="https://www.amcharts.com/lib/4/core.js"></script>
+      <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+      <script src="https://www.amcharts.com/lib/4/themes/spiritedaway.js"></script>
+      <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+      <script type="text/javascript" src="@Url.Content("~/js/graph.js")"></script>
+      <script type="text/javascript" src="@Url.Content("~/js/frame.js")"></script>
   </head>
   <body>
-      <div class="staticscreen-body" id="aa" >
+    <div class="staticscreen-body" id="aa" >
 
-  <div class="wallpage-frame" id="a">
-    <div class="wall-block">
-    <div class="wall-info">
-      <div class="wall-icon"><img class="i1" src="~/images/icones/lumiere.png"/></div>
-      <div class="wall-text"><p style ="color:black">Luminosité</p></div>
-      <div class="wall-graph">
-        <img src="~/images/graph1.jpg"/>
+      <div class="wall-frame" id="a">
+           @{ Html.RenderPartial("_Wall"); }
       </div>
-    </div>
 
-    <div class="wall-info">
-      <div class="wall-icon"><img class="i2" src="~/images/icones/air.png"/></div>
-      <div class="wall-text"><p style ="color:black">Qualité d'air</p></div>
-      <div class="wall-graph">
-        <img src="~/images/graph1.jpg"/>
+
+      <div class="news-frame" id="b">
+          @{ Html.RenderPartial("_News"); }
       </div>
-    </div>
 
-    <div class="wall-info">
-      <div class="wall-icon"><img class="i3" src="~/images/icones/pression.png"/></div>
-      <div class="wall-text"><p style ="color:black">Commande Pompe</p></div> 
-      <div class="wall-graph">
-        <img src="~/images/graph1.jpg"/>
+
+      <div class="countdown-frame" id = "c">
+          @{ Html.RenderPartial("_Countdown"); }
       </div>
-    </div>
 
-    <div class="wall-info">
-      <div class="wall-icon"><img class="i4" src="~/images/icones/hydro.png"/></div>
-      <div class="wall-text"><p style ="color:black">Humidité</p></div>
-      <div class="wall-graph">
-        <img src="~/images/graph1.jpg"/>
+      <div class="medias-frame" id = "d">
+          @{ Html.RenderPartial("_Medias"); }
       </div>
-    </div>
 
-    <div class="wall-info">
-      <div class="wall-icon"><img class="i5" src="~/images/icones/mouvement.png"/></div>
-      <div class="wall-text"><p style ="color:black">Flux entrant/sortant</p></div>
-      <div class="wall-graph">
-        <img src="~/images/graph1.jpg"/>
-      </div>
-    </div>
-
-    <div class="wall-info">
-      <div class="wall-icon"><img class="i6" src="~/images/icones/pression_ruche.png"/></div>
-      <div class="wall-text"><p style ="color:black">Pression ruche</p></div>
-      <div class="wall-graph">
-        <img src="~/images/graph1.jpg"/>
+      <div class="socialnetworks-frame" id ="e">
+          <!-- SnapWidget -->
+          <script src="https://snapwidget.com/js/snapwidget.js"></script>
+          <iframe src="https://snapwidget.com/embed/706490" class="snapwidget-widget" allowtransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:100%; "></iframe>
       </div>
 
     </div>
 
-    <div class="wall-info">
-      <div class="wall-icon"><img class="i7" src="~/images/icones/thermo_ruche.png"/></div>
-      <div class="wall-text"><p style ="color:black">Température ruche</p></div>
-      <div class="wall-graph">
-        <img src="~/images/graph1.jpg"/>
-      </div>
-    </div>
-  </div>
-
-
- 
-  
-  </div>
-
-
-<div class="newspage-frame" id="b">
-    @{ Html.RenderPartial("_News"); }
-</div>
-
-
-<div class="countdown-frame" id = "c">
-    @{ Html.RenderPartial("_Countdown"); }
-</div>
-
-<div class="mediaspage-frame" id = "d">
-    @{ Html.RenderPartial("_Medias"); }
-</div>
-
-
-<div class="socialnetworks-frame" id ="e">
-    <!-- SnapWidget -->
-    <script src="https://snapwidget.com/js/snapwidget.js"></script>
-    <iframe src="https://snapwidget.com/embed/698344" class="snapwidget-widget" allowtransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:100%;"></iframe>
-    
-</div>
-
-</div>
 
 
 
-<script type="text/javascript" src="@Url.Content("~/js/staticscreen.js")"></script>
-</body>
+    <script>
+      $(document).ready(function(){ //Hide credits on charts
+        $("g[aria-labelledby]").hide();
+      });
+      frame.init(5,2, 5,2,5); //Init frame animation with right timers WALL,NEWS,COUNTDOWN,MEDIAS,SOCIAL
+    </script>
+  </body>
 </html>
 
   

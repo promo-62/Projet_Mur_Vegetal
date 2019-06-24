@@ -1,34 +1,36 @@
-/* --------------------------------------------------------------------------------------
-COUNTDOWN FRAME  
---------------------------------------------------------------------------------------*/
+/*--------COUNTDOWN FRAME------------------*/
 
-.countdown-body{
-  width: 100%;
-  height: 100%;
-  padding: 10px;
-  overflow: inherit;
+.countdown-frame{
+    width: 100%;
+    height: calc(100vh - 50px);
+    display: grid;
+    grid-template-columns: repeat(1, minmax(450px, auto));
+    grid-gap: 50px 100px;
+    grid-auto-flow: row;
+    overflow: inherit;
+    align-content: space-evenly;
+    align-items: center;
+}
+.countdown-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-size: 1.25em;
 }
   
-.countdown-block{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  align-content: center;
-  align-items: center;
+.countdown-text {
+    font-family: Mukta-Bold, sans-serif;
+    color: #0d110d;
+    padding: 20px;
+    font-size: 3em;
 }
 
-.countdown-image img{
-  display: block;
-  height: 100%;
-  max-width: 500px;
+.countdown-image img {
+    min-width: 700px;
+    max-height: 800px;
 }
 
-.countdown-text{
-  text-align: center;
-  font-family: Raleway-Bold, sans-serif;
-  font-size: 3vw;
-  color: #314230;
-  margin: 10px;
-  padding: 50px;
+.countdown-image {
+    margin: 10px;
 }

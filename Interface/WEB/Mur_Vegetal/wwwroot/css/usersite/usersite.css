@@ -41,16 +41,17 @@ body {
     height: 100vh;
     margin: 0;
     padding: 0;
-    background-color: #EFEDEC;
     font-family: Mukta-Regular, sans-serif;
+    background-color: #EFEDEC;
+    background-image: url('~/../../../images/fnd1.jpg');
+    background-size: 200%;
+
 }
 
 .main-body {
     display: flex;
-    overflow: auto;
-    height: calc(100% - 43px);
+    margin-bottom: 10px;
 }
-
 
 /* navbar */
 
