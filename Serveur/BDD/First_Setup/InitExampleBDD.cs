@@ -1,4 +1,4 @@
-using MongoDB.Driver;
+﻿using MongoDB.Driver;
 using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
@@ -259,8 +259,8 @@ namespace Setup
             var newPlants = new List<Plants> {Plant1};
             return newPlants;
         }
-        private static IEnumerable<Event> CreateNewEvents(){
-            Event Event1 = new Event
+        private static IEnumerable<Events> CreateNewEvents(){
+            Events Event1 = new Events
             {
                 Name = "VENEZ AU LASER GAME !!!!",
                 EventDate = 1559689200,
@@ -280,18 +280,18 @@ namespace Setup
             var newEvents = new List<Events> {Event1};
             return newEvents;
         }
-        private static IEnumerable<User> CreateNewUsers(){
-            User User1 = new User
+        private static IEnumerable<UsersHololens> CreateNewUsersHololens(){
+            UsersHololens User1 = new UsersHololens
             {
                 Name = "User",
                 Password = "User",
                 HololensUsername = "Billy"
             };
-            var newUsers = new List<User> {User1};
+            var newUsers = new List<UsersHololens> {User1};
             return newUsers;
         }
-        private static IEnumerable<Social> CreateNewSocial(){
-            Social Social1 = new Social
+        private static IEnumerable<UsersAdmin> CreateNewUsersAdmin(){
+            UsersAdmin User1 = new UsersAdmin
             {
                 Username = "UserLambda",
                 PasswordHash = "TaMaman",
@@ -325,7 +325,7 @@ namespace Setup
                 PageWidget = "accueil",
                 Widget = "http://poulespondeuses.com/wp-content/uploads/2019/02/Poussin-Muesli.jpg",
             };
-            var newSocials = new List<Social> {Social1};
+            var newSocials = new List<Socials> {Social1};
             return newSocials;
         }
         private static IEnumerable<Tables> CreateNewTables(){
@@ -339,8 +339,8 @@ namespace Setup
             var newTable = new List<Tables> {Table1};
             return newTable;
         }
-        private static IEnumerable<Media> CreateNewMedias(){
-            Media Media1 = new Media
+        private static IEnumerable<Medias> CreateNewMedias(){
+            Medias Media1 = new Medias
             {
                 Name = "BFMTV",
                 BeginningDate = 1559689243,
@@ -373,7 +373,7 @@ namespace Setup
             (new Data{
                 linkImg = "http://fr.web.img4.acsta.net/c_216_288/pictures/19/04/25/17/17/5767838.jpg",
                 linkVideo = "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                texte = "Exemple"
+                texte = "IL MONTE SUR UNE GRUE (l oiseau) ET CA TOURNE MAL OMG !!!!"
             });*/
             var newCountdowns = new List<Countdowns> {Countdown1};
             return newCountdowns;
