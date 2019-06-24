@@ -1,0 +1,53 @@
+/* --------------------------------------------------------------------------------------
+NEWS FRAME  
+--------------------------------------------------------------------------------------*/
+
+.news-frame {
+    width: 100%;
+    display: grid;
+    height: inherit;
+    grid-template-columns: repeat(1, minmax(700px, auto));
+    grid-gap: 50px 100px;
+    grid-auto-flow: row;
+    overflow: inherit;
+    align-content: space-evenly;
+    align-items: center;
+}
+
+.news-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-size: 1.25em;
+}
+
+.box {
+    background-color: #F4F3F2;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+/* --------------------------------------------------------------------------------------
+NEWS IMAGE 
+--------------------------------------------------------------------------------------*/
+
+.news-image img {
+    display: block;
+    min-width: 700px;
+    max-height: 500px;
+}
+
+.news-image {
+    margin: 10px;
+}
+
+
+/* --------------------------------------------------------------------------------------
+NEWS TEXT
+--------------------------------------------------------------------------------------*/
+
+.news-text {
+    max-width: 70%;
+    margin: 10px;
+}

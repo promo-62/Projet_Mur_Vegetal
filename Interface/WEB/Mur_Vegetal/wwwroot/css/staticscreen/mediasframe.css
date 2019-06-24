@@ -1,0 +1,51 @@
+/* --------------------------------------------------------------------------------------
+MADIA FRAME  
+--------------------------------------------------------------------------------------*/
+
+.medias-frame {
+    width: 100%;
+    display: grid;
+    height: inherit;
+    grid-template-columns: repeat(1, minmax(700px, auto));
+    grid-gap: 50px 100px;
+    grid-auto-flow: row;
+    overflow: inherit;
+    align-content: space-evenly;
+}
+
+.medias-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.box {
+    background-color: #F4F3F2;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+/* --------------------------------------------------------------------------------------
+MEDIA IMAGE  
+--------------------------------------------------------------------------------------*/
+
+.medias-image img {
+    display: block;
+    min-width: 700px;
+    max-height: 500px;
+}
+
+.media-image {
+    margin: 10px;
+}
+
+
+/* --------------------------------------------------------------------------------------
+MEDIA VIDEO
+--------------------------------------------------------------------------------------*/
+
+.medias-video video {
+    display: block;
+    min-width: 700px;
+    max-height: 500px;
+}
