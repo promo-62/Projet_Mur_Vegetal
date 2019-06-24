@@ -86,3 +86,6 @@
 |         |    /countdowns/{id}    | Modifier [tous les champs] du compte à rebours d’ObjectId {id} |
 |         |   /sensortypes/{id}    | Modifier [tous les champs] du type de capteur d’ObjectId {id} |
 |         |      /alerts/{id}      |    Modifier [tous les champs] de l'alerte d’ObjectId {id}    |
+
+[^Dev]: Etienne Schelfhout
+
