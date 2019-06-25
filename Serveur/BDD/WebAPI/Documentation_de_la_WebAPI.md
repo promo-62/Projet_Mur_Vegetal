@@ -1,6 +1,6 @@
 # Documentation de la WebAPI
 
-### ➢ WebAPI v5.2
+### ➢ WebAPI v6
 
 **Résumé des fonctionnalités :**
 
@@ -8,6 +8,7 @@
 - Lecture seule custom selon les demandes de la team interface web (requêtes GET).
 - Insertion d’éléments dans toutes les collections (requêtes POST).
 - Modification d’élément dans toutes les collections (requêtes PUT).
+- Suppression d'un élément dans toutes les collections sauf UsersHololens, UsersAdmin, UsersAPI  (requêtes DELETE).
 - Envoi d'une erreur 401 Unauthorized pour toutes les requêtes GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH non prises en charge.
 
 **Utilisation :**  `api/web/[Route]`
@@ -74,9 +75,6 @@
 |         | /protocolversions/{id} | Modifier [tous les champs] de la version du protocole d’ObjectId {id} |
 |         |      /plants/{id}      |   Modifier [tous les champs] de la plantes d’ObjectId {id}   |
 |         |      /events/{id}      |  Modifier [tous les champs] de l'évènement d’ObjectId {id}   |
-|         |  /usershololens/{id}   | Modifier [tous les champs] de l'utilisateur hololens d’ObjectId {id} |
-|         |    /usersadmin/{id}    | Modifier [tous les champs] de l'utilisateur admin d’ObjectId {id} |
-|         |     /usersapi/{id}     | Modifier [tous les champs] de l'utilisateur API d’ObjectId {id} |
 |         |     /socials/{id}      | Modifier [tous les champs] du compte social d’ObjectId {id}  |
 |         |      /tables/{id}      |    Modifier [tous les champs] du tableau d’ObjectId {id}     |
 |         |      /medias/{id}      |     Modifier [tous les champs] du media d’ObjectId {id}      |
@@ -84,6 +82,23 @@
 |         |   /sensortypes/{id}    | Modifier [tous les champs] du type de capteur d’ObjectId {id} |
 |         |      /alerts/{id}      |    Modifier [tous les champs] de l'alerte d’ObjectId {id}    |
 |         |     /screens/{id}      |    Modifier [tous les champs] de l'écran d’ObjectId {id}     |
+
+
+
+| Méthode |         Route          |                        Fonctionnalité                        |
+| :-----: | :--------------------: | :----------------------------------------------------------: |
+| DELETE  |     /sensors/{id}      | Supprimer l'élément d’ObjectId {id} de la collection Sensors |
+|         |     /samples/{id}      | Supprimer l'élément d’ObjectId {id} de la collection Samples |
+|         | /protocolversions/{id} | Supprimer l'élément d’ObjectId {id} de la collection ProtocolVersions |
+|         |      /plants/{id}      | Supprimer l'élément d’ObjectId {id} de la collection Plants  |
+|         |      /events/{id}      | Supprimer l'élément d’ObjectId {id} de la collection Events  |
+|         |     /socials/{id}      | Supprimer l'élément d’ObjectId {id} de la collection Socials |
+|         |      /tables/{id}      | Supprimer l'élément d’ObjectId {id} de la collection Tables  |
+|         |      /medias/{id}      | Supprimer l'élément d’ObjectId {id} de la collection Medias  |
+|         |    /countdowns/{id}    | Supprimer l'élément d’ObjectId {id} de la collection Countdowns |
+|         |   /sensortypes/{id}    | Supprimer l'élément d’ObjectId {id} de la collection SensorTypes |
+|         |      /alerts/{id}      | Supprimer l'élément d’ObjectId {id} de la collection Alerts  |
+|         |     /screens/{id}      | Supprimer l'élément d’ObjectId {id} de la collection Screens |
 
 [^Dev]: Etienne Schelfhout
 

@@ -32,7 +32,7 @@ namespace WebAPI.Controllers
             string timeStamp = DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss");
 
             var response = new HttpResponseMessage();
-            response.Headers.Add("X-WebAPI-Infos", new string[] { "Datetime: "+ timeStamp, "Version: WebAPI v5.2", "Dev: Etienne" });
+            response.Headers.Add("X-WebAPI-Infos", new string[] { "Datetime: "+ timeStamp, "Version: WebAPI v6", "Accepted requests: GET, POST, PUT, DELETE", "Dev: Etienne" });
 
             return response;
         }
@@ -466,7 +466,7 @@ namespace WebAPI.Controllers
 
 
 
-        /* ----- REQUETES POST ----- */
+        /* ----- POST REQUESTS ----- */
 
         // insert element in Sensors collection
         // insérer un élément dans la collection Sensors
@@ -695,7 +695,7 @@ namespace WebAPI.Controllers
 
 
 
-        /* ----- REQUETES PUT ----- */
+        /* ----- PUT REQUESTS ----- */
 
         // modify [all fields] for sensor with ObjectId {id}
         // modifier [tous les champs] du capteur d’ObjectId {id}
@@ -1026,6 +1026,215 @@ namespace WebAPI.Controllers
 
             return NoContent();
         }
+
+
+
+        /* ----- DELETE REQUESTS ----- */
+
+        // delete element with ObjectId {id} from collection Sensors
+        // supprimer l'élément d’ObjectId {id} de la collection Sensors
+        [HttpDelete("sensors/{id:length(24)}")]
+        public IActionResult DeleteSensor(string id)
+        {
+            var sensor = _webService.GetById<Sensors>("Sensors", id);
+
+            if (sensor == null)
+            {
+                return NotFound();
+            }
+
+            _webService.Remove("Sensors", sensor.Id);
+
+            return NoContent();
+        }
+
+        // delete element with ObjectId {id} from collection Samples
+        // supprimer l'élément d’ObjectId {id} de la collection Samples
+        [HttpDelete("samples/{id:length(24)}")]
+        public IActionResult DeleteSample(string id)
+        {
+            var sample = _webService.GetById<Samples>("Samples", id);
+
+            if (sample == null)
+            {
+                return NotFound();
+            }
+
+            _webService.Remove("Samples", sample.Id);
+
+            return NoContent();
+        }
+
+        // delete element with ObjectId {id} from collection ProtocolVersions
+        // supprimer l'élément d’ObjectId {id} de la collection ProtocolVersions
+        [HttpDelete("protocolversions/{id:length(24)}")]
+        public IActionResult DeleteProtocolVersion(string id)
+        {
+            var protocolVersion = _webService.GetById<ProtocolVersions>("ProtocolVersions", id);
+
+            if (protocolVersion == null)
+            {
+                return NotFound();
+            }
+
+            _webService.Remove("ProtocolVersions", protocolVersion.Id);
+
+            return NoContent();
+        }
+
+        // delete element with ObjectId {id} from collection Plants
+        // supprimer l'élément d’ObjectId {id} de la collection Plants
+        [HttpDelete("plants/{id:length(24)}")]
+        public IActionResult DeletePlant(string id)
+        {
+            var plant = _webService.GetById<Plants>("Plants", id);
+
+            if (plant == null)
+            {
+                return NotFound();
+            }
+
+            _webService.Remove("Plants", plant.Id);
+
+            return NoContent();
+        }
+
+        // delete element with ObjectId {id} from collection Events
+        // supprimer l'élément d’ObjectId {id} de la collection Events
+        [HttpDelete("events/{id:length(24)}")]
+        public IActionResult DeleteEvent(string id)
+        {
+            var evenement = _webService.GetById<Events>("Events", id);
+
+            if (evenement == null)
+            {
+                return NotFound();
+            }
+
+            _webService.Remove("Events", evenement.Id);
+
+            return NoContent();
+        }
+
+        // delete element with ObjectId {id} from collection Socials
+        // supprimer l'élément d’ObjectId {id} de la collection Socials
+        [HttpDelete("socials/{id:length(24)}")]
+        public IActionResult DeleteSocial(string id)
+        {
+            var social = _webService.GetById<Socials>("Socials", id);
+
+            if (social == null)
+            {
+                return NotFound();
+            }
+
+            _webService.Remove("Socials", social.Id);
+
+            return NoContent();
+        }
+
+        // delete element with ObjectId {id} from collection Tables
+        // supprimer l'élément d’ObjectId {id} de la collection Tables
+        [HttpDelete("tables/{id:length(24)}")]
+        public IActionResult DeleteTable(string id)
+        {
+            var table = _webService.GetById<Tables>("Tables", id);
+
+            if (table == null)
+            {
+                return NotFound();
+            }
+
+            _webService.Remove("Tables", table.Id);
+
+            return NoContent();
+        }
+
+        // delete element with ObjectId {id} from collection Medias
+        // supprimer l'élément d’ObjectId {id} de la collection Medias
+        [HttpDelete("medias/{id:length(24)}")]
+        public IActionResult DeleteMedia(string id)
+        {
+            var media = _webService.GetById<Medias>("Medias", id);
+
+            if (media == null)
+            {
+                return NotFound();
+            }
+
+            _webService.Remove("Medias", media.Id);
+
+            return NoContent();
+        }
+
+        // delete element with ObjectId {id} from collection Countdowns
+        // supprimer l'élément d’ObjectId {id} de la collection Countdowns
+        [HttpDelete("countdowns/{id:length(24)}")]
+        public IActionResult DeleteCountdown(string id)
+        {
+            var countdown = _webService.GetById<Countdowns>("Countdowns", id);
+
+            if (countdown == null)
+            {
+                return NotFound();
+            }
+
+            _webService.Remove("Countdowns", countdown.Id);
+
+            return NoContent();
+        }
+
+        // delete element with ObjectId {id} from collection SensorTypes
+        // supprimer l'élément d’ObjectId {id} de la collection SensorTypes
+        [HttpDelete("sensortypes/{id:length(24)}")]
+        public IActionResult DeleteSensorType(string id)
+        {
+            var sensorType = _webService.GetById<SensorTypes>("SensorTypes", id);
+
+            if (sensorType == null)
+            {
+                return NotFound();
+            }
+
+            _webService.Remove("SensorTypes", sensorType.Id);
+
+            return NoContent();
+        }
+
+        // delete element with ObjectId {id} from collection Alerts
+        // supprimer l'élément d’ObjectId {id} de la collection Alerts
+        [HttpDelete("alerts/{id:length(24)}")]
+        public IActionResult DeleteAlert(string id)
+        {
+            var alert = _webService.GetById<Alerts>("Alerts", id);
+
+            if (alert == null)
+            {
+                return NotFound();
+            }
+
+            _webService.Remove("Alerts", alert.Id);
+
+            return NoContent();
+        }
+
+        // delete element with ObjectId {id} from collection Screens
+        // supprimer l'élément d’ObjectId {id} de la collection Screens
+        [HttpDelete("screens/{id:length(24)}")]
+        public IActionResult DeleteScreen(string id)
+        {
+            var screen = _webService.GetById<Screens>("Screens", id);
+
+            if (screen == null)
+            {
+                return NotFound();
+            }
+
+            _webService.Remove("Screens", screen.Id);
+
+            return NoContent();
+        }
+
 
 
         // default NotFound
