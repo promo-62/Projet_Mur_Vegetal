@@ -5,8 +5,8 @@
 You need to install gettext and libunwind8 :
 
 ```bash
-$ sudo apt−get −y update
-$ sudo apt−get −y install curl libunwind8 gettext
+$ sudo apt update
+$ sudo apt install curl libunwind8 gettext
 ```
 
 
