@@ -48,7 +48,7 @@ namespace Projet
             string test;
             client = server.AcceptTcpClient();
             NetworkStream stream = client.GetStream();
-            stream.ReadTimeout = 3600000;
+            //stream.ReadTimeout = 3600000;
             stream.WriteTimeout = 10000;
             //Boucle infini
             while(true){
