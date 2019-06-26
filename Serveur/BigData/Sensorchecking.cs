@@ -5,7 +5,7 @@
 /*   Name and project date: Murs Vegetal may/june 2019                                                                            */
 /*   Project group: Mongo/ Big Data                                                                                               */
 /*   Creator: Desmullier Gabriel, Anthony Coupey, Gregoire De Clercq                                                              */
-/*   With the participation of: Verept Alexandre,                                                                                 */
+/*   Other major contributors: Verept Alexandre                                                                                 */
 /*################################################################################################################################*/
 
 using WebAPI.Models; /*classes de la Bdd*/
@@ -34,13 +34,8 @@ namespace SpaceSensorchecking
             m_Client = new MongoClient("mongodb://localhost:27017/"); //"mongodb://10.127.0.81/MurVegetalDb"
             m_Database = m_Client.GetDatabase("MurVegetalDb");
             m_CRUD = new MongoCRUD(m_Database);
-            Console.WriteLine("\nConnexion effectuee / Made connection ");            
-
-
-            /*quelques variables utiles*/
-            /*Some useful variables*/
-            
-
+            Console.WriteLine("\nConnexion effectuee / Made connection ");        
+        
             /*variables temporelles utilisees comme critere lors du test des capteurs / time variables used as a screen during sensor testing*/
             long timelimit = 0;
             long timedeath = 0;
