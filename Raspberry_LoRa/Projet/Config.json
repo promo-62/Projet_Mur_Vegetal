@@ -48,7 +48,8 @@
         {
             "VERSION_PROTOCOL_1": "00",
             "VERSION_PROTOCOL_2": "01",
-            "SIZE": 4
+            "SIZE": 40,
+            "DATA_SIZE": 30
         }
     ],
     

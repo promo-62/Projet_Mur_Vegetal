@@ -136,7 +136,7 @@ $ dotnet run
 
 # Maintenance
 
-In order for the protocol code to adapt to new versions of protocol tram and new parameters added or deleted, the administrator need to check that the configuration Config.json have adequate adaptation. The file is divided in 3 arrays :
+In order for the protocol code to adapt to new frame versions and new parameters added or deleted, the administrator need to check that the configuration Config.json have adequate adaptation. The file is divided in 3 arrays :
 - An array ”Header”, it will contain all header formats possible that a sensor can send.
 
 - An array ”Header_Response”, it will contain all header formats possible that a sensor can receive.
@@ -146,3 +146,165 @@ In order for the protocol code to adapt to new versions of protocol tram and new
 - An array ”Payload”, it will contain every payload format possible for a sensor. 
 
 Both array "Header" and "Header_Response" have in each format a field "TO_ADD" and "TO_REMOVE", these field are used to remove some property of the header before sending it (in the case of "Header" the added elements will be added at the end of the header and in the case of "Header_Response" the added elements will need to have a position which is the position in the byte array starting from 0).
+
+Warning: the  field format can take multiple bytes
+
+
+
+```jso
+{
+    //All format of header coming from the sensors
+    "Header": [
+        {
+            "ID_1": "42",
+            "ID_2": "26",
+            "VERSION_PROTOCOL_1": "00",
+            "VERSION_PROTOCOL_2": "01",
+            "TYPE_MESSAGE":       "01",
+            "NUMBER_MESSAGE":     "",
+            "TO_REMOVE":{
+                "ID_1": "",
+                "ID_2": ""
+            },
+            "TO_ADD":[
+            ]
+        },
+        {
+            "ID_1": "42",
+            "ID_2": "26",
+            "VERSION_PROTOCOL_1": "00",
+            "VERSION_PROTOCOL_2": "01",
+            "TYPE_MESSAGE":       "02",
+            "NUMBER_MESSAGE":     "",
+            "TO_REMOVE":{
+                "ID_1": "",
+                "ID_2": ""
+            },
+            "TO_ADD":[
+            ]
+        },
+        {
+            "ID_1": "42",
+            "ID_2": "26",
+            "VERSION_PROTOCOL_1": "00",
+            "VERSION_PROTOCOL_2": "01",
+            "TYPE_MESSAGE":       "03",
+            "NUMBER_MESSAGE":     "",
+            "TO_REMOVE":{
+                "ID_1": "",
+                "ID_2": ""
+            },
+            "TO_ADD":[
+            ]
+        }
+    ],
+    //All maximum size of payload
+    "Sizes":[
+        {
+            "VERSION_PROTOCOL_1": "00",
+            "VERSION_PROTOCOL_2": "01",
+            "SIZE": 40,
+            "DATA_SIZE": 30
+        }
+    ],
+    //All format of payload coming from the sensors
+    "Payload":[
+        {
+            "VERSION_PROTOCOL_1": "00",
+            "VERSION_PROTOCOL_2": "01",
+            "TYPE_MESSAGE": "01",
+            "Format":{
+                "COMPONENT_TYPE_1": "",
+                "COMPONENT_TYPE_2": "",
+                "VERSION_1": "",
+                "VERSION_2": ""
+            }
+        },
+        {
+            "VERSION_PROTOCOL_1": "00",
+            "VERSION_PROTOCOL_2": "01",
+            "TYPE_MESSAGE": "02",
+            "Format":{
+                "ID_1": "",
+                "ID_2": "",
+                "DATA": "",
+                "BATTERY": ""
+            }
+        },
+        {
+            "VERSION_PROTOCOL_1": "00",
+            "VERSION_PROTOCOL_2": "01",
+            "TYPE_MESSAGE": "03",
+            "Format":{
+                "ID_1": "",
+                "ID_2": ""
+            }
+        }
+    ],
+    //All format of header coming from the database
+    "Header_Response":[
+        {
+            "VERSION_PROTOCOL_1": "00",
+            "VERSION_PROTOCOL_2": "01",
+            "TYPE_MESSAGE":       "01",
+            "NUMBER_MESSAGE":     "",
+            "TO_REMOVE":{
+                "VERSION_PROTOCOL_1": "",
+                "VERSION_PROTOCOL_2": ""
+            },
+            "TO_ADD":[
+                {
+                    "POSITION": 0,
+                    "ID_1": "26"
+                },
+                {
+                    "POSITION": 1,
+                    "ID_1": "42"
+                }
+            ]
+        },
+        {
+            "VERSION_PROTOCOL_1": "00",
+            "VERSION_PROTOCOL_2": "01",
+            "TYPE_MESSAGE":       "02",
+            "NUMBER_MESSAGE":     "",
+            "TO_REMOVE":{
+                "VERSION_PROTOCOL_1": "",
+                "VERSION_PROTOCOL_2": ""
+            },
+            "TO_ADD":[
+                {
+                    "POSITION": 0,
+                    "ID_1": "26"
+                },
+                {
+                    "POSITION": 1,
+                    "ID_1": "42"
+                }
+            ]
+        },
+        {
+            "VERSION_PROTOCOL_1": "00",
+            "VERSION_PROTOCOL_2": "01",
+            "TYPE_MESSAGE":       "03",
+            "NUMBER_MESSAGE":     "",
+            "TO_REMOVE":{
+                "VERSION_PROTOCOL_1": "",
+                "VERSION_PROTOCOL_2": ""
+            },
+            "TO_ADD":[
+                {
+                    "POSITION": 0,
+                    "ID_1": "26"
+                },
+                {
+                    "POSITION": 1,
+                    "ID_1": "42"
+                }
+            ]
+        }
+    ]
+}
+
+```
+
