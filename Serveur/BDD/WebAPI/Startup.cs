@@ -80,7 +80,7 @@ namespace WebAPI
         /* ///////////////////////////// JE STOCKE ICI PROVISOIREMENT LES MDP D'ACCES A L'API /////////////////////////////////
          * admin : iotdata2019!
          * interfaceWeb : Th3L0u15V1v13r
-         * interfaceMobile : mdpInterfaceM0bie
+         * interfaceMobile : mdpInterfaceM0bile
          */
 
         public dynamic LoadJson()
