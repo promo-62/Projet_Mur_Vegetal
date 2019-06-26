@@ -28,7 +28,7 @@ namespace SpaceSensorchecking
 
         static public void DeleteSensor(String f_sensorID)
         {
-        /* delete sensor ID in SensorTYpes */
+        /* delete sensor ID in SensorTypes */
                 m_CRUD.LoadRecords<SensorTypes>("SensorTypes");
                 List<SensorTypes> listSensorTypes = m_CRUD.LoadRecords<SensorTypes>("SensorTypes");
                 foreach(SensorTypes Type in listSensorTypes)
@@ -38,10 +38,10 @@ namespace SpaceSensorchecking
                         if (SensorID == f_sensorID)
                         {
                             Type.SensorIds.Remove(SensorID);
+                            m_CRUD.UpsetRecord<SensorTypes>("SensorTypes", ObjectId.Parse(Type.Id), Type);
                             break;
                         }
                     }
-                    m_CRUD.UpsetRecord<SensorTypes>("SensorTypes", ObjectId.Parse(Type.Id), Type);
                 }
                 /* delete sensor in BDD */
                 DeleteSensor(f_sensorID); /* delete sensor */
