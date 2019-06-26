@@ -4,8 +4,8 @@
 /*   How to use this programm: execute this code on the server, this program runs indefinitely                                    */
 /*   Name and project date: Murs Vegetal may/june 2019                                                                            */
 /*   Project group: Mongo/ Big Data                                                                                               */
-/*   Creator: Desmullier Gabriel, Alexandre verept
-/*   Other major contributors: Léa Alami, Léa Orsière                                                                             */
+/*   Creator: Desmullier Gabriel, Alexandre verept, Léa Alami
+/*   Other major contributors: Léa Orsière                                                                             */
 /*################################################################################################################################*/
 
 using WebAPI.Models; /*classes de la Bdd*/

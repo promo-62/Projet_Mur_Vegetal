@@ -26,6 +26,27 @@ namespace SpaceSensorchecking
         static MongoClient m_Client;
         static IMongoDatabase m_Database;
 
+        static public void DeleteSensor(String f_sensorID)
+        {
+        /* delete sensor ID in SensorTYpes */
+                m_CRUD.LoadRecords<SensorTypes>("SensorTypes");
+                List<SensorTypes> listSensorTypes = m_CRUD.LoadRecords<SensorTypes>("SensorTypes");
+                foreach(SensorTypes Type in listSensorTypes)
+                {
+                    foreach(String SensorID in Type.SensorIds)
+                    {
+                        if (SensorID == f_sensorID)
+                        {
+                            Type.SensorIds.Remove(SensorID);
+                            break;
+                        }
+                    }
+                    m_CRUD.UpsetRecord<SensorTypes>("SensorTypes", ObjectId.Parse(Type.Id), Type);
+                }
+                /* delete sensor in BDD */
+                DeleteSensor(f_sensorID); /* delete sensor */
+        }
+
         static public void SensorProg(CheckingConfiguration config)
         {
             /*connection to the database MurVegetalDb*/
@@ -55,7 +76,7 @@ namespace SpaceSensorchecking
                /*les erreurs vieillent de plus de alertUpdateTime sont supprimes*/
                 /*oldest alerts are deleted depending on the configuration alertUpdateTime*/
                 if (alert.DateAlert < DateTimeOffset.Now.ToUnixTimeSeconds() - config.alertUpdateTime)                    {
-                    m_CRUD.DeleteRecord<Alerts>("Alerts", alert.Id);
+                    m_CRUD.DeleteRecord("Alerts", alert.Id);
                 }
                 else
                 {
@@ -63,7 +84,7 @@ namespace SpaceSensorchecking
                     /*back-online alert messages are deleted after goodAlertTime*/
                     if ((alert.AlertReason == "De nouveau operationnel / Back online") && (alert.DateAlert < DateTimeOffset.Now.ToUnixTimeSeconds() - config.goodAlertTime))
                     {
-                        m_CRUD.DeleteRecord<Alerts>("Alerts", alert.Id);
+                        m_CRUD.DeleteRecord("Alerts", alert.Id);
                     }
                     /*les messages attention batterie sont supprimes si le niveau de batterie est de nouveau plein, une alerte batterie remise est ajoute pendant goodAlertTime*/
                     /*the battery attention messages are deleted if the battery level is again full, a reset battery alert is added during goodAlertTime*/
@@ -75,7 +96,7 @@ namespace SpaceSensorchecking
                         {
                             if (sensor.BatteryLevel[sensor.BatteryLevel.Count - 1] > 20) /*nouveau test / New test*/
                             {
-                                m_CRUD.DeleteRecord<Alerts>("Alerts", alert.Id); /*je supprime l'alerte Attention batterie*//*I delete the battery alert*/
+                                m_CRUD.DeleteRecord("Alerts", alert.Id); /*je supprime l'alerte Attention batterie*//*I delete the battery alert*/
 
                                 Alerts RechargedBatteryAlert = new Alerts   /*Une alerte qui indique que la batterie a ete rechargee est ajoutee a la liste des alertes*/
                                 {                                            /*An alert indicating that the battery has been recharged is added to the alert list*/
@@ -92,7 +113,7 @@ namespace SpaceSensorchecking
                     if ((alert.AlertReason == "Batterie Rechargee / Recharged Battery") && (alert.DateAlert < DateTimeOffset.Now.ToUnixTimeSeconds() - config.goodAlertTime)) /*la bonne alerte est supprimee apres goodAlertTime minutes*/
                                                                                                                                                                              /*the good alert is deleted after goodAlertTime minutes*/
                     {
-                        m_CRUD.DeleteRecord<Alerts>("Alerts", alert.Id);
+                        m_CRUD.DeleteRecord("Alerts", alert.Id);
                     }
                 }
 
@@ -129,7 +150,7 @@ namespace SpaceSensorchecking
                         m_CRUD.InsertRecord<Alerts>("Alerts", AlerteDeath);
                         Console.WriteLine($"\nAlerte Batterie capteur {sensor.Name} d'id {sensor.IdSensor}\n Battery Alert sensor {sensor.Name} id {sensor.IdSensor}");
                         alertBattery = true;
-                        m_CRUD.DeleteRecord<Sensors>("Sensors", sensor.Id); /*le capteur mort est supprime de la base de donnees*//*the dead sensor is removed from the database*/
+                        DeleteSensor(sensor.Id); /* delete sensor */
                     }
 
                     else
@@ -261,7 +282,7 @@ namespace SpaceSensorchecking
                             m_CRUD.InsertRecord<Alerts>("Alerts", AlertDeath);
                             Console.WriteLine($"\nAlerte Batterie capteur {sensor.Name} d'id {sensor.IdSensor}\n Battery Alert sensor {sensor.Name} id {sensor.IdSensor}");
                             alertBattery = true;
-                            m_CRUD.DeleteRecord<Sensors>("Sensors", sensor.Id);
+                            DeleteSensor(sensor.Id); /* delete sensor */
 
 
                         }
@@ -373,7 +394,7 @@ namespace SpaceSensorchecking
                                     {
                                         if ((OldAlert.AlertReason == "Erreur de fonctionnement/ Operating error") || (OldAlert.AlertReason == "Plus de Batterie/ No more Battery"))
                                         {
-                                            m_CRUD.DeleteRecord<Alerts>("Alerts", OldAlert.Id);
+                                            m_CRUD.DeleteRecord("Alerts", OldAlert.Id);
 
                                         }
                                     }
@@ -452,7 +473,7 @@ namespace SpaceSensorchecking
 
                                 foreach (Alerts alert in previousError) /*les erreur capteur defectueux sont supprime*//*Defective sensor errors are removed*/
                                 {
-                                    m_CRUD.DeleteRecord<Alerts>("Alerts", alert.Id);
+                                    m_CRUD.DeleteRecord("Alerts", alert.Id);
                                 }
                                 Console.WriteLine($"\nAttention la Batterie du capteur{sensor.Name} d'id {sensor.IdSensor} n'est plus defectueux\n Careful the Battery of the sensor {sensor.Name} id {sensor.IdSensor} is not defective any more");
                             }
@@ -488,7 +509,7 @@ namespace SpaceSensorchecking
 
                                 foreach (Alerts alert in previousError) /*les erreur capteur defectueux sont supprime*//*Defective sensor errors are removed*/
                                 {
-                                    m_CRUD.DeleteRecord<Alerts>("Alerts", alert.Id);
+                                    m_CRUD.DeleteRecord("Alerts", alert.Id);
                                 }
                                 Alerts AlerteRetour = new Alerts
                                 {
@@ -506,7 +527,7 @@ namespace SpaceSensorchecking
                             {
                                 foreach (Alerts alert in previousError) /*les erreur capteur defectueux sont supprime*//*Defective sensor errors are removed*/
                                 {
-                                    m_CRUD.DeleteRecord<Alerts>("Alerts", alert.Id);
+                                    m_CRUD.DeleteRecord("Alerts", alert.Id);
                                 }
                             }
                         }
@@ -537,7 +558,7 @@ namespace SpaceSensorchecking
                             {
                                 foreach (Alerts alert in previousError) /*les erreur capteur defectueux sont supprime*//*Defective sensor errors are removed*/
                                 {
-                                    m_CRUD.DeleteRecord<Alerts>("Alerts", alert.Id);
+                                    m_CRUD.DeleteRecord("Alerts", alert.Id);
                                 }
                             }
 

@@ -3,6 +3,7 @@ using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using MongoDB.Bson; ///Utilise pour le ObjectId
+using WebAPI.Models;
 
 
 namespace Setup
@@ -51,12 +52,10 @@ namespace Setup
              new UpdateOptions { IsUpsert = true });
         }
 
-        public void DeleteRecord<T>(string table, string id)
+        public void DeleteRecord(string table, string id)
         { /*supprimer un element identifie par son id */
             /*delete an element identified by its id*/
-            var collection = db.GetCollection<T>(table);
-            var filter = Builders<T>.Filter.Eq("_id", id);
-            collection.DeleteOne(filter);
+            db.GetCollection<ICollectionModel>(table).DeleteOne(template => template.Id ==id);
         }
 
         public List<T> LoadRecordByParameter<T,Q>(string table, string parameter, Q parameterValue)
