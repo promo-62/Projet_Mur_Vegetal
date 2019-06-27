@@ -180,7 +180,10 @@ namespace Projet
             
             await client.DisconnectAsync();
             Console.WriteLine (JsonConvert.DeserializeObject(message2));
-            return message2;
+
+            String sentMessage = message2;
+            message2 = "";
+            return sentMessage;
         }
 
        
