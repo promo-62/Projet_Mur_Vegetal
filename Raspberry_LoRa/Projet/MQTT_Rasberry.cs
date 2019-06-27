@@ -32,11 +32,13 @@ namespace Projet
         public static string action_server_client = "Server/DemandeAction/Rpi";
         public static int waitingTime = 10; // time in seconds
         public static string message2 = "";
-
+        public static bool firstentry = false;
+        static MqttFactory factory = new MqttFactory();
+        static IMqttClient client = factory.CreateMqttClient();
 
         public static void TempoMessage()
         {
-            //sous format de boucle
+            //récupération du message si au boud de 10s on envoie un string vide pour signaler une erreur
             int waitingTime = 10; // time in seconds
             DateTime deadLine = DateTime.Now.AddSeconds(waitingTime);
             while (message2 == "" && deadLine.CompareTo(DateTime.Now) > 0)
@@ -52,42 +54,61 @@ namespace Projet
         public static async Task<string> RaspberryToServer (string jsonLora)
         {
             // Create a new MQTT client.
-            var factory = new MqttFactory();
-            var client = factory.CreateMqttClient();
+                
 
-            X509Certificate ca_crt = new X509Certificate("/home/pi/Login/DigiCertCA.crt");
-            var tlsOptions = new MqttClientOptionsBuilderTlsParameters();
-            tlsOptions.SslProtocol = System.Security.Authentication.SslProtocols.Tls;
-            tlsOptions.Certificates = new List<IEnumerable<byte>>() { ca_crt.Export(X509ContentType.Cert).Cast<byte>() };
-            tlsOptions.UseTls = true;
-            tlsOptions.AllowUntrustedCertificates = true;
-            //tlsOptions.IgnoreCertificateChainErrors = false;
-            //tlsOptions.IgnoreCertificateRevocationErrors = false;
-            
+                
 
-            MqttNetGlobalLogger.LogMessagePublished += (sender, e) =>
+            if (!firstentry)
             {
-                Console.WriteLine(e.TraceMessage.Message);
-            };
+                // récupération des certificats
+                X509Certificate ca_crt = new X509Certificate("/home/valentin/Documents/Login/DigiCertCA.crt");
+                var tlsOptions = new MqttClientOptionsBuilderTlsParameters();
+                tlsOptions.SslProtocol = System.Security.Authentication.SslProtocols.Tls;
+                tlsOptions.Certificates = new List<IEnumerable<byte>>() { ca_crt.Export(X509ContentType.Cert).Cast<byte>() };
+                tlsOptions.UseTls = true;
+                tlsOptions.AllowUntrustedCertificates = true;
+                //tlsOptions.IgnoreCertificateChainErrors = false;
+                //tlsOptions.IgnoreCertificateRevocationErrors = false;
+                // Use TCP connection.
+                var options = new MqttClientOptionsBuilder()
+                .WithTcpServer(IP, Port) // Port is optional
+                .WithCredentials("admin", "admin")
+                .WithClientId("test")
+                .WithTls(tlsOptions)
+                .Build();
 
-            // Use TCP connection.
-            var options = new MqttClientOptionsBuilder()
-            .WithTcpServer(IP, Port) // Port is optional
-            .WithCredentials("admin", "admin")
-            .WithClientId("test")
-            .WithTls(tlsOptions)
-            .Build();
+                MqttNetGlobalLogger.LogMessagePublished += (sender, e) =>
+                {
+                    Console.WriteLine(e.TraceMessage.Message);
+                };
 
-            // quoi faire des msg qui arrivent
-            client.UseApplicationMessageReceivedHandler(e =>
-            {
-                message2 = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
-            });
+                
 
-            // on se connecte vraiment au server
-            await client.ConnectAsync(options);
+                client.UseDisconnectedHandler(async e => 
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(5));
+                    try
+                    {
+                    await client.ConnectAsync(options);
+                    }
+                    catch
+                    {
+                        Console.WriteLine("Reconnecting Failed");
+                        message2 = "";
+                    }
+                }); 
 
-            // on créer un msg
+                // quoi faire des msg qui arrivent
+                client.UseApplicationMessageReceivedHandler(e =>
+                {
+                    message2 = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
+                });
+
+                // on se connecte vraiment au server
+                await client.ConnectAsync(options);
+                firstentry = true;
+            }
+                // on créer un msg
 
             dynamic deserialized = JsonConvert.DeserializeObject(jsonLora);
             var typeMessage = deserialized.TYPE_MESSAGE;
@@ -106,7 +127,7 @@ namespace Projet
                 
 
 
-                
+                // on s'inscrit sur un channel
                 await client.SubscribeAsync(new TopicFilterBuilder().WithTopic(new_ID_server_client).Build());
                 // on créer un msg
                 var message = new MqttApplicationMessageBuilder()
@@ -114,7 +135,7 @@ namespace Projet
                 .WithPayload(jsonLora)
                 .WithExactlyOnceQoS()
                 .Build();
-
+                // on envoie le message
                 await client.PublishAsync(message);
 
                 TempoMessage();
@@ -135,7 +156,7 @@ namespace Projet
 
                 
 
-                
+                // on s'inscrit sur un channel
                 await client.SubscribeAsync(new TopicFilterBuilder().WithTopic(value_server_client).Build());
                 // on créer un msg
                 var message = new MqttApplicationMessageBuilder()
@@ -143,7 +164,7 @@ namespace Projet
                 .WithPayload(jsonLora)
                 .WithExactlyOnceQoS()
                 .Build();
-
+                // on publie le messsage
                 await client.PublishAsync(message);
                 TempoMessage();
             }
@@ -160,10 +181,9 @@ namespace Projet
                     Console.WriteLine("### SUBSCRIBED ###");
                 });
 
-                // gerer les deconnexions
 
                 
-                
+                // on s'inscrit sur un channel
                 await client.SubscribeAsync(new TopicFilterBuilder().WithTopic(action_client_server).Build());
                 // on créer un msg
                 var message = new MqttApplicationMessageBuilder()
@@ -171,16 +191,18 @@ namespace Projet
                 .WithPayload(jsonLora)
                 .WithExactlyOnceQoS()
                 .Build();
-
+                // on publie
                 await client.PublishAsync(message);
 
                 TempoMessage();
             }
 
             
-            await client.DisconnectAsync();
             Console.WriteLine (JsonConvert.DeserializeObject(message2));
-            return message2;
+
+            String sentMessage = message2;
+            message2 = "";
+            return sentMessage;
         }
 
        
