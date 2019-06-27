@@ -1,4 +1,4 @@
-﻿﻿using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
@@ -8,7 +8,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Projet
+namespace Protocol_MQTTClient
 {
     class Program
     {
@@ -79,21 +79,16 @@ namespace Projet
 
                     //Convertion du JSON en BYTE[]
                     byte[] Raw_Data = Protocol.JsonToData(response, Config);
-                    byte[] Data_To_Send = new Byte[Raw_Data.Length+1];
-                    Data_To_Send[0] = 0x00;
-                    for(int g = 0; g < Raw_Data.Length; g++){
-                        Data_To_Send[g+1] = Raw_Data[g];
-                    }
 
                     //Envoi de la reponse au LoRA
                     try{
-                        stream.Write(Data_To_Send, 0, Data_To_Send.Length);
+                        stream.Write(Raw_Data, 0, Raw_Data.Length);
                     }catch(Exception e){
                         Console.WriteLine("CONNECTION LOST WITH LORA");
                         client = server.AcceptTcpClient();
                         stream = client.GetStream();
                     }
-                    test = BitConverter.ToString(Data_To_Send);
+                    test = BitConverter.ToString( Raw_Data);
                     Console.WriteLine("MESSAGE SEND: "+test);
                     Console.WriteLine("");
                 }else{
@@ -107,13 +102,13 @@ namespace Projet
                         stream = client.GetStream();
                     }
                     test = BitConverter.ToString(Errors);
-                    if(Errors[0].Equals(0x01)){
+                    if(Errors[2].Equals(0x01)){
                         Console.WriteLine("MESSAGE SEND: NO RESPONSE FROM DATABASE");
                         Console.WriteLine("");
-                    }else if(Errors[0].Equals(0x02)){
+                    }else if(Errors[2].Equals(0x02)){
                         Console.WriteLine("MESSAGE SEND: INVALID FORMAT");
                         Console.WriteLine("");
-                    }else if(Errors[0].Equals(0x03)){
+                    }else if(Errors[2].Equals(0x03)){
                         Console.WriteLine("MESSAGE SEND: INVALID PAYLOAD SIZE");
                         Console.WriteLine("");
                     }
