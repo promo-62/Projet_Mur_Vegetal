@@ -60,7 +60,6 @@ namespace Projet
 
             if (!firstentry)
             {
-                Console.WriteLine("TEST1");
                 // récupération des certificats
                 X509Certificate ca_crt = new X509Certificate("/home/valentin/Documents/Login/DigiCertCA.crt");
                 var tlsOptions = new MqttClientOptionsBuilderTlsParameters();
@@ -87,7 +86,6 @@ namespace Projet
 
                 client.UseDisconnectedHandler(async e => 
                 {
-                    Console.WriteLine("TEST2");
                     await Task.Delay(TimeSpan.FromSeconds(5));
                     try
                     {
@@ -103,13 +101,11 @@ namespace Projet
                 // quoi faire des msg qui arrivent
                 client.UseApplicationMessageReceivedHandler(e =>
                 {
-                    Console.WriteLine("TEST3");
                     message2 = Encoding.UTF8.GetString(e.ApplicationMessage.Payload);
                 });
 
                 // on se connecte vraiment au server
                 await client.ConnectAsync(options);
-                Console.WriteLine("TEST4");
                 firstentry = true;
             }
                 // on créer un msg
