@@ -12,6 +12,7 @@ using System.Web.Http.Cors;
 namespace WebAPI.Controllers
 {
     /* ----- API WebController api/web ----- */
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     [Microsoft.AspNetCore.Mvc.Route("api/[controller]")]
     [ApiController]
     public class WebController : ControllerBase
