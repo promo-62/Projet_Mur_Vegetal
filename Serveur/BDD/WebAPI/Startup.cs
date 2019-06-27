@@ -42,6 +42,7 @@ namespace WebAPI
                     builder.AllowAnyOrigin()
                             .AllowAnyHeader()
                             .AllowAnyMethod();
+
                 });
             });
         }
