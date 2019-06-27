@@ -1,6 +1,6 @@
 /*--------COUNTDOWN FRAME------------------*/
 
-.countdown-frame{
+.countdown-frame {
     width: 100%;
     height: calc(100vh - 50px);
     display: grid;
@@ -11,6 +11,7 @@
     align-content: space-evenly;
     align-items: center;
 }
+
 .countdown-block {
     display: flex;
     flex-direction: column;
@@ -18,7 +19,7 @@
     text-align: center;
     font-size: 1.25em;
 }
-  
+
 .countdown-text {
     font-family: Mukta-Bold, sans-serif;
     color: #0d110d;
@@ -30,6 +31,7 @@
     display: block;
     min-width: 700px;
     max-height: 800px;
+    max-width: 1000px;
 }
 
 .countdown-image {

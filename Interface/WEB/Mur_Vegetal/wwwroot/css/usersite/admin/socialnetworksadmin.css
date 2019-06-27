@@ -19,7 +19,7 @@ div[class="username-param"],
     max-width: 30%;
     margin: 5px;
     padding: 5px;
-    align-self: flex-start;
+    align-self: center;
 }
 
 div[class="username-param"] {

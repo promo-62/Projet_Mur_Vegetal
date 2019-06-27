@@ -20,7 +20,7 @@
     max-width: 30%;
     margin: 5px;
     padding: 5px;
-    align-self: flex-start;
+    align-self: center;
 }
 
 @media screen and (max-width:500px) {

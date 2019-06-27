@@ -13,7 +13,7 @@ var lastBlockPassIndex;
 var lastBlockPassNbr;
 
 var frame = {
-    init(walltime, newstime, countdowntime, mediastime, socialnetworkstime){
+    init(walltime, newstime, countdowntime, mediastime, socialnetworkstime) {
         let wall = $(".wall-frame:first");
         let news = $(".news-frame:first");
         let countdown = $(".countdown-frame:first");
@@ -41,27 +41,32 @@ var frame = {
         };
 
         for (const [key, value] of frameTimers.entries()) { //check how many null timers there is
-            if (!isNaN(value) && value != null && value != 0){ //if its a number
-                frameValidDiv.set(key,frameDiv.get(key));
+            if (!isNaN(value) && value != null && value != 0) { //if its a number
+                frameValidDiv.set(key, frameDiv.get(key));
             }
         };
 
-        lastFrameIndex = frameValidDiv.size -1;
+        lastFrameIndex = frameValidDiv.size - 1;
+
+        frame.timedRefresh(900000); //Auto refresh
+
         frame.roll(); //Start frame animation
     },
 
-    roll(){
+    roll() {
         let thisFrame = Array.from(frameValidDiv)[currentFrameIndex][1]; //Get current frame html element
         let thisFrameName = Array.from(frameValidDiv)[currentFrameIndex][0];
         let timing = frameTimers.get(thisFrameName); //Get current frame timer
 
         currentFrameIndex++;
 
-        if(currentFrameIndex>lastFrameIndex){ //Check if its the last frame element
-            currentFrameIndex=0;
+        if (currentFrameIndex > lastFrameIndex) { //Check if its the last frame element
+            currentFrameIndex = 0;
         }
-
-        if (thisFrameName == "news" || thisFrameName == "medias"){
+        if (frameValidDiv.size == 1 && (thisFrameName != "news" && thisFrameName != "medias")) {
+            thisFrame.addClass('animated fadeInLeft').delay(0).show(0);
+        }
+        else if (thisFrameName == "news" || thisFrameName == "medias") {
             thisFrame.removeClass('animated fadeOutRight');
             thisFrame.addClass('animated fadeInLeft').delay(0).show(0); //Faster animation
             clearTimeout(frameTimer);
@@ -70,77 +75,77 @@ var frame = {
         else {
             thisFrame.removeClass('animated fadeOutRight');
             thisFrame.addClass('animated fadeInLeft').delay(1000).show(0); //Display current frame element
-            frameTimer = setTimeout(function(){
-                let previousFrameIndex = currentFrameIndex-1; //Get previous frame
-        
+            frameTimer = setTimeout(function () {
+                let previousFrameIndex = currentFrameIndex - 1; //Get previous frame
+
                 // If previous was last frame
-                if(previousFrameIndex == -1){
+                if (previousFrameIndex == -1) {
                     previousFrameIndex = lastFrameIndex;
                 }
                 Array.from(frameValidDiv)[previousFrameIndex][1].removeClass('animated fadeInLeft');
                 Array.from(frameValidDiv)[previousFrameIndex][1].addClass('animated fadeOutRight').delay(1000).hide(0); //Remove this frame
-    
+
                 frame.roll();
-            }, timing*1000);
+            }, timing * 1000);
         }
 
     },
 
-    initSlideshow(arg){
+    initSlideshow(arg) {
         if (typeof blockTimer !== 'undefined') {//Clear blockTimer
             clearTimeout(blockTimer);
         };
         blockName = arg;
-        blockDiv = $("."+arg+"-block"); //get all div
+        blockDiv = $("." + arg + "-block"); //get all div
         blockDiv.hide();
-        lastBlockPassIndex = Math.trunc (blockDiv.length/3); //To display blocks 3 by 3
-        lastBlockPassNbr =  blockDiv.length%3; //How many blocks on the last display (reste)
-        if (lastBlockPassNbr == 0){ //if r = 0, remove on pass
+        lastBlockPassIndex = Math.trunc(blockDiv.length / 3); //To display blocks 3 by 3
+        lastBlockPassNbr = blockDiv.length % 3; //How many blocks on the last display (reste)
+        if (lastBlockPassNbr == 0) { //if r = 0, remove on pass
             lastBlockPassIndex--;
         }
         blockPassIndex = 0;
         frame.rollSlideshow(); //Start display of block
     },
-    
-    rollSlideshow(){
+
+    rollSlideshow() {
         let thoseBlocks;
-        
-        if (blockPassIndex == lastBlockPassIndex && lastBlockPassNbr != 0 ){ //check if its the last pass
-            thoseBlocks = blockDiv.slice(blockPassIndex*3,blockPassIndex*3+lastBlockPassNbr); //in those blocks put elements between x and y index
+
+        if (blockPassIndex == lastBlockPassIndex && lastBlockPassNbr != 0) { //check if its the last pass
+            thoseBlocks = blockDiv.slice(blockPassIndex * 3, blockPassIndex * 3 + lastBlockPassNbr); //in those blocks put elements between x and y index
         }
         else {
-            thoseBlocks = blockDiv.slice(blockPassIndex*3,blockPassIndex*3+3);
+            thoseBlocks = blockDiv.slice(blockPassIndex * 3, blockPassIndex * 3 + 3);
         }
-    
+
         let timing = frameTimers.get(blockName) * thoseBlocks.length; //Get current block timer * number of elements to display
 
         thoseBlocks.removeClass('animated fadeOutDown');
         thoseBlocks.addClass('animated fadeInDown').delay(1000).show(0); //Display current frame element
 
-        if(blockPassIndex >lastBlockPassIndex){ //check if it's the last pass
-            blockPassIndex=0;
+        if (blockPassIndex > lastBlockPassIndex) { //check if it's the last pass
+            blockPassIndex = 0;
             clearTimeout(blockTimer);
             thoseBlocks.removeClass('animated fadeInDown');
             thoseBlocks.addClass('animated fadeOutDown').delay(1000).hide(0); //Remove this frame
             frameValidDiv.get(blockName).removeClass('animated fadeInLeft');
-            frameValidDiv.get(blockName).delay(1000).hide(0); //Remove this frame
+            if(frameValidDiv.size != 1){
+                frameValidDiv.get(blockName).delay(1000).hide(0); //Remove this frame
+            }
             frame.roll();
         }
         else {
             blockPassIndex++;
 
-            blockTimer = setTimeout(function(){ 
+            blockTimer = setTimeout(function () {
                 thoseBlocks.removeClass('animated fadeInDown');
                 thoseBlocks.addClass('animated fadeOutDown').delay(1000).hide(0); //Remove this frame
                 frame.rollSlideshow(); //start again
-            }, timing*1000);
+            }, timing * 1000);
         }
     },
 
-    animateIn(element) {
-        
-    },
-    animateOut(element) {
-        
+    timedRefresh(timeoutPeriod) {
+        setTimeout("location.reload(true);",timeoutPeriod);
+        console.log("refreshing");
     }
 }
