@@ -14,8 +14,8 @@ namespace SapcePump
     {
         static MongoCRUD m_CRUD;
 
-        static int typeHumidity = 2;
-        static int typeWattering = 7;
+        static int typeHumidity = 4;
+        static int typeWattering = 3;
         static MongoClient m_Client;
         static IMongoDatabase m_Database;
 
