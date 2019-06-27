@@ -52,8 +52,8 @@ namespace Mur_Vegetal
             /**************************************************/
             /**************************************************/
 
-            
-            app.UsePathBase(""); //PUT HERE THE ROOT PATH OF WEBSERVER
+
+            app.UsePathBase("/web"); //PUT HERE THE ROOT PATH OF WEBSERVER
 
             app.Use((context, next) =>
             {
@@ -62,13 +62,13 @@ namespace Mur_Vegetal
                 return next();
             });
 
-            
+
             /**************************************************/
             /**************************************************/
             app.UseStaticFiles(); // DON'T FORGET THE LEADING SLASH!
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            //app.UseCookiePolicy();
             app.UseStatusCodePagesWithRedirects("~/Index"); // TO REDIRECT TO ERROR PAGES /errors/{0}
 
             app.UseMvc();

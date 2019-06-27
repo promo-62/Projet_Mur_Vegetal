@@ -7,191 +7,97 @@
 @section heads{
   <link href="@Url.Content("~/css/usersite/admin/newsadmin.css")" rel="stylesheet" type="text/css" />
 }
-
-<!----------------------------------------------------------------------------------------------------------------------------->
-<!----------------------------------------------------------------------------------------------------------------------------->
-<!--div PRINCIPALE CONTENANT LES DIFFERRENTES NEWS div ENFANTS-->
   <div class="news-box">
-<!-----------------------------------------AJOUT D'EVENT--------------------------------------------> 
+    <form method="post" enctype="multipart/form-data">
     <div class="news-addnew">
       <legend class="news-name">Ajouter événement</legend>
 
         <div class="addnew-name">
           <label class="addnew-name">Nom de l'événement : </label>
-          <input type="text" class="addnew-name" placeholder="Ex: JPO">
+          <input type="text" name="name" class="addnew-name" placeholder="Ex: JPO" required>
         </div>
 
         <div class="addnew-text">
         <label class="addnew-text">Texte : </label>
-        <textarea class="addnew-text" rows="5" cols="60" placeholder="Entrez votre texte"></textarea>
+        <textarea class="addnew-text" name="text" rows="5" cols="60" placeholder="Entrez votre texte"></textarea>
         </div>
 
         <div class="addnew-img">
           <label class="addnew-img">Image : </label>
-          <input class="addnew-img" type="file" accept="image/png, image/jpeg">
+          <input class="addnew-img" asp-for="ImageUpload" type="file" accept="image/png, image/jpeg" required>
         </div>
 
         <div class="addnew-start-date">
           <label class="addnew-start-date">Date de début : </label>
-          <input class="addnew-start-date" type="date">
+          <input class="addnew-start-date" name="startdate" type="date" required>
         </div>
 
         <div class="addnew-end-date">
           <label class="addnew-end-date">Date de fin : </label>
-          <input class="addnew-end-date" type="date">
+          <input class="addnew-end-date" name="enddate" type="date" required>
         </div>
 
         <div class=button>
-         <button class="button-delete"> Supprimer </button>
-         <button class="button-apply"> Valider </button>
+         <button class="button-apply" name="submit" value="add"> Ajouter </button>
         </div>
-      
+      </form>
     </div>
-<!-----------------------------------------FIN AJOUT D'EVENT--------------------------------------------> 
-<!-----------------------------------------EVENT 1--------------------------------------------> 
-    <div class="news-param">
-      <legend class="news-name">JPO</legend>
 
-        <div class="param-name">
-          <label class="param-name">Nom de l'événement : </label>
-          <input type="text" class="param-name" placeholder="Ex: JPO">
-        </div>
+@{
+  //Traitement de la requête GET
+  DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0).ToLocalTime();
+  @if (@Model.IsError == false){ 
+    @foreach (var e in @Model.Result){
+      var beginningDate = epoch.AddSeconds(e.beginningDate).ToString("yyyy-MM-dd");
+      var endingDate = epoch.AddSeconds(e.endingDate).ToString("yyyy-MM-dd");
+      @if (1==1){//condition de verification données
+          <form method="post" class="news-param">
+            <div>
+               @if (!String.IsNullOrEmpty(e.name)){
+                <legend class="news-name">@e.name</legend>
+              }
+              else {
+                <legend class="news-name">News</legend>
+              }
+              <div class="param-name">
+                <label class="param-name">Nom de l'événement : </label>
+                @if (!String.IsNullOrEmpty(e.name)){
+                  <input type="text" name="name" class="param-name" placeholder="Ex: JPO" value="@e.name" required>
+                }
+                else {
+                  <input type="text" name="name" class="param-name" placeholder="Ex: JPO" value="News" required>
+                }
+              </div>
+              <div class="param-text">
+                <label class="param-text">Texte : </label>
+                <textarea class="param-text" name="text" rows="5" cols="60" placeholder="Entrez votre texte">@e.text</textarea>
+              </div>
+              <div class="param-img">
+                <label class="param-img">Image : </label>
+                <img class="param-img" src="data:image/png;base64,@e.eventImage"><span><img src="data:image/png;base64,@e.eventImage" alt="@e.name"></span>
+                <input type="hidden" name="image" value="@e.eventImage">
+              </div>
+              <div class="param-start-date">
+                <label class="param-start-date">Date de début : </label>
+                <input class="param-start-date" name="startdate" type="date" value="@beginningDate" required>
+              </div>
+              <div class="param-end-date">
+                <label class="param-end-date">Date de fin : </label>
+                <input class="param-end-date" name="enddate" type="date" value="@endingDate" required>
+              </div>
+              <div class=button>
+                <button class="button-delete" name="submit" value="delete"> Supprimer </button>
+                <button class="button-apply" name="submit" value="edit"> Modifier </button>
+              </div>
+              <input type="hidden" name="id" value="@e.id">
+            </div>
+          </form>
+      }
+    }
+  }
+  else {
+    <div class="news-param"> Erreur API </div>
+  }
+}
 
-        <div class="param-text">
-        <label class="param-text">Texte : </label>
-        <textarea class="param-text" rows="5" cols="60" placeholder="Entrez votre texte"></textarea>
-        </div>
-
-        <div class="param-img">
-          <label class="param-img">Image : </label>
-          <a href="~/images/news1.jpg" target="_blank"><img class="param-img" src="~/images/news1.jpg"> </a>
-        </div>
-
-        <div class="param-start-date">
-          <label class="param-start-date">Date de début : </label>
-          <input class="param-start-date" type="date">
-        </div>
-
-        <div class="param-end-date">
-          <label class="param-end-date">Date de fin : </label>
-          <input class="param-end-date" type="date">
-        </div>
-
-        <div class=button>
-         <button class="button-delete"> Supprimer </button>
-         <button class="button-apply"> Valider </button>
-        </div>
-      
-    </div>
-<!-----------------------------------------FIN EVENT 1--------------------------------------------> 
-<!-----------------------------------------EVENT 2--------------------------------------------> 
-    <div class="news-param">
-      <legend class="news-name">FOrum Studyrama</legend>
-
-        <div class="param-name">
-          <label class="param-name">Nom de l'événement : </label>
-          <input type="text" class="param-name" placeholder="Ex: JPO">
-        </div>
-
-        <div class="param-text">
-        <label class="param-text">Texte : </label>
-        <textarea class="param-text" rows="5" cols="60" placeholder="Entrez votre texte"></textarea>
-        </div>
-
-        <div class="param-img">
-          <label class="param-img">Image : </label>
-          <a href="~/images/news2.jpg" target="_blank"><img class="param-img" src="~/images/news2.jpg"> </a>
-        </div>
-
-        <div class="param-start-date">
-          <label class="param-start-date">Date de début : </label>
-          <input class="param-start-date" type="date">
-        </div>
-
-        <div class="param-end-date">
-          <label class="param-end-date">Date de fin : </label>
-          <input class="param-end-date" type="date">
-        </div>
-
-        <div class=button>
-         <button class="button-delete"> Supprimer </button>
-         <button class="button-apply"> Valider </button>
-        </div>
-      
-    </div>
-<!-----------------------------------------FIN EVENT 2--------------------------------------------> 
-<!-----------------------------------------EVENT 3--------------------------------------------> 
-    <div class="news-param">
-      <legend class="news-name">Salon de l'Etudiant</legend>
-
-        <div class="param-name">
-          <label class="param-name">Nom de l'événement : </label>
-          <input type="text" class="param-name" placeholder="Ex: JPO">
-        </div>
-
-        <div class="param-text">
-        <label class="param-text">Texte : </label>
-        <textarea class="param-text" rows="5" cols="60" placeholder="Entrez votre texte"></textarea>
-        </div>
-
-        <div class="param-img">
-          <label class="param-img">Image : </label>
-          <a href="~/images/news3.jpg" target="_blank"><img class="param-img" src="~/images/news3.jpg"> </a>
-        </div>
-
-        <div class="param-start-date">
-          <label class="param-start-date">Date de début : </label>
-          <input class="param-start-date" type="date">
-        </div>
-
-        <div class="param-end-date">
-          <label class="param-end-date">Date de fin : </label>
-          <input class="param-end-date" type="date">
-        </div>
-
-        <div class=button>
-         <button class="button-delete"> Supprimer </button>
-         <button class="button-apply"> Valider </button>
-        </div>
-      
-    </div>
-<!-----------------------------------------FIN EVENT 3--------------------------------------------> 
-<!-----------------------------------------EVENT 4--------------------------------------------> 
-    <div class="news-param">
-      <legend class="news-name">SPO</legend>
-
-        <div class="param-name">
-          <label class="param-name">Nom de l'événement : </label>
-          <input type="text" class="param-name" placeholder="Ex: JPO">
-        </div>
-
-        <div class="param-text">
-        <label class="param-text">Texte : </label>
-        <textarea class="param-text" rows="5" cols="60" placeholder="Entrez votre texte"></textarea>
-        </div>
-
-        <div class="param-img">
-          <label class="param-img">Image : </label>
-          <a href="~/images/news4.jpg" target="_blank"><img class="param-img" src="~/images/news4.jpg"> </a>
-        </div>
-
-        <div class="param-start-date">
-          <label class="param-start-date">Date de début : </label>
-          <input class="param-start-date" type="date">
-        </div>
-
-        <div class="param-end-date">
-          <label class="param-end-date">Date de fin : </label>
-          <input class="param-end-date" type="date">
-        </div>
-
-        <div class=button>
-         <button class="button-delete"> Supprimer </button>
-         <button class="button-apply"> Valider </button>
-        </div>
-      
-    </div>
-<!-----------------------------------------FIN EVENT 4--------------------------------------------> 
-  </div>
-<!----------------------------------------------------------------------------------------------------------------------------->
-<!------------------
+</div>

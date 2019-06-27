@@ -39,6 +39,15 @@ COUNTDOWN PAGE
         }
     }
     
+    @media screen and (orientation:landscape) {
+        .countdown-body {
+            height: calc(100vh - 50px);
+        }
+        .countdown-block {
+            height: 80%;
+        }
+    }
+    
     img {
         display: block;
         width: 100%;

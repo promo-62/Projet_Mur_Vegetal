@@ -1,5 +1,6 @@
 @page
 @model MediasModel
+@using System.Text.RegularExpressions
 @{
     ViewData["Title"] = "Médias";
 }
@@ -9,7 +10,40 @@
 
 
 <div class="mediaspage-body">
-  @{ Html.RenderPartial("_Medias"); }
+   @{
+     
+      var currentTimeStamp = (Int32)(DateTime.Now.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+          //Traitement de la requête GET
+          @if (@Model.IsError == false){ 
+            @foreach (var e in @Model.Result){
+              @if (1==1){//condition de verification données
+                  @if (e.beginningDate <= currentTimeStamp && e.endingDate >= currentTimeStamp){
+                      @if(!String.IsNullOrEmpty(e.image)){
+                        <div class="medias-block">
+                          <div class="medias-image box">
+                            <img src="data:image;base64,@e.image"/>
+                          </div>
+                        </div>
+                      }
+                      if(!String.IsNullOrEmpty(e.video)){
+                        var pattern = @"([a-zA-Z0-9]+)\z";
+                        Model.RegexMatch = Regex.Match(e.video, pattern, RegexOptions.IgnoreCase);
+                            if (Model.RegexMatch.Success){
+                              <div class="medias-block">
+                                <div class="medias-video box"> 
+                                <iframe src="https://www.youtube.com/embed/@Model.RegexMatch.Groups[1].Value" width="100%" frameborder="0" allowfullscreen></iframe> 
+                                </div>
+                              </div>
+                            }
+                      }
+                  }
+              }
+            }
+          }
+          else {
+            <div class="news-block box">Erreur API</div>
+          }
+        }
 </div>
 
 

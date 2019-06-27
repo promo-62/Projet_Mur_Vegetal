@@ -8,18 +8,22 @@
   <link href="@Url.Content("~/css/usersite/loginpage.css")" rel="stylesheet" type="text/css" />
 }
 
-
+<form method="post" class="login-body">
 <div class="login-body">
     <div class="login-block box">
         <div class="password">
+            <label for="text">Login</label>
+            <input type="text" name="login" required>
+        </div>
+        <div class="password">
             <label for="password">Mot de passe</label>
-            <input type="password" name="password">
+            <input type="password" name="password" required>
         </div>
         <div class="connexion">
-            <button> connexion </button>
+            <button class="button-apply" value ="connexion" name="submit"> Connexion </button>
         </div>
     </div>
-
+</form>
 </div>
 
 

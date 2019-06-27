@@ -9,5 +9,29 @@
 }
 
 <div class="countdown-body">
-    @{ Html.RenderPartial("_Countdown"); }
+  @{
+          //Traitement de la requête GET
+          @if (@Model.IsError == false && @Model.ResultLastCountdown != null){ 
+              @if (1==1){//condition de verification données
+                      <div class="countdown-block">
+                        @if(!String.IsNullOrEmpty(@Model.ResultLastCountdown.image)){
+                           <div class="countdown-image box">
+                                  <img src="data:image;base64,@Model.ResultLastCountdown.image"/>
+                              </div> 
+                        }
+                              <div class="countdown-text box">
+                                  @Model.ResultLastCountdown.text
+                                  <div id="countdown-display">
+                                  </div>
+                                  <script>
+                                      countDown(@Model.ResultLastCountdown.endingDateCountdown,"countdown-display");
+                                  </script>
+                              </div>
+                      </div>
+              }
+          }
+          else {
+            <div class=" countdown-block box">Erreur API</div>
+          }
+        }
 </div>

@@ -11,6 +11,7 @@ NEWS PAGE
     grid-auto-flow: row;
     padding: 10px;
     overflow: inherit;
+    align-items: center;
 }
 
 .news-block {

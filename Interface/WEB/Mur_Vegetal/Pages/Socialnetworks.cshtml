@@ -10,20 +10,24 @@
 
 
 <div class="socialnetworks-body">
-    <!-- SnapWidget -->
-    <script src="https://snapwidget.com/js/snapwidget.js"></script>
-    <iframe src="https://snapwidget.com/embed/698344" class="snapwidget-widget" allowtransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:100%;"></iframe>
-    <script>
-        
-        window.onload = function () { setTimeout( function(){
-
-            
-            
-        }, 4000);
-            
+  @{
+    //Traitement de la requête GET
+    @if (@Model.IsError == false){ 
+      @foreach (var e in @Model.Result){
+        @if (1==1){//condition de verification données
+          if(e.pageWidget == "socialnetworks"){
+            <!-- SnapWidget -->
+            <script src="https://snapwidget.com/js/snapwidget.js"></script>
+            <iframe src="@e.widget" class="snapwidget-widget" allowtransparency="true" frameborder="0" scrolling="no"></iframe>
+          }
         }
-        
-    </script>
+      }
+    }
+    else {
+      <div style="color:green;"> Erreur API </div>
+    }
+  }
+
 </div>
 
 
