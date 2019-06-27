@@ -15,7 +15,7 @@
 
 
 
-| Method |         Route          |                        Fonctionality                         |
+| Method |         Route          |                        Functionality                         |
 | :----: | :--------------------: | :----------------------------------------------------------: |
 |  GET   |       /sensors/        |             Get [all fields] for working sensors             |
 |        |     /sensors/{id}      |        Get [all fields] for sensor with ObjectId {id}        |
@@ -48,7 +48,7 @@
 
 
 
-| Method |       Route        |                 Fonctionality                 |
+| Method |       Route        |                 Functionality                 |
 | :----: | :----------------: | :-------------------------------------------: |
 |  POST  |     /sensors/      |     Insert element in Sensors collection      |
 |        |     /samples/      |     Insert element in Samples collection      |
@@ -68,7 +68,7 @@
 
 
 
-| Method |         Route          |                        Fonctionality                        |
+| Method |         Route          |                        Functionality                        |
 | :----: | :--------------------: | :---------------------------------------------------------: |
 |  PUT   |     /sensors/{id}      |      Modify [all fields] for sensor with ObjectId {id}      |
 |        |     /samples/{id}      |      Modify [all fields] for sample with ObjectId {id}      |
