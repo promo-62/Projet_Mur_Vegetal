@@ -49,18 +49,27 @@ namespace Mur_Vegetal
                 app.UseHsts();
             }
 
-            app.UsePathBase("/web");
+            /**************************************************/
+            /**************************************************/
+
+            
+            app.UsePathBase(""); //PUT HERE THE ROOT PATH OF WEBSERVER
 
             app.Use((context, next) =>
             {
-                context.Request.PathBase = "/web";
+
+                context.Request.PathBase = "/web"; //PUT HERE THE ROOT PATH OF WEBSERVER
                 return next();
             });
-            app.UseStaticFiles(); // DON'T FORGET THE LEADING SLASH!
 
+            
+            /**************************************************/
+            /**************************************************/
+            app.UseStaticFiles(); // DON'T FORGET THE LEADING SLASH!
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseStatusCodePagesWithRedirects("~/Index"); // TO REDIRECT TO ERROR PAGES /errors/{0}
 
             app.UseMvc();
         }

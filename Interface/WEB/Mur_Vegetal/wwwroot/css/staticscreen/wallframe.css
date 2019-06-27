@@ -2,63 +2,54 @@
 WALL FRAME  
 --------------------------------------------------------------------------------------*/
 
-.wall-body{
+.wall-frame {
     width: 100%;
-    height: auto;
+    height: inherit;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(450px, auto));
-    grid-gap: 50px 100px;
+    grid-template-columns: repeat(1, minmax(700px, auto));
+    grid-template-rows: repeat(auto-fit, minmax(200px, auto));
+    grid-gap: 5px 50px;
     grid-auto-flow: row;
-    padding: 10px;
+    justify-items: center;
     overflow: inherit;
-  }
-    
-  .wall-block{
-    min-width: 300px;
-    border-radius: 10px;
-    margin: 5px;
+    align-content: space-evenly;
+}
+
+.box {
+    background-color: #F4F3F2;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.wall-block {
     display: flex;
-    flex-direction: column ;
-    text-align: center;
-  }
-    
-  .wall-text{
-    color : aliceblue;
-  }
- 
-  .wall-body:first-of-type>div:nth-child(1){
-    min-width: 300px;
-    border-radius: 10px;
-    margin: 5px;
+    flex-direction: row;
+    font-size: 1.25em;
+    align-items: center;
+    padding: 10px;
+    max-height: 300px;
+    min-width: 700px;
+    margin: 0px;
+}
+
+.info {
+    display: flex;
+    flex-direction: row;
     justify-self: center;
-    align-self: flex-start;
-    border-width: 4px;
-    border-style: solid;
-    border-color : rgb(100, 185, 79);
-  }
-    
-  /***************************************************************************************
+    align-items: center;
+}
+
+
+/***************************************************************************************
   WALL IMAGE
   ****************************************************************************************/
-    
-  .wall-icon img{
-    margin-top: 5px;
-    width: 50%;
-  }
-    
-  .wall-info{
-    display: flex;
-    align-items: center;
-    flex-flow: row wrap;
-  }
-    
-  .wall-graph img{
-    margin: 3px;
-    width: 40%;
-    min-width: 300px;
-    border-radius: 10px;
-    border-width: 4px;
-    border-style: solid;
-    border-color : rgb(245, 245, 245);
-  }
-    
+
+.info img {
+    padding: 5px;
+    display: block;
+}
+
+.chart {
+    display: block;
+    width: 100%;
+    min-height: 200px;
+}
