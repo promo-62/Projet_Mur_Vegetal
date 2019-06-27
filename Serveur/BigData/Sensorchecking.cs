@@ -1,6 +1,6 @@
 ﻿/*################################################################################################################################*/
 /*   Name: Sensorchecking programm                                                                                                */
-/*   Goal: check sensor operation, identify defected sensor, create alerts, manage alerts, check  battery level                   */
+/*   Goal: check sensor operation, identify defective sensor, create alerts, manage alerts, check  battery level                   */
 /*   How to use this programm: execute this code on the server, this program runs indefinitely                                    */
 /*   Name and project date: Murs Vegetal may/june 2019                                                                            */
 /*   Project group: Mongo/ Big Data                                                                                               */
@@ -155,12 +155,12 @@ namespace SpaceSensorchecking
 
                     else
                     {
-                        if (sensor.SensorDate + sensor.SleepTime * 60 * config.toleranceThreshold < DateTimeOffset.Now.ToUnixTimeSeconds()) /*s'il n'est pas neuf il est considere comme non fonctionnel */ /*if the sensor isn't new, it is defected*/
+                        if (sensor.SensorDate + sensor.SleepTime * 60 * config.toleranceThreshold < DateTimeOffset.Now.ToUnixTimeSeconds()) /*s'il n'est pas neuf il est considere comme non fonctionnel */ /*if the sensor isn't new, it is defective*/
                         {
                                 
                             sensor.IsWorking = false;
                             m_CRUD.UpsetRecord<Sensors>("Sensors", ObjectId.Parse(sensor.Id), sensor); /*mise a jour du statut*/
-                            Console.WriteLine($"\nle capteur {sensor.Name} d'id {sensor.IdSensor} est defectueux\n the sensor {sensor.Name} id {sensor.IdSensor} id defected");
+                            Console.WriteLine($"\nle capteur {sensor.Name} d'id {sensor.IdSensor} est defectueux\n the sensor {sensor.Name} id {sensor.IdSensor} id defective");
 
                             /*puisqu'il a une erreur, le programme va regarder si la batterie est responsable si c'est le cas une alerte Batterie est ajoutee a la liste des alertes si ce n'est pas la batterie c'est une alerte de fonctionnement qui est ajoutee a la liste des alertes*/
                             /*it has an error, the program will look if the battery is responsible if it is the case a battery alert is added to the list of Alerts if it is not the battery is an operating alert that is added to the list of Alerts*/
@@ -288,12 +288,12 @@ namespace SpaceSensorchecking
                         }
                         else
                         {
-                            if (sensor.LastSampleDate < timelimit) /*if the last statement is older than the timelimit, it is considered as defected*/
+                            if (sensor.LastSampleDate < timelimit) /*if the last statement is older than the timelimit, it is considered as defective*/
                             { /*si le dernier releve est plus age que notre limite timelimite il est considere comme defectueux*/
                                 sensor.IsWorking = false;
                                
                                 m_CRUD.UpsetRecord<Sensors>("Sensors", ObjectId.Parse(sensor.Id), sensor); /*mise a jour du statut*/
-                                Console.WriteLine($"\nle capteur {sensor.Name} d'id {sensor.IdSensor} est defectueux\n the sensor {sensor.Name} id {sensor.IdSensor} is defected");
+                                Console.WriteLine($"\nle capteur {sensor.Name} d'id {sensor.IdSensor} est defectueux\n the sensor {sensor.Name} id {sensor.IdSensor} is defective");
 
                                 /*puisqu'il a une erreur, le programme va regarder si la batterie est responsable si c'est le cas une alerte Batterie est ajoutee a la liste des alertes si ce n'est pas la batterie c'est une alerte de fonctionnement qui est ajoutee a la liste des alertes*/
                                 /*it has an error, the program will look if the battery is responsible if it is the case a battery alert is added to the list of Alerts if it is not the battery is an operating alert that is added to the list of Alerts*/
@@ -368,7 +368,7 @@ namespace SpaceSensorchecking
                             else /*si un capteur a bien donne des releves*/ /*if the sensor had send recently a statement*/
                             {
 
-                                if (sensor.IsWorking == false)/*si un capteur defectueux redonne des releves on peut le reclasser parmis les vivants*/ /*if a defected gives back statement, it is again functional*/
+                                if (sensor.IsWorking == false)/*si un capteur defectueux redonne des releves on peut le reclasser parmis les vivants*/ /*if a defective gives back statement, it is again functional*/
                                 {
                                     sensor.IsWorking = true;
                                     m_CRUD.UpsetRecord<Sensors>("Sensors", ObjectId.Parse(sensor.Id), sensor); /*mise a jour du statut*/
@@ -465,7 +465,7 @@ namespace SpaceSensorchecking
                             }
                             /*if the administrator has deleted values a defective sensor due to outliers can return to running*/
                             /*si l'administrateur a supprime des valeur un capteur defectueux a cause des valeurs aberrante peut revenir en marche*/
-                            List<Alerts> previousError = m_CRUD.LoadRecordByTwoParameter<Alerts, int, string>("Alerts", "IdSensor", sensor.IdSensor, "AlertReason", "Valeurs aberrantes constatees, le capteur est  defectueux/ Noticed absurd values, the sensor id defected");
+                            List<Alerts> previousError = m_CRUD.LoadRecordByTwoParameter<Alerts, int, string>("Alerts", "IdSensor", sensor.IdSensor, "AlertReason", "Valeurs aberrantes constatees, le capteur est  defectueux/ Noticed absurd values, the sensor id defective");
                             if (previousError.Count != 0)
                             {
                                 sensor.IsWorking = true;
@@ -480,7 +480,7 @@ namespace SpaceSensorchecking
                         }
                         if (numberAberrantValues > config.errorThreshold) /*si le nombre de valeurs aberrante est superieur au seuil max, le capteur devient defaillant*//*if the number of outliers is greater than the max threshold, the sensor becomes defacing*/
                         {
-                            List<Alerts> previousAlert = m_CRUD.LoadRecordByTwoParameter<Alerts, int, string>("Alerts", "IdSensor", sensor.IdSensor, "AlertReason", "Valeurs aberrantes constatees, le capteur est  defectueux/ Noticed absurd values, the sensor id defected");
+                            List<Alerts> previousAlert = m_CRUD.LoadRecordByTwoParameter<Alerts, int, string>("Alerts", "IdSensor", sensor.IdSensor, "AlertReason", "Valeurs aberrantes constatees, le capteur est  defectueux/ Noticed absurd values, the sensor id defective");
                             if (previousAlert.Count == 0)
                             {
                                 Alerts AlerteAberrant = new Alerts
@@ -489,7 +489,7 @@ namespace SpaceSensorchecking
                                     Name = sensor.Name,
                                     DateAlert = DateTimeOffset.Now.ToUnixTimeSeconds(),
                                     IsWorking = false,
-                                    AlertReason = "Valeurs aberrantes constatees, le capteur est  defectueux/ Noticed absurd values, the sensor id defected"
+                                    AlertReason = "Valeurs aberrantes constatees, le capteur est  defectueux/ Noticed absurd values, the sensor id defective"
                                 };
                                 m_CRUD.InsertRecord<Alerts>("Alerts", AlerteAberrant);
                                 sensor.IsWorking = false;
@@ -499,7 +499,7 @@ namespace SpaceSensorchecking
                         /*when everything is going well, we check to see if there were previous alerts indicating outliers, if there were any they are deleted*/
                         if (numberAberrantValues < config.warningThreshold)  /*lorsque tout va bien, on regarde si avant il y avait des alertes signalant des valeurs aberrantes, s'il y en avait elles sont supprimees*/
                         {                                
-                            List<Alerts> previousError = m_CRUD.LoadRecordByTwoParameter<Alerts, int, string>("Alerts", "IdSensor", sensor.IdSensor, "AlertReason", "Valeurs aberrantes constatees, le capteur est  defectueux/ Noticed absurd values, the sensor id defected");
+                            List<Alerts> previousError = m_CRUD.LoadRecordByTwoParameter<Alerts, int, string>("Alerts", "IdSensor", sensor.IdSensor, "AlertReason", "Valeurs aberrantes constatees, le capteur est  defectueux/ Noticed absurd values, the sensor id defective");
                             if (previousError.Count != 0)
                             {
                                 Console.WriteLine($"\nAttention la Batterie du capteur{sensor.Name} d'id {sensor.IdSensor} n'est plus defectueux\n Careful the Battery of the sensor {sensor.Name} id {sensor.IdSensor} is not defective any more");
