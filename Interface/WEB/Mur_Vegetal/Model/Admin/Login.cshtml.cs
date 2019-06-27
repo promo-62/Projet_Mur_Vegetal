@@ -10,7 +10,7 @@ namespace Mur_Vegetal.Pages
             if( Request.Cookies["communication"] != null ){
                 var value = Request.Cookies["communication"].ToString();
                 if (Auth.CalculateMD5Hash(Auth.CommPass) == value){
-                    Response.Redirect("/Admin/Admin");
+                    Response.Redirect("/web/Admin/Admin");
                 }
                 else{
                 }
@@ -18,7 +18,7 @@ namespace Mur_Vegetal.Pages
             if( Request.Cookies["administration"] != null ){
                 var value = Request.Cookies["administration"];
                 if (Auth.CalculateMD5Hash(Auth.AdminPass) == value){
-                    Response.Redirect("/AdminWall");
+                    Response.Redirect("/web/AdminWall");
                 }
                 else{
                 }
