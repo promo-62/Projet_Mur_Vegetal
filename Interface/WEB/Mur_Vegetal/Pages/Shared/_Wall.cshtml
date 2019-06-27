@@ -1,4 +1,58 @@
 <!-- PARTIAL VIEW OF WALL -->
+<script>
+
+  tab_temp = [
+            {
+                date: 1,
+                value: 7
+            },
+            {
+                date: 2,
+                value: 10
+            },
+            {
+                date: 3,
+                value: 9
+            },
+            {
+                date: 4,
+                value: 22
+            },
+            {
+                date: 5,
+                value: 12
+            },
+            {
+                date: 6,
+                value: 14
+            },
+            {
+                date: 7,
+                value: 34
+            },
+            {
+                date: 8,
+                value: 43
+            },
+            {
+                date: 9,
+                value: 15
+            },
+            {
+                date: 10,
+                value: 8
+            },
+            {
+                date: 11,
+                value: 10
+            },
+            {
+                date: 12,
+                value: 19
+            }
+        ];
+
+</script>
 
 <div class="wall-block box">
     <div class="info">
@@ -6,7 +60,7 @@
       <div class="temp-text">Température : 15°C </div>
     </div>
     <div class="chart temp-chart"> 
-      <script>graph("temp-chart");</script>
+      <script>graph.lineChart("temp-chart", tab_temp, 0);</script>
     </div>
   </div>
 
@@ -17,7 +71,7 @@
       <div class="air-text">Qualité de l'air : 20% </div>
     </div>
     <div class="chart air-chart"> 
-      <script>graph("air-chart");</script>
+      <script>graph.lineChart("air-chart", tab_temp, 1);</script>
     </div>
   </div>
 
@@ -27,7 +81,7 @@
       <div class="pression-text">Commande pompe : ? </div>
     </div>
     <div class="chart pression-chart"> 
-      <script>graph("pression-chart");</script>
+      <script>graph.lineChart("pression-chart", tab_temp, 1);</script>
     </div>
   </div>
 
@@ -37,7 +91,7 @@
       <div class="hydro-text">Humidité : 20% </div>
     </div>
     <div class="chart hydro-chart"> 
-      <script>graph("hydro-chart");</script>
+      <script>graph.lineChart("hydro-chart", tab_temp, 1);</script>
     </div>
   </div>
 
@@ -47,7 +101,7 @@
       <div class="mouv-text">Flux entrant/sortant : ? </div>
     </div>
     <div class="chart mouv-chart"> 
-      <script>graph("mouv-chart");</script>
+      <script>graph.columnChart("mouv-chart", tab_temp);</script>
     </div>
   </div>
 
@@ -57,7 +111,7 @@
       <div class="pr-text">Pression ruche : ? </div>
     </div>
     <div class="chart pr-chart"> 
-      <script>graph("pr-chart");</script>
+      <script>graph.lineChart("pr-chart", tab_temp, 1);</script>
     </div>
   </div>
 
@@ -67,6 +121,6 @@
       <div class="tr-text">Température ruche : 22°C </div>
     </div>
     <div class="chart tr-chart"> 
-      <script>graph("tr-chart");</script>
+      <script>graph.lineChart("tr-chart", tab_temp, 1);</script>
     </div>
   </div>

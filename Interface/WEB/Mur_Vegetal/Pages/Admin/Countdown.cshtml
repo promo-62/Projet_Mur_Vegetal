@@ -9,131 +9,114 @@
 }
 
 
-<!----------------------------------------------------------------------------------------------------------------------------->
-<!----------------------------------------------------------------------------------------------------------------------------->
   <div class="countdown-box">
-<!-----------------------------------------AJOUT DE COUNTDOWN--------------------------------------------> 
-    <div class="countdown-addnew">
+    <form method="post" enctype="multipart/form-data" class="countdown-addnew">
+    <div>
       <legend class="coutndown-name">Ajouter compte à rebours</legend>
 
         <div class="addnew-name">
           <label class="addnew-name">Nom du compte à rebours : </label>
-          <input type="text" class="addnew-name" placeholder="Ex: JPO">
+          <input type="text" name="name" class="addnew-name" placeholder="Ex: JPO">
         </div>
 
         <div class="addnew-text">
           <label class="addnew-text">Texte : </label>
-          <textarea class="addnew-text" rows="5" cols="60" placeholder="Entrez votre texte"></textarea>
+          <textarea class="addnew-text" name="text" rows="5" cols="60" placeholder="Entrez votre texte"></textarea>
         </div>
 
         <div class="addnew-img">
           <label class="addnew-img">Image : </label>
-          <input class="addnew-img" type="file" accept="image/png, image/jpeg">
+          <input class="addnew-img" asp-for="ImageUpload" type="file" accept="image/png, image/jpeg, image/jpg">
         </div>
 
         <div class="addnew-start-date">
           <label class="addnew-start-date">Date de début : </label>
-          <input class="addnew-start-date" type="date">
+          <input class="addnew-start-date" name="startdate" type="date">
         </div>
 
         <div class="addnew-end-date">
           <label class="addnew-end-date">Date de fin : </label>
-          <input class="addnew-end-date" type="date">
+          <input class="addnew-end-date" name="enddate" type="date">
         </div>
 
         <div class="addnew-countdown-date">
           <label class="addnew-end-date">Date compteur : </label>
-          <input class="addnew-end-date" type="date">
+          <input class="param-end-date"  name="countdowndate" type="date">
+          <input class="param-end-date" name="countdowntime"  type="time">
         </div>
 
         <div class=button>
-          <button class="button-delete"> Supprimer </button>
-          <button class="button-apply"> Valider </button>
+          <button class="button-apply" name="submit" value="add"> Ajouter </button>
         </div>
       
     </div>
-<!-----------------------------------------FIN AJOUT DE COUNTDOWN--------------------------------------------> 
-<!-----------------------------------------COUNTDOWN 1--------------------------------------------> 
-    <div class="countdown-param">
-      <legend class="coutndown-name">CAR1</legend>
+</form>
 
-        <div class="param-name">
-          <label class="param-name">Nom du compte à rebours : </label>
-          <input type="text" class="param-name" placeholder="Ex: JPO">
+@{
+  //Traitement de la requête GET
+  DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0).ToLocalTime();
+  @if (@Model.IsError == false){ 
+    @foreach (var e in @Model.Result){
+      var beginningDate = epoch.AddSeconds(e.beginningDateEvent).ToString("yyyy-MM-dd");
+      var endingDate = epoch.AddSeconds(e.endingDateEvent).ToString("yyyy-MM-dd");
+      var endingDateCountdown = epoch.AddSeconds(e.endingDateCountdown).ToString("yyyy-MM-dd");  
+      var endingTimeCountdown = epoch.AddSeconds(e.endingDateCountdown).ToString("HH:mm");  //heure minutes conde HH:mm
+      @if (1==1){//condition de verification données
+        <form method="post" class="countdown-param">
+        <div>
+          @if (!String.IsNullOrEmpty(e.name)){
+                <legend class="coutndown-name">@e.name</legend>
+              }
+              else {
+                <legend class="coutndown-name">Compte à rebours</legend>
+              }
+          <div class="param-name">
+              <label class="param-name">Nom du compte à rebours : </label>
+              @if (!String.IsNullOrEmpty(e.name)){
+                <input type="text" name="name" class="param-name" placeholder="Ex: JPO" value="@e.name" required>
+              }
+              else {
+                <input type="text" name="name" class="param-name" placeholder="Ex: JPO" value="Compte à rebours" required>
+              }
+          </div>
+          <div class="param-text">
+              <label class="param-text">Texte : </label>
+              <textarea class="param-text" name="text" rows="5" cols="60" placeholder="Entrez votre texte">@e.text</textarea>
+          </div>
+          @if (@e.image != "" && @e.image != null){
+            <div class="param-img">
+                <label class="param-img">Image : </label>
+                  <img class="param-img" src="data:image/png;base64,@e.image"><span><img src="data:image/png;base64,@e.image" alt="@e.name"></span>
+                  <input type="hidden" name="image" value="@e.image">
+            </div>
+          }
+          <div class="param-start-date">
+              <label class="param-start-date">Date de début : </label>
+              <input class="param-start-date" name="startdate" value="@beginningDate" type="date">
+          </div>
+          <div class="param-end-date">
+              <label class="param-end-date">Date de fin : </label>
+              <input class="param-end-date" name="enddate" value="@endingDate" type="date">
+          </div>
+          <div class="param-countdown-date">
+              <label class="param-end-date">Date compteur : </label>
+              <input class="param-end-date"  name="countdowndate" value="@endingDateCountdown" type="date">
+              <input class="param-end-date" name="countdowntime" value="@endingTimeCountdown" type="time">
+          </div>
+          <div class=button>
+              <button class="button-delete" name="submit" value="delete"> Supprimer </button>
+              <button class="button-apply" name="submit" value="edit"> Modifier </button>
+          </div>
         </div>
+        <input type="hidden" name="id" value="@e.id">
+        </form>
+      }
+    }
+  }
+  else {
+    <div class="countdown-param"> Erreur API </div>
+  }
+}
 
-        <div class="param-text">
-          <label class="param-text">Texte : </label>
-          <textarea class="param-text" rows="5" cols="60" placeholder="Entrez votre texte"></textarea>
-        </div>
-
-        <div class="param-img">
-          <label class="param-img">Image : </label>
-          <a href="~/images/news3.jpg" target="_blank"><img class="param-img" src="~/images/news3.jpg"> </a>
-        </div>
-
-        <div class="param-start-date">
-          <label class="param-start-date">Date de début : </label>
-          <input class="param-start-date" type="date">
-        </div>
-
-        <div class="param-end-date">
-          <label class="param-end-date">Date de fin : </label>
-          <input class="param-end-date" type="date">
-        </div>
-
-        <div class="param-countdown-date">
-          <label class="param-end-date">Date compteur : </label>
-          <input class="param-end-date" type="date">
-        </div>
-
-        <div class=button>
-         <button class="button-delete"> Supprimer </button>
-         <button class="button-apply"> Valider </button>
-        </div>
-      
-    </div>
-<!-----------------------------------------FIN COUNTDOWN 1--------------------------------------------> 
-<!-----------------------------------------COUNTDOWN 2--------------------------------------------> 
-    <div class="countdown-param">
-      <legend class="coutndown-name">CAR2</legend>
-
-        <div class="param-name">
-          <label class="param-name">Nom du compte à rebours : </label>
-          <input type="text" class="param-name" placeholder="Ex: JPO">
-        </div>
-
-        <div class="param-text">
-          <label class="param-text">Texte : </label>
-          <textarea class="param-text" rows="5" cols="60" placeholder="Entrez votre texte"></textarea>
-        </div>
-
-        <div class="param-img">
-          <label class="param-img">Image : </label>
-          <a href="~/images/news3.jpg" target="_blank"><img class="param-img" src="~/images/news3.jpg"> </a>
-        </div>
-
-        <div class="param-start-date">
-          <label class="param-start-date">Date de début : </label>
-          <input class="param-start-date" type="date">
-        </div>
-
-        <div class="param-end-date">
-          <label class="param-end-date">Date de fin : </label>
-          <input class="param-end-date" type="date">
-        </div>
-
-        <div class="param-countdown-date">
-          <label class="param-end-date">Date compteur : </label>
-          <input class="param-end-date" type="date">
-        </div>
-
-        <div class=button>
-         <button class="button-delete"> Supprimer </button>
-         <button class="button-apply"> Valider </button>
-        </div>
-
-    </div>
-<!-----------------------------------------FIN COUNTDOWN 2--------------------------------------------> 
 
   </div>

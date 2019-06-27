@@ -180,6 +180,15 @@ label[class="param-img"] {
     min-width: 20%;
 }
 
+.param-img:active {
+    position: relative;
+    target-new: tab;
+}
+
+.param-img span {
+    visibility: hidden;
+}
+
 
 /* --------------------------------------------------------------------------------------
 ADMIN BOUTON
@@ -247,4 +256,16 @@ div[class="addnew-text"] {
 div[class="param-text"] {
     display: flex;
     flex-direction: row;
+}
+
+.admin-body {
+    display: flex;
+    height: calc(100vh - 55px);
+    width: 100%;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    color: green;
+    font-size: 4em;
 }

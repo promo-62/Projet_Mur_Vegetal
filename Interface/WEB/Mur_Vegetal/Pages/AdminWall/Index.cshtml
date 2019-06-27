@@ -1,0 +1,375 @@
+@page
+@model StaticscreenModel
+@{
+  
+    Layout = null;
+  
+}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>F-LoRa-L</title>
+
+  <!--Icon import -->
+  <link rel="icon" type="image/png" href="@Url.Content("~/images/adminwall/icons/favicon.ico")"/>
+
+  <!-- Bootstrap core CSS -->
+  <link href="@Url.Content("~/js/adminwall/vendor/bootstrap/css/bootstrap.min.css")" rel="stylesheet">
+
+  <!-- Custom fonts for this template -->
+  <link href="@Url.Content("~/js/adminwall/vendor/fontawesome-free/css/all.min.css")" rel="stylesheet")" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+  <!-- Custom styles for this template -->
+  <link href="@Url.Content("~/css/adminwall/agency.css")" rel="stylesheet">
+
+  <!-- Insertion librairie Chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+  <script src="@Url.Content("~/js/adminwall/Chart.min.js")"></script>
+  <script src="@Url.Content("~/js/adminwall/utils.js")"></script>
+  <style>
+    canvas{
+      -moz-user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
+  </style>
+
+
+</head>
+
+<body id="page-top">
+
+  <!--  Navigation bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+      <a class="navbar-brand js-scroll-trigger" href="#page-top">F-LoRa-L Admin Page</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        Menu
+        <i class="fas fa-bars"></i>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav text-uppercase ml-auto">
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#services">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="#capteur">Sensors</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link js-scroll-trigger" href="login.html">Disconnect</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page header -->
+  <header class="masthead">
+    <div class="container">
+      <div class="intro-text">
+        <div class="intro-lead-in">Welcome to F-LoRa-L Admin page</div>
+        <div class="intro-heading text-uppercase">It's Nice To See You</div>
+        <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services">Starts</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Services -->
+
+  <section class="page-section" id="services">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Services</h2>
+          <h3 class="section-subheading text-muted">Below, the services avaible</h3>
+        </div>
+      </div>
+      <div class="row text-center">
+        <div class="col-md-4">
+          <span class="fa-stack fa-4x">
+            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+            <i class="fas fa-file-import fa-stack-1x fa-inverse"></i>
+          </span>
+          <h4 class="service-heading">Received Messages</h4>
+          <p class="text-muted"></p>
+        </div>
+
+        <div class="col-md-4">
+          <span class="fa-stack fa-4x">
+            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+            <i class="fas fa-file-export fa-stack-1x fa-inverse"></i>
+          </span>
+          <h4 class="service-heading">Sent Messages</h4>
+          <p class="text-muted"></p>
+        </div>
+
+        <div class="col-md-4">
+          <span class="fa-stack fa-4x">
+            <i class="fas fa-circle fa-stack-2x text-primary"></i>
+            <i class="fas fa-lock fa-stack-1x fa-inverse"></i>
+          </span>
+          <h4 class="service-heading">System status</h4>
+          <p class="text-muted"></p>
+        </div>
+      </div>
+    </div>
+    <br /> <br /> <br />
+
+  <!-- Tableau message -->
+
+    <div style="width:70%;margin: auto;">
+        <canvas id="canvas"></canvas>
+      </div>
+      <script>
+
+        var config = {
+          type: 'line',
+          data: {
+            labels: ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'],
+            datasets: [{
+              label: 'Message reçus',
+              backgroundColor: window.chartColors.red,
+              borderColor: window.chartColors.red,
+              data: [10, 30, 50, 20, 25, 44, 10],
+              fill: false,
+            }, {
+              label: 'Message envoyés',
+              fill: false,
+              backgroundColor: window.chartColors.blue,
+              borderColor: window.chartColors.blue,
+              data: [15, 33, 22, 19, 11, 49, 30],
+            }]
+          },
+          options: {
+            responsive: true,
+            title: {
+              display: false,
+              text: 'Graphe des messages envoyés et reçus'
+            },
+            scales: {
+              yAxes: [{
+                ticks: {
+                  min: 0,
+                  max: 50
+                }
+              }]
+            }
+          }
+        };
+
+        window.onload = function() {
+          var ctx = document.getElementById('canvas').getContext('2d');
+          window.myLine = new Chart(ctx, config);
+        };
+      </script>
+
+
+  </section>
+
+  <!-- Sensors display -->
+  <section class="bg-light page-section" id="">
+    <div class="container">
+        <table class="table table-striped" id="table">
+            <thead>
+              <tr>
+                <th scope="col">Sensor ID</th>
+                <th scope="col">Sensor Name</th>
+                <th scope="col">Sensor Description</th>
+              </tr>
+            </thead>
+          </table>
+    </div>
+    <script>
+            
+      var rIndex, table = document.getElementById("table");
+      
+      function refresh(){
+        console.log("ok");
+        
+      }
+
+
+      function checkInput()
+      {
+          var isEmpty = false,
+              idcapteur = document.getElementById("idcapteur").value,
+              nomcapteur = document.getElementById("nomcapteur").value,
+              descapt = document.getElementById("descapt").value;
+      
+          if(idcapteur === ""){
+              alert("Veuillez renseinger l'id du capteur");
+              isEmpty = true;
+          }
+          else if(nomcapteur === ""){
+              alert("Veuillez renseinger le nom du capteur");
+              isEmpty = true;
+          }
+          else if(descapt === ""){
+              alert("Veuillez donner une description au capteur");
+              isEmpty = true;
+          }
+          return isEmpty;
+      }
+      
+      
+      function addTableRow(idcapteur, nomcapteur, descapt)
+      {
+          // get the table by id
+          // create a new row and cells
+          // get value from input text
+          // set the values into row cell's
+          //if(!checkInput()){
+          var newRow = table.insertRow(table.length),
+              cell1 = newRow.insertCell(0),
+              cell2 = newRow.insertCell(1),
+              cell3 = newRow.insertCell(2);
+              //idcapteur = document.getElementById("idcapteur").value,
+              //nomcapteur = document.getElementById("nomcapteur").value,
+              //descapt = document.getElementById("descapt").value;
+      
+          cell1.innerHTML = idcapteur;
+          cell2.innerHTML = nomcapteur;
+          cell3.innerHTML = descapt;
+          selectedRowToInput();      
+      }
+      
+      function selectedRowToInput()
+      {
+          
+          for(var i = 1; i < table.rows.length; i++)
+          {
+              table.rows[i].onclick = function()
+              {
+                // get the seected row index
+                rIndex = this.rowIndex;
+                document.getElementById("idcapteur").value = this.cells[0].innerHTML;
+                document.getElementById("nomcapteur").value = this.cells[1].innerHTML;
+                document.getElementById("descapt").value = this.cells[2].innerHTML;
+              };
+          }
+      }
+      selectedRowToInput();
+      
+      function editTbleSelectedRow()
+      {
+          var idcapteur = document.getElementById("idcapteur").value,
+              nomcapteur = document.getElementById("nomcapteur").value,
+              descapt = document.getElementById("descapt").value;
+         if(!checkInput()){
+          table.rows[rIndex].cells[0].innerHTML = idcapteur;
+          table.rows[rIndex].cells[1].innerHTML = nomcapteur;
+          table.rows[rIndex].cells[2].innerHTML = descapt;
+        }
+      }
+      
+      function removeSelectedRow()
+      {
+          table.deleteRow(rIndex);
+          // clear input text
+          document.getElementById("idcapteur").value = "";
+          document.getElementById("nomcapteur").value = "";
+          document.getElementById("descapt").value = "";
+      }
+    </script>
+  </section>
+
+  <!-- Sensors adding -->
+
+  <section class="page-section" id="capteur">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 text-center">
+          <h2 class="section-heading text-uppercase">Sensor Dashboard</h2>
+          <h3 class="section-subheading text-muted">Fill the following form</h3>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <input class="form-control" id="idcapteur" type="text" placeholder="ID Capteur" >
+                  <p class="help-block text-danger"></p>
+                </div>
+                <div class="form-group">
+                  <input class="form-control" id="nomcapteur" type="text" placeholder="Nom du capteur" >
+                  <p class="help-block text-danger"></p>
+                </div>                
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <textarea class="form-control" id="descapt" type="text" placeholder="Description capteur" ></textarea>
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+              <div class="col-lg-12 text-center">
+                <div id="success"></div>
+                <button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase"  onclick="refresh()">Refresh</button>
+                <button id="ModifyButton" class="btn btn-primary btn-xl text-uppercase" onclick="editTbleSelectedRow();">Modify</button>
+                <button id="sendMessageButton" class="btn btn-primary btn-xl text-uppercase" onclick="removeSelectedRow();">Delete</button>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Crédit -->
+  <section class="bg-light page-section" id="crédit">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+          <p class="large text-muted">ISEN - Projet d'informatique de fin année 2018/2019</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-12">
+          <p class="copyright">Copyright F-LoRa-L &copy;  2019 - 
+            <a href="https://www.linkedin.com/in/thomas-dubois-121180174">DUBOIS Thomas , </a>
+            <a href="https://www.linkedin.com/in/noé-esparsa-22557213a">ESPARSA Noé, </a>
+            <a href="http://linkedin.com/in/clement-sanchez">SANCHEZ Clément, </a>
+            <a href="https://www.linkedin.com/in/noé-esparsa-22557213a">COUROUBLE Hector, </a>
+            <a href="https://www.linkedin.com/in/noé-esparsa-22557213a">SCHMITT Nicolas, </a>
+            <a href="https://www.linkedin.com/in/rodolphe-delille-738543174">DELILLE Rodolphe.</a>
+          </p>
+        <div class="col-md-12">
+      
+  </footer>
+
+  
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="@Url.Content("~/js/adminwall/vendor/jquery/jquery.min.js")"></script>
+  <script src="@Url.Content("~/js/adminwall/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
+
+  <!-- Plugin JavaScript -->
+  <script src="@Url.Content("~/js/adminwall/vendor/jquery-easing/jquery.easing.min.js")"></script>
+
+
+
+  <!-- Custom scripts for this template -->
+  <script src="@Url.Content("~/js/adminwall/agency.min.js")"></script>
+
+  <!-- Table creation -->
+   <script src="@Url.Content("~/js/adminwall/tab.js")"></script>
+
+
+</body>
+
+</html>
