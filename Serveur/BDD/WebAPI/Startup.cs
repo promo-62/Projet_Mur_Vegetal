@@ -49,14 +49,15 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            if (env.IsDevelopment())
+            app.UseHsts();
+            /*if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
                 app.UseHsts();
-            };
+            };*/
 
             var client = new MongoClient( (string) LoadJson().ConnectionStrings.MurVegetalDb);
             var database = client.GetDatabase("MurVegetalDb");
