@@ -39,8 +39,7 @@ namespace WebAPI
                 options.AddPolicy(MyAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("http://example.com",
-                                        "http://www.contoso.com");
+                    builder.WithOrigins("*");
                 });
             });
         }
