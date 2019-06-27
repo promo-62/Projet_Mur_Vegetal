@@ -78,7 +78,6 @@ namespace WebAPI
                 await context.Response.WriteAsync("Invalid Credentials \"Http Authentification Header\"");
             });
 
-            app.UseHttpsRedirection();
             app.UseMvc();
 
             app.UseCors(MyAllowSpecificOrigins);
