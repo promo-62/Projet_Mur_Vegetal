@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace Projet{
+namespace Protocol_MQTTClient{
     public class Protocol{
 
         //Nom du tableau contenant tout les formats de header d'envoie

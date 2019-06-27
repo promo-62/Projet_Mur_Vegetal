@@ -18,7 +18,7 @@ using System.Net.Security;
 using Newtonsoft.Json;
 using System;
 
-namespace Projet
+namespace Protocol_MQTTClient
 {
     class MQTT_Raspberry
     {
