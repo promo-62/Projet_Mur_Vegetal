@@ -34,15 +34,16 @@ namespace Mur_Vegetal.Pages
                     }
                     else{
                         IsError = false;
-                        Result = JsonConvert.DeserializeObject<List<CountDown>>(requestCountdown); 
+                        Result = JsonConvert.DeserializeObject<List<CountDown>>(requestCountdown);
                     }
                 }
                 else{
-                    Response.Redirect("/Admin/Login");
+                    Response.Redirect("/web/Admin/Login");
                 }
             }
             else {
-                Response.Redirect("/Admin/Login");
+                Response.Redirect("/web/Admin/Login");
+
             }
         }
 
@@ -105,3 +106,4 @@ namespace Mur_Vegetal.Pages
         }
     }
 }
+

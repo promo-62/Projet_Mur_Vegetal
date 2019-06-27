@@ -33,15 +33,17 @@ namespace Mur_Vegetal.Pages
                     }
                     else{
                         IsError = false;
-                        Result = JsonConvert.DeserializeObject<List<News>>(requestNews); 
+
+                        Result = JsonConvert.DeserializeObject<List<News>>(requestNews);
                     }
                 }
                 else{
-                    Response.Redirect("/Admin/Login");
+                    Response.Redirect("/web/Admin/Login");
                 }
             }
             else {
-                Response.Redirect("/Admin/Login");
+                Response.Redirect("/web/Admin/Login");
+
             }
         }
 
@@ -89,4 +91,6 @@ namespace Mur_Vegetal.Pages
             OnGet();
         }
     }
+
 }
+

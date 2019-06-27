@@ -11,11 +11,12 @@ namespace Mur_Vegetal.Pages
                 if (Auth.CalculateMD5Hash(Auth.CommPass) == value){
                 }
                 else{
-                    Response.Redirect("/Admin/Login");
+
+                    Response.Redirect("/web/Admin/Login");
                 }
             }
             else {
-                Response.Redirect("/Admin/Login");
+                Response.Redirect("/web/Admin/Login");
             }
         }
     }

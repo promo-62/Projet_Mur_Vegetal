@@ -13,7 +13,7 @@ namespace Mur_Vegetal.Pages
             public string widget { get; set; }
             public string id { get; set; }
         }
-        
+
         public List <Social> Result { get; private set; }
         public bool IsError { get; private set; }
         public void OnGet(){
@@ -26,15 +26,17 @@ namespace Mur_Vegetal.Pages
                     }
                     else{
                         IsError = false;
-                        Result = JsonConvert.DeserializeObject<List<Social>>(requestSocialnetworks); 
+
+                        Result = JsonConvert.DeserializeObject<List<Social>>(requestSocialnetworks);
                     }
                 }
                 else{
-                    Response.Redirect("/Admin/Login");
+                    Response.Redirect("/web/Admin/Login");
                 }
             }
             else {
-                Response.Redirect("/Admin/Login");
+                Response.Redirect("/web/Admin/Login");
+
             }
         }
 
@@ -60,4 +62,6 @@ namespace Mur_Vegetal.Pages
             OnGet();
         }
     }
+
 }
+

@@ -29,15 +29,17 @@ namespace Mur_Vegetal.Pages{
                     }
                     else{
                         IsError = false;
-                        Result = JsonConvert.DeserializeObject<List<Medias>>(requestMedias); 
+
+                        Result = JsonConvert.DeserializeObject<List<Medias>>(requestMedias);
                     }
                 }
                 else{
-                    Response.Redirect("/Admin/Login");
+                    Response.Redirect("/web/Admin/Login");
                 }
             }
             else {
-                Response.Redirect("/Admin/Login");
+                Response.Redirect("/web/Admin/Login");
+
             }
         }
         public void OnPost(){
@@ -95,4 +97,6 @@ namespace Mur_Vegetal.Pages{
             OnGet();
         }
     }
+
 }
+
