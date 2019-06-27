@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
 
-namespace Projet{
+namespace Protocol_MQTTClient{
     public class Protocol{
 
         //Nom du tableau contenant tout les formats de header d'envoie
@@ -242,22 +242,24 @@ namespace Projet{
 
         //Code byte[] a renvoyer en cas d'erreur
         public static byte[] ErrorsFound(){
-            byte[] sendError = new Byte[3];
+            byte[] sendError = new Byte[5];
+            sendError[0] = 0x26;
+            sendError[1] = 0x42;
             if(Id != ""){
                 string[] ids = Id.Split('-');
-                sendError[1] = Convert.ToByte(ids[0], 16);
-                sendError[2] = Convert.ToByte(ids[1], 16);
+                sendError[1] = Convert.ToByte(ids[3], 16);
+                sendError[2] = Convert.ToByte(ids[4], 16);
                 Id = "";
             }
             //Pas reponse serveur
             if(Errors.Equals(0x00)){
-                sendError[0] = 0x01;
+                sendError[2] = 0x01;
             //Format Header invalide
             }else if(Errors.Equals(0x01)){
-                sendError[0] = 0x02;
+                sendError[2] = 0x02;
             //Taille de payload invalide
             }else if(Errors.Equals(0x02)){
-                sendError[0] = 0x03;
+                sendError[2] = 0x03;
             }
             return sendError;
         }
