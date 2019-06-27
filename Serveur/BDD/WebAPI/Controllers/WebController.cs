@@ -7,6 +7,7 @@ using WebAPI.Models;
 using WebAPI.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Web.Http.Cors;
 
 namespace WebAPI.Controllers
 {
@@ -32,7 +33,7 @@ namespace WebAPI.Controllers
             string timeStamp = DateTime.Now.ToString("yyyy-MM-dd-HH:mm:ss");
 
             var response = new HttpResponseMessage();
-            response.Headers.Add("X-WebAPI-Infos", new string[] { "Datetime: "+ timeStamp, "Version: WebAPI v6", "Accepted requests: GET, POST, PUT, DELETE", "Dev: Etienne" });
+            response.Headers.Add("X-WebAPI-Infos", new string[] { "Datetime: "+ timeStamp, "Version: WebAPI v6.3", "Accepted requests: GET, POST, PUT, DELETE", "Dev: Etienne" });
 
             return response;
         }
