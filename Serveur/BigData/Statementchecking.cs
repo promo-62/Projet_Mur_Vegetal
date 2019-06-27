@@ -29,10 +29,10 @@ namespace SpaceStatementchecking
         {
             /* Association between sensor types and ids */
             /* !!! to be changed !!! */
-            int IDHumidity = 0;
-            int IDTemperature = 1;
-            int IDLuminosity = 2;
-            int IDAirQuality = 3;
+            int IDHumidity = 4;
+            int IDTemperature = 6;
+            int IDLuminosity = 1;
+            int IDAirQuality = 2;
             int IDPression = 4;
             int IDBeeFlux = 5;
 
