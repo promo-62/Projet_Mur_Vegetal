@@ -1,0 +1,19 @@
+@page
+@model WallModel
+@{
+    ViewData["Title"] = "Mur Vegetal";
+}
+@section heads{
+  <link href="@Url.Content("~/css/usersite/wallpage.css")" rel="stylesheet" type="text/css" />
+  <script src="https://www.amcharts.com/lib/4/core.js"></script>
+  <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+  <script src="https://www.amcharts.com/lib/4/themes/spiritedaway.js"></script>
+  <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+  <script type="text/javascript" src="@Url.Content("~/js/graph.js")"></script>
+}
+
+<div class="wall-body">
+  @{ Html.RenderPartial("_Wall"); }
+</div> 
+
+  
