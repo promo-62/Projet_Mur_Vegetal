@@ -79,6 +79,8 @@ namespace WebAPI
             });
 
             app.UseMvc();
+            app.UseHttpsRedirection();
+            app.UseHsts();
 
             app.UseCors(MyAllowSpecificOrigins);
         }
