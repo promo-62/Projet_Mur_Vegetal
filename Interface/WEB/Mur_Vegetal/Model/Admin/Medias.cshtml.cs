@@ -29,6 +29,7 @@ namespace Mur_Vegetal.Pages{
                     }
                     else{
                         IsError = false;
+
                         Result = JsonConvert.DeserializeObject<List<Medias>>(requestMedias);
                     }
                 }
@@ -38,6 +39,7 @@ namespace Mur_Vegetal.Pages{
             }
             else {
                 Response.Redirect("/web/Admin/Login");
+
             }
         }
         public void OnPost(){
@@ -95,4 +97,6 @@ namespace Mur_Vegetal.Pages{
             OnGet();
         }
     }
+
 }
+

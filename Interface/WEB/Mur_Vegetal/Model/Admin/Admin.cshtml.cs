@@ -11,6 +11,7 @@ namespace Mur_Vegetal.Pages
                 if (Auth.CalculateMD5Hash(Auth.CommPass) == value){
                 }
                 else{
+
                     Response.Redirect("/web/Admin/Login");
                 }
             }

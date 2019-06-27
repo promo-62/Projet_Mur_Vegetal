@@ -1,6 +1,6 @@
 # Documentation of WebAPI
 
-### ➢ WebAPI v5.2
+### ➢ WebAPI v6
 
 **Summary of functionalities :**
 
@@ -8,13 +8,14 @@
 - Custom read only for web interface (GET requests).
 - Insert new elements for all collections (POST request).
 - Modify an element for all collections (PUT request).
+- Delete an element for all collections except UsersHololens, UsersAdmin, UsersAPI (DELETE request).
 - Send an 401 Unauthorized header for not handled GET, PUT, POST, PUT, DELETE, HEAD, OPTIONS, PATCH requests.
 
 **Command:**  `api/web/[Route]`
 
 
 
-| Method |         Route          |                        Fonctionality                         |
+| Method |         Route          |                        Functionality                         |
 | :----: | :--------------------: | :----------------------------------------------------------: |
 |  GET   |       /sensors/        |             Get [all fields] for working sensors             |
 |        |     /sensors/{id}      |        Get [all fields] for sensor with ObjectId {id}        |
@@ -47,7 +48,7 @@
 
 
 
-| Method |       Route        |                 Fonctionality                 |
+| Method |       Route        |                 Functionality                 |
 | :----: | :----------------: | :-------------------------------------------: |
 |  POST  |     /sensors/      |     Insert element in Sensors collection      |
 |        |     /samples/      |     Insert element in Samples collection      |
@@ -67,7 +68,7 @@
 
 
 
-| Method |         Route          |                        Fonctionality                        |
+| Method |         Route          |                        Functionality                        |
 | :----: | :--------------------: | :---------------------------------------------------------: |
 |  PUT   |     /sensors/{id}      |      Modify [all fields] for sensor with ObjectId {id}      |
 |        |     /samples/{id}      |      Modify [all fields] for sample with ObjectId {id}      |
@@ -84,6 +85,23 @@
 |        |   /sensortypes/{id}    |   Modify [all fields] for sensor type with ObjectId {id}    |
 |        |      /alerts/{id}      |      Modify [all fields] for alert with ObjectId {id}       |
 |        |     /screens/{id}      |      Modify [all fields] for screen with ObjectId {id}      |
+
+
+
+| Method |         Route          |                        Fonctionality                         |
+| :----: | :--------------------: | :----------------------------------------------------------: |
+| DELETE |     /sensors/{id}      |  Delete element with ObjectId {id} from collection Sensors   |
+|        |     /samples/{id}      |  Delete element with ObjectId {id} from collection Samples   |
+|        | /protocolversions/{id} | Delete element with ObjectId {id} from collection ProtocolVersions |
+|        |      /plants/{id}      |   Delete element with ObjectId {id} from collection Plants   |
+|        |      /events/{id}      |   Delete element with ObjectId {id} from collection Events   |
+|        |     /socials/{id}      |  Delete element with ObjectId {id} from collection Socials   |
+|        |      /tables/{id}      |   Delete element with ObjectId {id} from collection Tables   |
+|        |      /medias/{id}      |   Delete element with ObjectId {id} from collection Medias   |
+|        |    /countdowns/{id}    | Delete element with ObjectId {id} from collection Countdowns |
+|        |   /sensortypes/{id}    | Delete element with ObjectId {id} from collection SensorTypes |
+|        |      /alerts/{id}      |   Delete element with ObjectId {id} from collection Alerts   |
+|        |     /screens/{id}      |  Delete element with ObjectId {id} from collection Screens   |
 
 [^Dev]: Etienne Schelfhout
 

@@ -25,6 +25,7 @@ namespace Mur_Vegetal.Pages{
                     }
                     else{
                         IsError = false;
+
                         Result = JsonConvert.DeserializeObject<List<Frame>>(requestFrame);
                     }
                 }
@@ -34,6 +35,7 @@ namespace Mur_Vegetal.Pages{
             }
             else {
                 Response.Redirect("/web/Admin/Login");
+
             }
         }
 
@@ -69,4 +71,5 @@ namespace Mur_Vegetal.Pages{
             OnGet();
         }
     }
+
 }

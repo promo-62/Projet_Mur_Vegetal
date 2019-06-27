@@ -37,6 +37,63 @@ namespace test
 {
     class Program
     {
+        static void callbackRpi(IMqttClient mqttClient, String configJson, int state, int versionProtocol1, int versionProtocol2, int typeMessage, int numberMessage, int id, int standby, int timeout, Boolean isAction, List<int> actions){
+            Console.WriteLine("INFO: Creating Rpi Callback with state " + state);
+
+            // Creating the Callback Message for the Rpi
+            JObject jsonMessage = new JObject();
+            jsonMessage.Add("VERSION_PROTOCOL_1", versionProtocol1);
+            jsonMessage.Add("VERSION_PROTOCOL_2", versionProtocol2);
+            jsonMessage.Add("TYPE_MESSAGE", typeMessage);
+            jsonMessage.Add("NUMBER_MESSAGE", numberMessage);
+            jsonMessage.Add("ID_1", (id-id%256)/256);
+            jsonMessage.Add("ID_2", id%256);
+            if(state >= 0) jsonMessage.Add("STATE", state); // If state is below 0, we're not putting any state, which is useful for an id request
+            jsonMessage.Add("STANDBY_DELAY_1", (standby-standby%256)/256);
+            jsonMessage.Add("STANDBY_DELAY_2", standby%256);
+            jsonMessage.Add("TIMEOUT_1", (timeout-timeout%256)/256);
+            jsonMessage.Add("TIMEOUT_2", timeout%256);
+            jsonMessage.Add("SENDING", 0);
+
+            if(actions.Count == 0 && isAction){ // No actions found
+                Console.WriteLine("WARNING: No Actions in the Database for Sensor " + id);
+                Console.WriteLine("");
+                jsonMessage.Add("PARAMETER_0", 0);
+            }else if(actions.Count > 0 && isAction){
+                Console.WriteLine("INFO: " + actions.Count + " Actions values found");
+                Console.WriteLine("");
+                for(int i = 0; i < actions.Count; i++){
+                    jsonMessage.Add("PARAMETER_" + i, actions[i]);
+                }
+            }
+
+            // Sending to Rpi
+            Console.WriteLine("###   Sending to Rpi   ###");
+
+            String topic;
+            switch(typeMessage){
+                case 1:
+                    topic = "Server/DemandeID/Rpi";
+                    break;
+                case 2:
+                    topic = "Server/EnvoiInfos/Rpi";
+                    break;
+                default:
+                    topic = "Server/DemandeAction/Rpi";
+                    break;
+            }
+
+            // Message Building
+            var message = new MqttApplicationMessageBuilder()
+                .WithTopic(topic)
+                .WithPayload(Protocol.MongoToMQTT(jsonMessage.ToString(), configJson))
+                .WithExactlyOnceQoS()
+                .Build();
+
+            // Sending Message
+            mqttClient.PublishAsync(message);
+        }
+
         static async Task Main(string[] args)
         {
             // ============ MongoDB ===========
@@ -70,7 +127,7 @@ namespace test
                 var options = new MqttClientOptionsBuilder()
                 .WithTcpServer("10.34.160.10", 8883)
                 .WithCredentials("admin", "admin")
-                .WithClientId("gbb")
+                .WithClientId("MQTTServer")
                 .WithTls(tlsOptions)
                 .Build();
             
@@ -140,8 +197,8 @@ namespace test
                             
                             var collectionCapteurs = database.GetCollection<BsonDocument>("Sensors");
 
-                            var filter = Builders<BsonDocument>.Filter.Exists("IdSensor"); // Filter documents which contains property "idCapteur"
-                            var sort = Builders<BsonDocument>.Sort.Descending("IdSensor"); // Sort documents in descending order by property "idCapteur"
+                            var filter = Builders<BsonDocument>.Filter.Exists("IdSensor"); // Filter documents which contains property "IdSensor"
+                            var sort = Builders<BsonDocument>.Sort.Descending("IdSensor"); // Sort documents in descending order by property "IdSensor"
                             
                             var sensorsCount = 0;
 
@@ -159,7 +216,7 @@ namespace test
 
                             if((int) json.Property("TYPE_MESSAGE").Value != 1){
                                 Console.WriteLine("ERROR: BAD TYPE_MESSAGE ON QUEUE");
-                                // Mauvais message, on renvoit une erreur
+                                // Bad Message on this queue
 
                                 return; 
                             }else{
@@ -172,7 +229,7 @@ namespace test
                                 var formatCapteurs = new BsonDocument
                                 {
                                     { "IdSensor", sensorsCount },
-                                    { "IdSensorType", ( (int) json.Property("COMPONENT_TYPE_1").Value + (int) json.Property("COMPONENT_TYPE_2").Value * 255) },
+                                    { "IdSensorType", ( (int) json.Property("COMPONENT_TYPE_1").Value * 256 + (int) json.Property("COMPONENT_TYPE_2").Value) },
                                     { "Project", new BsonArray {} },
                                     { "Name", "" },
                                     { "Description", "" },
@@ -182,7 +239,7 @@ namespace test
                                     { "Battery", true },
                                     { "SleepTime", 30 },
                                     { "Action", new BsonArray {} },
-                                    { "Version", ( (int) json.Property("VERSION_1").Value + (int) json.Property("VERSION_2").Value * 255) },
+                                    { "Version", ( (int) json.Property("VERSION_1").Value * 256 + (int) json.Property("VERSION_2").Value) },
                                     { "TimeOut", timeout },
                                     { "IsWorking", true }
                                 };
@@ -193,34 +250,9 @@ namespace test
                                 Console.WriteLine("INFO: Adding Sensor to DataBase");
 
                                 collectionCapteurs.InsertOne(formatCapteurs); 
-                                
 
                                 // Creating the Callback Message for the Rpi
-                                JObject jsonMessage = new JObject();
-                                jsonMessage.Add("VERSION_PROTOCOL_1", json.Property("VERSION_PROTOCOL_1").Value);
-                                jsonMessage.Add("VERSION_PROTOCOL_2", json.Property("VERSION_PROTOCOL_2").Value);
-                                jsonMessage.Add("TYPE_MESSAGE", "01");
-                                jsonMessage.Add("NUMBER_MESSAGE", json.Property("NUMBER_MESSAGE").Value);
-                                jsonMessage.Add("ID_1", sensorsCount%256);
-                                jsonMessage.Add("ID_2", (sensorsCount-sensorsCount%256)/256);
-                                jsonMessage.Add("STANDBY_DELAY_1", standby%256);
-                                jsonMessage.Add("STANDBY_DELAY_2", (standby-standby%256)/256);
-                                jsonMessage.Add("TIMEOUT_1", timeout%256);
-                                jsonMessage.Add("TIMEOUT_2", (timeout-timeout%256)/256);
-                                jsonMessage.Add("SENDING", 0);
-
-                                // Sending to Rpi
-                                Console.WriteLine("###   Sending to Rpi   ###");
-
-                                // Message Building
-                                var message = new MqttApplicationMessageBuilder()
-                                    .WithTopic("Server/DemandeID/Rpi")
-                                    .WithPayload(Protocol.MongoToMQTT(jsonMessage.ToString(), configJson))
-                                    .WithExactlyOnceQoS()
-                                    .Build();
-
-                                // Sending Message
-                                mqttClient.PublishAsync(message);
+                                callbackRpi(mqttClient, configJson, -1, (int) json.Property("VERSION_PROTOCOL_1").Value, (int) json.Property("VERSION_PROTOCOL_2").Value, 1, (int) json.Property("NUMBER_MESSAGE").Value, sensorsCount, standby, timeout, false, new List<int>{});
                             }
 
                             Console.WriteLine("###      OK      ###");
@@ -245,45 +277,68 @@ namespace test
 
                             if((int) json.Property("TYPE_MESSAGE").Value != 2){
                                 Console.WriteLine("ERROR: BAD TYPE_MESSAGE ON QUEUE");
-                                // Mauvais message, on renvoit une erreur
+                                // Bad Message on this queue
 
                                 return; 
                             }else{
 
-                                // Get "Capteurs" Value from DataBase
-                                var id = (int) json.Property("ID_1").Value + (int) json.Property("ID_2").Value * 255;
+                                // Get "Sensors" Value from DataBase
+                                var id = (int) json.Property("ID_1").Value * 256 + (int) json.Property("ID_2").Value;
                                 var filterID = Builders<BsonDocument>.Filter.Eq("IdSensor", id);
                                 
                                 if(collectionCapteurs.Find(filterID).ToList().Count == 0){
                                     Console.WriteLine("ERROR: Sensor ID not present in the DataBase");
                                     // Error : sensor doesn't exist in the database
-
+                                    callbackRpi(mqttClient, configJson, 2, (int) json.Property("VERSION_PROTOCOL_1").Value, (int) json.Property("VERSION_PROTOCOL_2").Value, 2, (int) json.Property("NUMBER_MESSAGE").Value, id, 30, 10, false, new List<int>{});
+                            
                                     return;
                                 }else{
                                     var documentCapteur = collectionCapteurs.Find(filterID).First();
 
-                                    var filterType = Builders<BsonDocument>.Filter.Eq("IdSensorType", documentCapteur["IdSensorType"].ToInt32());
-                                    List<BsonDocument> samplesToDB = new List<BsonDocument>(); // Samples to send in the database
-
                                     // Default Values
-                                    int standby = documentCapteur["SleepTime"].ToInt32();
-                                    int timeout = documentCapteur["TimeOut"].ToInt32(); // In seconds
+                                    var filterStandby = Builders<BsonDocument>.Filter.Exists("SleepTime") & filterID;
+                                    int standby = 30;
+                                    if(collectionCapteurs.Find(filterStandby).ToList().Count == 0){ // Check Existence of this value in the document
+                                        Console.WriteLine("WARNING: No SleepTime value for Sensor with ID " + id);
+                                    }else{
+                                        standby = documentCapteur["SleepTime"].ToInt32();
+                                    }
+
+                                    var filterTimeOut = Builders<BsonDocument>.Filter.Exists("TimeOut") & filterID;
+                                    int timeout = 10;
+                                    if(collectionCapteurs.Find(filterTimeOut).ToList().Count == 0){ // Check Existence of this value in the document
+                                        Console.WriteLine("WARNING: No TimeOut value for Sensor with ID " + id);
+                                    }else{
+                                        timeout = documentCapteur["TimeOut"].ToInt32();
+                                    }
 
                                     // Creating the BsonArray of Datas
                                     List<String> dataArray = new List<String>( ((String) json.Property("DATA").Value).Split(',') );
 
+                                    // Getting filter by idSensorType to determine if it exist in the DataBase
+                                    var filterIdSensorType = Builders<BsonDocument>.Filter.Exists("IdSensorType") & filterID;
+                                    int idsensortype = -1;
+                                    if(collectionCapteurs.Find(filterIdSensorType).ToList().Count == 0){ // Check Existence of this value in the document
+                                        Console.WriteLine("WARNING: No IdSensorType value for Sensor with ID " + id);
+                                    }else{
+                                        idsensortype = documentCapteur["IdSensorType"].ToInt32();
+                                    }
+                                    var filterType = Builders<BsonDocument>.Filter.Eq("IdSensorType", idsensortype);
+                                    var filterSamplesTypes = Builders<BsonDocument>.Filter.Exists("SamplesTypes") & filterType;
+
+                                    List<BsonDocument> samplesToDB = new List<BsonDocument>(); // Samples to send in the database
+
                                     // Check if there is the sensor type in the database
-                                    if(collectionSensorTypes.Find(filterType).ToList().Count == 0){
+                                    if(collectionSensorTypes.Find(filterType).ToList().Count == 0 ||collectionSensorTypes.Find(filterSamplesTypes).ToList().Count == 0){
                                         // Error : type doesn't exist un the database
-                                        Console.WriteLine("WARNING: Sensor Type not present in the DataBase");
-                                        Console.WriteLine(id);
-                                        Console.WriteLine(documentCapteur["IdSensorType"].ToInt32());
+                                        if(idsensortype != -1) Console.WriteLine("WARNING: IdSensorType " + idsensortype + " not present in the DataBase");
+                                        if(idsensortype != -1 && collectionSensorTypes.Find(filterSamplesTypes).ToList().Count == 0) Console.WriteLine("WARNING: No SamplesTypes value for SensorTypes with ID " + idsensortype);
 
                                         // Creating the Samples Collection's value
                                         for(int i = 0; i < dataArray.Count; i++){
                                             samplesToDB.Add(new BsonDocument
                                             {
-                                                { "IdSensor", ( (int) json.Property("ID_1").Value + (int) json.Property("ID_2").Value * 255) },
+                                                { "IdSensor", ( (int) json.Property("ID_1").Value * 256 + (int) json.Property("ID_2").Value) },
                                                 { "IdSampleType", "undefined" },
                                                 { "Note", "" },
                                                 { "SampleDate", timestamp },
@@ -300,7 +355,7 @@ namespace test
                                         for(int i = 0; i < dataArray.Count; i++){
                                             samplesToDB.Add(new BsonDocument
                                             {
-                                                { "IdSensor", ( (int) json.Property("ID_1").Value + (int) json.Property("ID_2").Value * 255) },
+                                                { "IdSensor", ( (int) json.Property("ID_1").Value * 256 + (int) json.Property("ID_2").Value) },
                                                 { "IdSampleType", (i >= samplesTypes.Count) ? "undefined" : samplesTypes[i] },
                                                 { "Note", "" },
                                                 { "SampleDate", timestamp },
@@ -313,7 +368,16 @@ namespace test
                                     Console.WriteLine("### Sending to MongoDB ###");
 
                                     // Updating Sensor
-                                    BsonArray batterieNewArray = documentCapteur["BatteryLevel"].AsBsonArray;
+                                    // Check if Battery array exist already, if not creating one
+                                    var filterBatteryLevel = Builders<BsonDocument>.Filter.Exists("BatteryLevel") & filterID;
+                                    BsonArray batterieNewArray;
+                                    if(collectionCapteurs.Find(filterBatteryLevel).ToList().Count == 0){ // Check Existence of this value in the document
+                                        Console.WriteLine("WARNING: No BatteryLevel value for Sensor with ID " + id);
+                                        batterieNewArray = new BsonArray();
+                                    }else{
+                                        batterieNewArray = documentCapteur["BatteryLevel"].AsBsonArray;
+                                    }
+
                                     batterieNewArray.Add((int) json.Property("BATTERY").Value);
 
                                     var update1 = Builders<BsonDocument>.Update.Set("LastSampleDate", timestamp);
@@ -331,33 +395,7 @@ namespace test
                                         collectionReleve.InsertOne(samplesToDB[i]); 
                                     }
 
-                                    // Creating the Callback Message for the Rpi
-                                    JObject jsonMessage = new JObject();
-                                    jsonMessage.Add("VERSION_PROTOCOL_1", json.Property("VERSION_PROTOCOL_1").Value);
-                                    jsonMessage.Add("VERSION_PROTOCOL_2", json.Property("VERSION_PROTOCOL_2").Value);
-                                    jsonMessage.Add("TYPE_MESSAGE", "02");
-                                    jsonMessage.Add("NUMBER_MESSAGE", json.Property("NUMBER_MESSAGE").Value);
-                                    jsonMessage.Add("ID_1", json.Property("ID_1").Value);
-                                    jsonMessage.Add("ID_2", json.Property("ID_2").Value);
-                                    jsonMessage.Add("STATE", 0);
-                                    jsonMessage.Add("STANDBY_DELAY_1", standby%256);
-                                    jsonMessage.Add("STANDBY_DELAY_2", (standby-standby%256)/256);
-                                    jsonMessage.Add("TIMEOUT_1", timeout%256);
-                                    jsonMessage.Add("TIMEOUT_2", (timeout-timeout%256)/256);
-                                    jsonMessage.Add("SENDING", 0);
-
-                                    // Sending to Rpi
-                                    Console.WriteLine("###   Sending to Rpi   ###");
-
-                                    // Message Building
-                                    var message = new MqttApplicationMessageBuilder()
-                                        .WithTopic("Server/EnvoiInfos/Rpi")
-                                        .WithPayload(Protocol.MongoToMQTT(jsonMessage.ToString(), configJson))
-                                        .WithExactlyOnceQoS()
-                                        .Build();
-
-                                    // Sending Message
-                                    mqttClient.PublishAsync(message);
+                                    callbackRpi(mqttClient, configJson, 0, (int) json.Property("VERSION_PROTOCOL_1").Value, (int) json.Property("VERSION_PROTOCOL_2").Value, 2, (int) json.Property("NUMBER_MESSAGE").Value, id, standby, timeout, false, new List<int>{});
                                 }
                             }
                             
@@ -381,78 +419,62 @@ namespace test
 
                             if((int) json.Property("TYPE_MESSAGE").Value != 3){
                                 Console.WriteLine("ERROR: BAD TYPE_MESSAGE ON QUEUE");
-                                // Mauvais message, on renvoit une erreur
+                                // Bad Message on this queue
 
                                 return; 
                             }else{
 
-                                // Get "Capteurs" Value from DataBase
-                                var id = (int) json.Property("ID_1").Value + (int) json.Property("ID_2").Value * 255;
+                                // Get "Sensors" Value from DataBase
+                                var id = (int) json.Property("ID_1").Value * 256 + (int) json.Property("ID_2").Value;
                                 var filterID = Builders<BsonDocument>.Filter.Eq("IdSensor", id);
                                 
                                 if(collectionCapteurs.Find(filterID).ToList().Count == 0){
                                     Console.WriteLine("ERROR: Sensor ID not present in the DataBase");
                                     // Error : sensor doesn't exist un the database
-
-                                        /*
-                                        _____________________________
-                                        ERROR NOT GENERATED UNTIL NOW
-
-                                        */
+                                    callbackRpi(mqttClient, configJson, 2, (int) json.Property("VERSION_PROTOCOL_1").Value, (int) json.Property("VERSION_PROTOCOL_2").Value, 3, (int) json.Property("NUMBER_MESSAGE").Value, id, 10, 30, false, new List<int>{});
+                            
                                     return;
                                 }else{
                                     var documentCapteur = collectionCapteurs.Find(filterID).First();
-
+                                    
                                     // Default Values
-                                    int standby = documentCapteur["SleepTime"].ToInt32();
-                                    int timeout = documentCapteur["TimeOut"].ToInt32(); // In seconds
+                                    var filterStandby = Builders<BsonDocument>.Filter.Exists("SleepTime") & filterID;
+                                    int standby = 30;
+                                    if(collectionCapteurs.Find(filterStandby).ToList().Count == 0){ // Check Existence of this value in the document
+                                        Console.WriteLine("WARNING: No SleepTime value for Sensor with ID " + id);
+                                    }else{
+                                        standby = documentCapteur["SleepTime"].ToInt32();
+                                    }
+
+                                    var filterTimeOut = Builders<BsonDocument>.Filter.Exists("TimeOut") & filterID;
+                                    int timeout = 10;
+                                    if(collectionCapteurs.Find(filterTimeOut).ToList().Count == 0){ // Check Existence of this value in the document
+                                        Console.WriteLine("WARNING: No TimeOut value for Sensor with ID " + id);
+                                    }else{
+                                        timeout = documentCapteur["TimeOut"].ToInt32();
+                                    }
 
                                     // Sending to MongoDB
                                     Console.WriteLine("###   Getting Action   ###");
 
                                     // Getting Actions
-                                    var actionArray = documentCapteur["Action"].AsBsonArray.ToArray();
-
-                                    // Creating the Callback Message for the Rpi
-                                    JObject jsonMessage = new JObject();
-                                    jsonMessage.Add("VERSION_PROTOCOL_1", json.Property("VERSION_PROTOCOL_1").Value);
-                                    jsonMessage.Add("VERSION_PROTOCOL_2", json.Property("VERSION_PROTOCOL_2").Value);
-                                    jsonMessage.Add("TYPE_MESSAGE", "03");
-                                    jsonMessage.Add("NUMBER_MESSAGE", json.Property("NUMBER_MESSAGE").Value);
-                                    jsonMessage.Add("ID_1", json.Property("ID_1").Value);
-                                    jsonMessage.Add("ID_2", json.Property("ID_2").Value);
-                                    jsonMessage.Add("STATE", 0);
-                                    jsonMessage.Add("STANDBY_DELAY_1", standby%256);
-                                    jsonMessage.Add("STANDBY_DELAY_2", (standby-standby%256)/256);
-                                    jsonMessage.Add("TIMEOUT_1", timeout%256);
-                                    jsonMessage.Add("TIMEOUT_2", (timeout-timeout%256)/256);
-                                    jsonMessage.Add("SENDING", 0);
-
-                                    if(actionArray.Length == 0){ // No actions found
-                                        Console.WriteLine("WARNING: No Actions in the Database for Sensor " + id);
-                                        Console.WriteLine("");
-                                        jsonMessage.Add("PARAMETER_0", 0);
-
+                                    var filterAction = Builders<BsonDocument>.Filter.Exists("Action") & filterID;
+                                    BsonValue[] actionArray = {};
+                                    if(collectionCapteurs.Find(filterAction).ToList().Count == 0){ // Check Existence of this value in the document
+                                        Console.WriteLine("WARNING: No Action value for Sensor with ID " + id);
                                     }else{
-                                        Console.WriteLine("INFO: " + actionArray.Length + " Actions values found");
-                                        Console.WriteLine("");
-                                        for(int i = 0; i < actionArray.Length; i++){
-                                            jsonMessage.Add("PARAMETER_" + i, ( (BsonDocument)actionArray[i] )["Data"].ToInt32());
-                                        }
+                                        actionArray = documentCapteur["Action"].AsBsonArray.ToArray();
+                                    }
+                                    
+                                    List<int> actionList = new List<int>();
+                                    for(int i = 0; i < actionArray.Length; i++){
+                                        int dataAction = ( (BsonDocument)actionArray[i] )["Data"].ToInt32();
+                                                                                
+                                        actionList.Add(dataAction);
                                     }
 
-                                    // Sending to Rpi
-                                    Console.WriteLine("###   Sending to Rpi   ###");
-
-                                    // Message Building
-                                    var message = new MqttApplicationMessageBuilder()
-                                        .WithTopic("Server/DemandeAction/Rpi")
-                                        .WithPayload(Protocol.MongoToMQTT(jsonMessage.ToString(), configJson))
-                                        .WithExactlyOnceQoS()
-                                        .Build();
-
-                                    // Sending Message
-                                    mqttClient.PublishAsync(message);
+                                    // Creating the Callback Message for the Rpi
+                                    callbackRpi(mqttClient, configJson, 0, (int) json.Property("VERSION_PROTOCOL_1").Value, (int) json.Property("VERSION_PROTOCOL_2").Value, 3, (int) json.Property("NUMBER_MESSAGE").Value, id, standby, timeout, true, actionList);
                                 }
                             }
                             
