@@ -1241,7 +1241,7 @@ namespace WebAPI.Controllers
         [HttpGet("{*url}"), HttpPost("{*url}"), HttpPut("{*url}"), HttpDelete("{*url}"), HttpHead("{*url}"), HttpOptions("{*url}"), HttpPatch("{*url}")]
         public ActionResult Error()
         {
-            return Unauthorized();
+            return NotFound();
         }
 
     }
@@ -1254,7 +1254,7 @@ namespace WebAPI.Controllers
         [HttpGet("{*url}"), HttpPost("{*url}"), HttpPut("{*url}"), HttpDelete("{*url}"), HttpHead("{*url}"), HttpOptions("{*url}"), HttpPatch("{*url}")]
         public ActionResult Error()
         {
-            return Unauthorized();
+            return NotFound();
         }
     }
 
