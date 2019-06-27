@@ -4,7 +4,7 @@
 /*   How to use this programm: execute this code on the server, this program runs indefinitely                                    */
 /*   Name and project date: Murs Vegetal may/june 2019                                                                            */
 /*   Project group: Mongo/ Big Data                                                                                               */
-/*   Creator: Desmullier Gabriel, Verept Alexandre,                                                                               */
+/*   Creator: Desmullier Gabriel, Verept Alexandre                                                                               */
 /*################################################################################################################################*/
 
 
@@ -35,7 +35,7 @@ namespace BigDataHub
         {
             PumpAnalyser.PrepareTheAnalyser(); /* Setup the analyzer CRUD for the pump */
 
-        exeloop:
+        exeloop: /* infifite loop */
             CheckingConfiguration config = JsonConvert.DeserializeObject<CheckingConfiguration>(File.ReadAllText(@"Configuration.json")); /*if config change*/
             Statementchecking.StatementProg(config); /*check all statements of all sensors*/
             Sensorchecking.SensorProg(config); /*check all sensors*/
