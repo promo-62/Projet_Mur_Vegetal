@@ -36,7 +36,7 @@ namespace Projet
 
         public static void TempoMessage()
         {
-            //sous format de boucle
+            //récupération du message si au boud de 10s on envoie un string vide pour l'erreur
             int waitingTime = 10; // time in seconds
             DateTime deadLine = DateTime.Now.AddSeconds(waitingTime);
             while (message2 == "" && deadLine.CompareTo(DateTime.Now) > 0)
@@ -55,6 +55,7 @@ namespace Projet
             var factory = new MqttFactory();
             var client = factory.CreateMqttClient();
 
+            // récupération des certificats
             X509Certificate ca_crt = new X509Certificate("/home/pi/Login/DigiCertCA.crt");
             var tlsOptions = new MqttClientOptionsBuilderTlsParameters();
             tlsOptions.SslProtocol = System.Security.Authentication.SslProtocols.Tls;
@@ -106,7 +107,7 @@ namespace Projet
                 
 
 
-                
+                // on s'inscrit sur un channel
                 await client.SubscribeAsync(new TopicFilterBuilder().WithTopic(new_ID_server_client).Build());
                 // on créer un msg
                 var message = new MqttApplicationMessageBuilder()
@@ -114,7 +115,7 @@ namespace Projet
                 .WithPayload(jsonLora)
                 .WithExactlyOnceQoS()
                 .Build();
-
+                // on envoie le message
                 await client.PublishAsync(message);
 
                 TempoMessage();
@@ -135,7 +136,7 @@ namespace Projet
 
                 
 
-                
+                // on s'inscrit sur un channel
                 await client.SubscribeAsync(new TopicFilterBuilder().WithTopic(value_server_client).Build());
                 // on créer un msg
                 var message = new MqttApplicationMessageBuilder()
@@ -143,7 +144,7 @@ namespace Projet
                 .WithPayload(jsonLora)
                 .WithExactlyOnceQoS()
                 .Build();
-
+                // on publie le messsage
                 await client.PublishAsync(message);
                 TempoMessage();
             }
@@ -160,10 +161,9 @@ namespace Projet
                     Console.WriteLine("### SUBSCRIBED ###");
                 });
 
-                // gerer les deconnexions
 
                 
-                
+                // on s'inscrit sur un channel
                 await client.SubscribeAsync(new TopicFilterBuilder().WithTopic(action_client_server).Build());
                 // on créer un msg
                 var message = new MqttApplicationMessageBuilder()
@@ -171,7 +171,7 @@ namespace Projet
                 .WithPayload(jsonLora)
                 .WithExactlyOnceQoS()
                 .Build();
-
+                // on publie
                 await client.PublishAsync(message);
 
                 TempoMessage();

@@ -88,7 +88,7 @@ namespace Projet
                         client = server.AcceptTcpClient();
                         stream = client.GetStream();
                     }
-                    test = BitConverter.ToString(Data_To_Send);
+                    test = BitConverter.ToString( Raw_Data);
                     Console.WriteLine("MESSAGE SEND: "+test);
                     Console.WriteLine("");
                 }else{
