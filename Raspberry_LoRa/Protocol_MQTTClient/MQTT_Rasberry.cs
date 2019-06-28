@@ -61,7 +61,7 @@ namespace Protocol_MQTTClient
             if (!firstentry)
             {
                 // récupération des certificats
-                X509Certificate ca_crt = new X509Certificate("/home/valentin/Documents/Login/DigiCertCA.crt");
+                X509Certificate ca_crt = new X509Certificate("/home/pi/Login/DigiCertCA.crt");
                 var tlsOptions = new MqttClientOptionsBuilderTlsParameters();
                 tlsOptions.SslProtocol = System.Security.Authentication.SslProtocols.Tls;
                 tlsOptions.Certificates = new List<IEnumerable<byte>>() { ca_crt.Export(X509ContentType.Cert).Cast<byte>() };
